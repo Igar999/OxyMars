@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/bowlby_one_sc</item>
+        <item>@font/gravitas_one</item>
+        <item>@font/londrina_solid</item>
+        <item>@font/monoton</item>
+        <item>@font/plaster</item>
+        <item>@font/press_start_2p</item>
+        <item>@font/rammetto_one</item>
+        <item>@font/titan_one</item>
+    </array>
+</resources>

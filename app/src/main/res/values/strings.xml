@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">OxyMars</string>
+    <string name="app_name_mayus">OXYMARS</string>
+    <string name="title_activity_prueba">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
