@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 oxi.aumentarOxigenoSegundo();
                 textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
-                Log.i("rot",String.valueOf(planeta.getRotation()));
-
                 handler.postDelayed(this, delay);
 
             }

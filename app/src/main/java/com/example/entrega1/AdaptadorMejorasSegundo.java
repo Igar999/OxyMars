@@ -1,6 +1,7 @@
 package com.example.entrega1;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.StringReader;
 
 public class AdaptadorMejorasSegundo extends ArrayAdapter {
     private Integer[] imagenes;
@@ -28,7 +31,7 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        View fila=view;
+        View fila = view;
         LayoutInflater inflater = context.getLayoutInflater();
         if(view==null)
             fila = inflater.inflate(R.layout.fila_mejora, null, true);
@@ -41,13 +44,23 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
         nombre.setText(nombres[position]);
         cantidad.setText("+" + cantidades[position] + "ox");
         boton.setText("PRECIO:\n" + precios[position] + " ox");
-
+        if (position <= oxi.getDesbloqueadoSegundo()){
+            fila.setVisibility(View.VISIBLE);
+        }
+        else{
+            fila.setVisibility(View.INVISIBLE);
+        }
+        final View filaFin = fila;
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (oxi.hayOxigeno(precios[position])){
                     oxi.quitarOxigeno(precios[position]);
                     oxi.sumarOxiSegundo(cantidades[position]);
+                    if(parent.indexOfChild(filaFin) != parent.getChildCount()-1){
+                        parent.getChildAt(parent.indexOfChild(filaFin)+1).setVisibility(View.VISIBLE);
+                        oxi.desbloquearSegundo(position+1);
+                    }
                 }
             }
         });

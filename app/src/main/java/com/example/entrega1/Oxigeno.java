@@ -8,6 +8,8 @@ public class Oxigeno {
     private int oxigeno;
     private int oxiToque;
     private int oxiSegundo;
+    private int desbloqueadoSegundo;
+    private int desbloqueadoToque;
 
 
     public  static Oxigeno getOxi() {
@@ -21,7 +23,8 @@ public class Oxigeno {
         oxiSegundo = 0;
         oxiToque = 1;
         oxiSegundo = 0;
-
+        desbloqueadoSegundo = 0;
+        desbloqueadoSegundo = 0;
     }
 
     public void aumentarOxigenoSegundo(){
@@ -58,5 +61,21 @@ public class Oxigeno {
 
     public void sumarOxiSegundo(Integer cantidad){
         oxiSegundo = oxiSegundo + cantidad;
+    }
+
+    public Integer getDesbloqueadoSegundo(){
+        return desbloqueadoSegundo;
+    }
+
+    public void desbloquearSegundo(Integer pos){
+        desbloqueadoSegundo = Integer.max(desbloqueadoSegundo,pos);
+    }
+
+    public Integer getDesbloqueadoToque(){
+        return desbloqueadoToque;
+    }
+
+    public void desbloquearToque(Integer pos){
+        desbloqueadoToque = Integer.max(desbloqueadoToque,pos);
     }
 }

@@ -45,13 +45,23 @@ public class AdaptadorMejorasToque extends ArrayAdapter {
         nombre.setText(nombres[position]);
         cantidad.setText("+" + cantidades[position] + "ox");
         boton.setText("PRECIO:\n" + precios[position] + " ox");
-
+        if (position <= oxi.getDesbloqueadoToque()){
+            fila.setVisibility(View.VISIBLE);
+        }
+        else{
+            fila.setVisibility(View.INVISIBLE);
+        }
+        final View filaFin = fila;
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (oxi.hayOxigeno(precios[position])){
                     oxi.quitarOxigeno(precios[position]);
                     oxi.sumarOxiToque(cantidades[position]);
+                    if(parent.indexOfChild(filaFin) != parent.getChildCount()-1){
+                        parent.getChildAt(parent.indexOfChild(filaFin)+1).setVisibility(View.VISIBLE);
+                        oxi.desbloquearToque(position+1);
+                    }
                 }
             }
         });
