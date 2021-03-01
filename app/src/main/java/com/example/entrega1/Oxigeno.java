@@ -36,6 +36,14 @@ public class Oxigeno {
         return oxigeno;
     }
 
+    public Integer getOxiToque(){
+        return oxiToque;
+    }
+
+    public Integer getOxiSegundo(){
+        return oxiSegundo;
+    }
+
     public Boolean hayOxigeno(Integer cantidad){
         return oxigeno >= cantidad;
     }

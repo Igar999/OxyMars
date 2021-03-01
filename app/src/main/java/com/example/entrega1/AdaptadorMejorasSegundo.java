@@ -1,8 +1,6 @@
 package com.example.entrega1;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
-public class AdaptadorMejoras extends ArrayAdapter {
+public class AdaptadorMejorasSegundo extends ArrayAdapter {
     private Integer[] imagenes;
     private String[] nombres;
     private Integer[] cantidades;
@@ -21,7 +17,7 @@ public class AdaptadorMejoras extends ArrayAdapter {
     private Activity context;
     private Oxigeno oxi = Oxigeno.getOxi();
 
-    public AdaptadorMejoras(Activity context, Integer[] imagenes, String[] nombres, Integer[] cantidades, Integer[] precios) {
+    public AdaptadorMejorasSegundo(Activity context, Integer[] imagenes, String[] nombres, Integer[] cantidades, Integer[] precios) {
         super(context, R.layout.fila_mejora, nombres);
         this.context = context;
         this.imagenes = imagenes;
@@ -51,11 +47,8 @@ public class AdaptadorMejoras extends ArrayAdapter {
             public void onClick(View v) {
                 if (oxi.hayOxigeno(precios[position])){
                     oxi.quitarOxigeno(precios[position]);
-                    oxi.sumarOxiToque(cantidades[position]);
+                    oxi.sumarOxiSegundo(cantidades[position]);
                 }
-
-                Log.i("algo","boton pulsado: " + precios[position]);
-                Log.i("algo", "oxigeno: " + oxi.getOxigeno());
             }
         });
         return  fila;

@@ -24,29 +24,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Oxigeno oxi = Oxigeno.getOxi();
         TextView textOxigeno = findViewById(R.id.oxigeno);
-        ImageView planeta = findViewById(R.id.planeta);
-        showHideFragment(getFragmentManager().findFragmentById(R.id.mejoras));
+        TextView textOxiSegundo = findViewById(R.id.textOxiSegundo);
+        TextView textOxiToque = findViewById(R.id.textOxiToque);
 
-        Button boton = findViewById(R.id.boton);
-        final int[] cont = {0};
+        ImageView planeta = findViewById(R.id.planeta);
+
+        hideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque));
+        hideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
+
         final Handler handler = new Handler();
         final int delay = 1000; // 1000 milliseconds == 1 second
 
         handler.postDelayed(new Runnable() {
             public void run() {
-                boton.setText("" + cont[0]);
-                cont[0] = cont[0] + 1;
-                handler.postDelayed(this, delay);
                 oxi.aumentarOxigenoSegundo();
                 textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
                 Log.i("rot",String.valueOf(planeta.getRotation()));
+
+                handler.postDelayed(this, delay);
+
             }
         }, delay);
 
         final Handler handler3 = new Handler();
         final int delay3 = 45000; // 1000 milliseconds == 1 second
 
-        handler.postDelayed(new Runnable() {
+        handler3.postDelayed(new Runnable() {
             public void run() {
                 int i = planeta.getMeasuredHeight();
                 int j = planeta.getMeasuredWidth();
@@ -66,11 +69,14 @@ public class MainActivity extends AppCompatActivity {
 
         final int[] cont2 = {0};
         final Handler handler2 = new Handler();
-        final int delay2 = 10; // 1000 milliseconds == 1 second
+        final int delay2 = 100; // 1000 milliseconds == 1 second
 
         handler2.postDelayed(new Runnable() {
             public void run() {
                 textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
+                textOxiToque.setText(String.valueOf(oxi.getOxiToque()));
+                textOxiSegundo.setText(String.valueOf(oxi.getOxiSegundo()));
+                handler2.postDelayed(this, delay2);
             }
         }, delay2);
 
@@ -123,16 +129,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-        Button mar = findViewById(R.id.button);
-        mar.setOnClickListener(new View.OnClickListener() {
+        Button botonToque = findViewById(R.id.botonToque);
+        botonToque.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showHideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque));
+                hideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
+                //getFragmentManager().beginTransaction().add(R.id.layout, new MejorasToque(), "mejorasToque");
 
-                showHideFragment(getFragmentManager().findFragmentById(R.id.mejoras));
+                /*Fragment f = getFragmentManager().findFragmentByTag("mejoras");
+                if(f!=null) getFragmentManager().beginTransaction().remove(f);
+                getFragmentManager().beginTransaction().commit();*/
 
-                getFragmentManager().beginTransaction().add(R.id.layout, new Mejoras(), "mejoras");
+            }
+        });
+        Button botonSegundo = findViewById(R.id.botonSegundo);
+        botonSegundo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
+                hideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque));
+                //getFragmentManager().beginTransaction().add(R.id.layout, new MejorasToque(), "mejorasToque");
 
                 /*Fragment f = getFragmentManager().findFragmentByTag("mejoras");
                 if(f!=null) getFragmentManager().beginTransaction().remove(f);
@@ -146,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
     //https://www.semicolonworld.com/question/47971/show-hide-fragment-in-android (respuesta de kishan patel)
     public void showHideFragment(final Fragment fragment){
-
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in,
                 android.R.animator.fade_out);
@@ -159,6 +175,26 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Shown","Hide");
         }
 
+        ft.commit();
+    }
+    public void showFragment(final Fragment fragment){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(android.R.animator.fade_in,
+                android.R.animator.fade_out);
+        if (fragment.isHidden()) {
+            ft.show(fragment);
+            Log.d("hidden","Show");
+        }
+        ft.commit();
+    }
+    public void hideFragment(final Fragment fragment){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(android.R.animator.fade_in,
+                android.R.animator.fade_out);
+        if (!fragment.isHidden()) {
+            ft.hide(fragment);
+            Log.d("Shown","Hide");
+        }
         ft.commit();
     }
 }

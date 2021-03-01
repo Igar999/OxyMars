@@ -1,57 +1,45 @@
 package com.example.entrega1;
 
+import android.app.Fragment;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
-import android.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Mejoras#newInstance} factory method to
+ * Use the {@link MejorasSegundo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Mejoras extends Fragment {
+public class MejorasSegundo extends Fragment {
 
     private ListView listView;
 
     private Integer imagenes[] = {
+            R.drawable.marte_mar,
             R.drawable.marte,
             R.drawable.marte,
-            R.drawable.marte,
+            R.drawable.marte_mar,
+            R.drawable.marte_mar,
+            R.drawable.marte_mar,
+            R.drawable.marte_mar,
+            R.drawable.marte_mar,
+            R.drawable.marte_mar,
+            R.drawable.marte_mar,
+            R.drawable.marte_mar,
             R.drawable.marte_mar
 
     };
-    private String nombres[] = {
-            "Mar",
-            "Rios",
-            "Hierba",
-            "Arena"
-    };
+    private String nombres[] = {"Cohete", "Nave", "Ovni", "ISS", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo"};
 
-    private Integer cantidades[] = {
-            1,
-            5,
-            20,
-            80
-    };
+    private Integer cantidades[] = {1, 5, 20, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100};
 
-    private Integer precios[] = {
-            10,
-            50,
-            200,
-            800
-    };
+    private Integer precios[] = {10, 50, 200, 800, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
 
 
 
@@ -66,7 +54,7 @@ public class Mejoras extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Mejoras() {
+    public MejorasSegundo() {
         // Required empty public constructor
     }
 
@@ -79,8 +67,8 @@ public class Mejoras extends Fragment {
      * @return A new instance of fragment Mejoras.
      */
     // TODO: Rename and change types and number of parameters
-    public static Mejoras newInstance(String param1, String param2) {
-        Mejoras fragment = new Mejoras();
+    public static MejorasSegundo newInstance(String param1, String param2) {
+        MejorasSegundo fragment = new MejorasSegundo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -111,18 +99,23 @@ public class Mejoras extends Fragment {
     @Override
     public void onActivityCreated(Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
-        // Setting header
-        TextView textView = new TextView(this.getActivity());
-        textView.setTypeface(Typeface.DEFAULT_BOLD);
-        textView.setText("Lista de mejoras");
+        ListView lista=getView().findViewById(R.id.lista);
 
-        Log.i("algo", getView().toString());
-        ListView listView=getView().findViewById(R.id.lista);
-        listView.addHeaderView(textView);
 
-        // For populating list data
-        AdaptadorMejoras customCountryList = new AdaptadorMejoras(getActivity(), imagenes, nombres, cantidades, precios);
-        listView.setAdapter(customCountryList);
+        TextView titulo = new TextView(getActivity());
+        titulo.setText("MEJORAS DE OXIGENO POR SEGUNDO");
+        titulo.setTypeface(Typeface.DEFAULT_BOLD);
+
+        titulo.setTextColor(Color.WHITE);
+        titulo.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
+        titulo.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+
+        lista.addHeaderView(titulo);
+
+        AdaptadorMejorasSegundo mejoras = new AdaptadorMejorasSegundo(getActivity(), imagenes, nombres, cantidades, precios);
+        lista.setAdapter(mejoras);
+
 
     }
 }

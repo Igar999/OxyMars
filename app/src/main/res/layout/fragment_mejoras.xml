@@ -3,13 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B0000000"
-    tools:context=".Mejoras">
+    android:background="@drawable/fondo_fragment"
+    tools:context=".MejorasToque">
 
     <ListView
         android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:scrollbars="none"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5dp" />
 
 </FrameLayout>
