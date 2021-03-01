@@ -1,39 +1,31 @@
 package com.example.entrega1;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.animation.ObjectAnimator;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
-    private int oxigeno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        oxigeno = 0;
+        Oxigeno oxi = Oxigeno.getOxi();
         TextView textOxigeno = findViewById(R.id.oxigeno);
         ImageView planeta = findViewById(R.id.planeta);
+        showHideFragment(getFragmentManager().findFragmentById(R.id.mejoras));
 
         Button boton = findViewById(R.id.boton);
         final int[] cont = {0};
@@ -45,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 boton.setText("" + cont[0]);
                 cont[0] = cont[0] + 1;
                 handler.postDelayed(this, delay);
-                oxigeno++;
-                textOxigeno.setText(String.valueOf(oxigeno));
+                oxi.aumentarOxigenoSegundo();
+                textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
                 Log.i("rot",String.valueOf(planeta.getRotation()));
             }
         }, delay);
@@ -72,16 +64,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Button boton2 = findViewById(R.id.boton2);
         final int[] cont2 = {0};
         final Handler handler2 = new Handler();
-        final int delay2 = 100; // 1000 milliseconds == 1 second
+        final int delay2 = 10; // 1000 milliseconds == 1 second
 
         handler2.postDelayed(new Runnable() {
             public void run() {
-                boton2.setText("" + cont2[0]);
-                cont2[0] = cont2[0] + 1;
-                handler2.postDelayed(this, delay2);
+                textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
             }
         }, delay2);
 
@@ -91,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 /*ObjectAnimator animation = ObjectAnimator.ofFloat(planeta, "translationY", -200f);
                 animation.setDuration(2000);
                 animation.start();*/
-                oxigeno++;
-                textOxigeno.setText(String.valueOf(oxigeno));
+                oxi.aumentarOxigenoToque();
+                textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
 
                 ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 1.025f, 1.0f,
                         1.025f, Animation.RELATIVE_TO_SELF, 0.5f,
@@ -133,18 +122,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
         Button mar = findViewById(R.id.button);
         mar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (oxigeno > 20){
-                    oxigeno = oxigeno - 20;
-                    textOxigeno.setText(String.valueOf(oxigeno));
-                    planeta.setImageResource(R.drawable.marte_mar);
-                }
 
+                showHideFragment(getFragmentManager().findFragmentById(R.id.mejoras));
+
+                getFragmentManager().beginTransaction().add(R.id.layout, new Mejoras(), "mejoras");
+
+                /*Fragment f = getFragmentManager().findFragmentByTag("mejoras");
+                if(f!=null) getFragmentManager().beginTransaction().remove(f);
+                getFragmentManager().beginTransaction().commit();*/
 
             }
         });
+    }
+
+
+
+    //https://www.semicolonworld.com/question/47971/show-hide-fragment-in-android (respuesta de kishan patel)
+    public void showHideFragment(final Fragment fragment){
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(android.R.animator.fade_in,
+                android.R.animator.fade_out);
+
+        if (fragment.isHidden()) {
+            ft.show(fragment);
+            Log.d("hidden","Show");
+        } else {
+            ft.hide(fragment);
+            Log.d("Shown","Hide");
+        }
+
+        ft.commit();
     }
 }
