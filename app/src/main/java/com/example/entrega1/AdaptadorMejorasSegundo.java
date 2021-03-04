@@ -15,12 +15,12 @@ import java.io.StringReader;
 public class AdaptadorMejorasSegundo extends ArrayAdapter {
     private Integer[] imagenes;
     private String[] nombres;
-    private Integer[] cantidades;
-    private Integer[] precios;
+    private float[] cantidades;
+    private float[] precios;
     private Activity context;
     private Oxigeno oxi = Oxigeno.getOxi();
 
-    public AdaptadorMejorasSegundo(Activity context, Integer[] imagenes, String[] nombres, Integer[] cantidades, Integer[] precios) {
+    public AdaptadorMejorasSegundo(Activity context, Integer[] imagenes, String[] nombres, float[] cantidades, float[] precios) {
         super(context, R.layout.fila_mejora, nombres);
         this.context = context;
         this.imagenes = imagenes;
@@ -42,8 +42,8 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
 
         foto.setImageResource(imagenes[position]);
         nombre.setText(nombres[position]);
-        cantidad.setText("+" + cantidades[position] + "ox");
-        boton.setText("PRECIO:\n" + precios[position] + " ox");
+        cantidad.setText("+" + oxi.ponerCantidad(cantidades[position])+ "ox");
+        boton.setText("PRECIO:\n" + oxi.ponerCantidad(precios[position]) + " ox");
         if (position <= oxi.getDesbloqueadoSegundo()){
             fila.setVisibility(View.VISIBLE);
         }

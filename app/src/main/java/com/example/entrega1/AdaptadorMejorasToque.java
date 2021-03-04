@@ -16,12 +16,12 @@ import androidx.annotation.NonNull;
 public class AdaptadorMejorasToque extends ArrayAdapter {
     private Integer[] imagenes;
     private String[] nombres;
-    private Integer[] cantidades;
-    private Integer[] precios;
+    private float[] cantidades;
+    private float[] precios;
     private Activity context;
     private Oxigeno oxi = Oxigeno.getOxi();
 
-    public AdaptadorMejorasToque(Activity context, Integer[] imagenes, String[] nombres, Integer[] cantidades, Integer[] precios) {
+    public AdaptadorMejorasToque(Activity context, Integer[] imagenes, String[] nombres, float[] cantidades, float[] precios) {
         super(context, R.layout.fila_mejora, nombres);
         this.context = context;
         this.imagenes = imagenes;
@@ -43,8 +43,8 @@ public class AdaptadorMejorasToque extends ArrayAdapter {
 
         foto.setImageResource(imagenes[position]);
         nombre.setText(nombres[position]);
-        cantidad.setText("+" + cantidades[position] + "ox");
-        boton.setText("PRECIO:\n" + precios[position] + " ox");
+        cantidad.setText("+" + oxi.ponerCantidad(cantidades[position])+ "ox");
+        boton.setText("PRECIO:\n" + oxi.ponerCantidad(precios[position]) + " ox");
         if (position <= oxi.getDesbloqueadoToque()){
             fila.setVisibility(View.VISIBLE);
         }

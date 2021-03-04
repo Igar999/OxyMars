@@ -3,8 +3,13 @@ package com.example.entrega1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
+import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(savedInstanceState != null){
+            String usuario = savedInstanceState.getString("usu");
+        }
+
         Oxigeno oxi = Oxigeno.getOxi();
         TextView textOxigeno = findViewById(R.id.oxigeno);
         TextView textOxiSegundo = findViewById(R.id.textOxiSegundo);
@@ -29,8 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView planeta = findViewById(R.id.planeta);
 
-        hideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque));
-        hideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            hideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque));
+            hideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
+        }else{
+            hideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
+            showFragment(getFragmentManager().findFragmentById(R.id.mejorasToque));
+        }
+
 
         final Handler handler = new Handler();
         final int delay = 1000; // 1000 milliseconds == 1 second
@@ -38,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 oxi.aumentarOxigenoSegundo();
-                textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
                 handler.postDelayed(this, delay);
 
             }
@@ -71,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
         handler2.postDelayed(new Runnable() {
             public void run() {
-                textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
-                textOxiToque.setText(String.valueOf(oxi.getOxiToque()));
-                textOxiSegundo.setText(String.valueOf(oxi.getOxiSegundo()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
+                textOxiToque.setText(oxi.ponerCantidad(oxi.getOxiToque()));
+                textOxiSegundo.setText(oxi.ponerCantidad(oxi.getOxiSegundo()));
                 handler2.postDelayed(this, delay2);
             }
         }, delay2);
@@ -85,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 animation.setDuration(2000);
                 animation.start();*/
                 oxi.aumentarOxigenoToque();
-                textOxigeno.setText(String.valueOf(oxi.getOxigeno()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
 
                 ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 1.025f, 1.0f,
                         1.025f, Animation.RELATIVE_TO_SELF, 0.5f,
@@ -155,9 +171,30 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        Button botonCambio = findViewById(R.id.botonCambio);
+        botonCambio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
+                showHideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque));
+                cambiarBotonCambio();
+                //getFragmentManager().beginTransaction().add(R.id.layout, new MejorasToque(), "mejorasToque");
+
+                /*Fragment f = getFragmentManager().findFragmentByTag("mejoras");
+                if(f!=null) getFragmentManager().beginTransaction().remove(f);
+                getFragmentManager().beginTransaction().commit();*/
+
+            }
+        });
     }
 
-
+    public void cambiarBotonCambio(){
+        if (getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) {
+            ((Button)findViewById(R.id.botonCambio)).setText("MEJORAS\nOXI/SEGUNDO");
+        } else {
+            ((Button)findViewById(R.id.botonCambio)).setText("MEJORAS\nOXI/TOQUE");
+        }
+    }
 
     //https://www.semicolonworld.com/question/47971/show-hide-fragment-in-android (respuesta de kishan patel)
     public void showHideFragment(final Fragment fragment){
@@ -175,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
         ft.commit();
     }
+
     public void showFragment(final Fragment fragment){
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in,
@@ -194,5 +232,38 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Shown","Hide");
         }
         ft.commit();
+    }
+
+    public void cargarDatos(String usuario){
+        GuardarDatos GestorDB = new GuardarDatos (this, "NombreBD", null, 1);
+        SQLiteDatabase bd = GestorDB.getWritableDatabase();
+
+        String[] campos = new String[] {"Usuario", "Oxigeno", "OxiToque", "OxiSegundo", "DesbloqueadoToque", "DesbloqueadoSegundo"};
+        String[] argumentos = new String[] {usuario};
+        Cursor cu = bd.query("Datos",campos,"Usuario=?",argumentos,null,null,null);
+        cu.moveToFirst();
+        float oxigeno = cu.getFloat(1);
+        float oxiToque = cu.getFloat(2);
+        float oxiSegundo = cu.getFloat(3);
+        int desbloqueadoToque = cu.getInt(4);
+        int desbloqueadoSegundo = cu.getInt(5);
+        Oxigeno.getOxi().cargarOxi(oxigeno,oxiToque,oxiSegundo,desbloqueadoToque,desbloqueadoSegundo);
+    }
+
+    public void guardarDatos(String usuario){
+        GuardarDatos GestorDB = new GuardarDatos (this, "NombreBD", null, 1);
+        SQLiteDatabase bd = GestorDB.getWritableDatabase();
+
+        Oxigeno oxi = Oxigeno.getOxi();
+
+        ContentValues modificacion = new ContentValues();
+        modificacion.put("Oxigeno", oxi.getOxigeno());
+        modificacion.put("OxiToque", oxi.getOxiToque());
+        modificacion.put("OxiSegundo", oxi.getOxiSegundo());
+        modificacion.put("DesbloqueadoToque", oxi.getDesbloqueadoToque());
+        modificacion.put("DesbloqueadoSegundo", oxi.getDesbloqueadoSegundo());
+
+        String[] argumentos = new String[] {usuario};
+        bd.update("Datos", modificacion, "Usuario=?", argumentos);
     }
 }

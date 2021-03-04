@@ -30,9 +30,9 @@ public class MejorasSegundo extends Fragment {
 
     private String nombres[] = {"Cohete", "Nave", "Ovni", "ISS", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo"};
 
-    private Integer cantidades[] = {1, 5, 20, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100};
+    private float cantidades[] = {1, 5, 20, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100};
 
-    private Integer precios[] = {10, 50, 200, 800, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
+    private float precios[] = {10, 50, 200, 800, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
 
     public MejorasSegundo() {
         // Required empty public constructor

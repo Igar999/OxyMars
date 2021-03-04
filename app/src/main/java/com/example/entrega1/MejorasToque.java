@@ -32,9 +32,9 @@ public class MejorasToque extends Fragment {
 
     private String nombres[] = {"Mar", "Rios", "Hierba", "Arena", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo"};
 
-    private Integer cantidades[] = {1, 5, 20, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100};
+    private float cantidades[] = {1, 5, 20, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100};
 
-    private Integer precios[] = {10, 50, 200, 800, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
+    private float precios[] = {10, 50, 200, 800, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
 
     public MejorasToque() {
         // Required empty public constructor
