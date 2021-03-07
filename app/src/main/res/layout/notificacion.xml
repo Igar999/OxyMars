@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--https://stackoverflow.com/questions/41888161/how-to-create-a-custom-notification-layout-in-android-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:background="@drawable/espacio1land">
+    android:background="@drawable/espacionoti">
 
     <ImageView
         android:id="@+id/flashButton"

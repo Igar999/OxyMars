@@ -2,16 +2,11 @@ package com.example.entrega1;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -33,11 +28,10 @@ import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,11 +39,13 @@ public class MainActivity extends AppCompatActivity {
     Oxigeno oxi = Oxigeno.getOxi();
     Utils utils = Utils.getUtils();
     String usuario = "";
+    Handler handler = new Handler();
+    Runnable[] listaRun = new Runnable[3];
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        //Lanzar notificación
         //https://developer.android.com/training/scheduling/alarms
         AlarmManager alarmMgr;
         PendingIntent alarmIntent;
@@ -58,16 +54,17 @@ public class MainActivity extends AppCompatActivity {
         alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + 5 * 1000, alarmIntent);
+
+        handler.removeCallbacks(listaRun[0]);
+        handler.removeCallbacks(listaRun[1]);
+        handler.removeCallbacks(listaRun[2]);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String usuario = extras.getString("usu");
-            guardarDatos(usuario);
-        }
+        guardarDatos(usuario);
     }
 
     @Override
@@ -83,12 +80,16 @@ public class MainActivity extends AppCompatActivity {
 
         setFondo();
 
-
+        AlarmManager alarmMgr;
+        PendingIntent alarmIntent;
+        alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificacionProgramada.class);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        alarmMgr.cancel(alarmIntent);
 
         TextView textOxigeno = findViewById(R.id.oxigeno);
         TextView textOxiSegundo = findViewById(R.id.textOxiSegundo);
         TextView textOxiToque = findViewById(R.id.textOxiToque);
-
         ImageView planeta = findViewById(R.id.planeta);
 
         if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -99,28 +100,22 @@ public class MainActivity extends AppCompatActivity {
             utils.showFragment(getFragmentManager().findFragmentById(R.id.mejorasToque),this);
         }
 
-
-        final Handler handler = new Handler();
-        final int delay = 1000; // 1000 milliseconds == 1 second
-
-        handler.postDelayed(new Runnable() {
+        final int delay = 1000;
+        Runnable aumentarOxi = new Runnable() {
             public void run() {
                 oxi.aumentarOxigenoSegundo();
                 textOxigeno.setText(ponerCantidad(oxi.getOxigeno()));
                 handler.postDelayed(this, delay);
-
             }
-        }, delay);
+        };
+        listaRun[0] = aumentarOxi;
+        handler.postDelayed(listaRun[0], delay);
 
-        final Handler handler3 = new Handler();
-        final int delay3 = 45000; // 1000 milliseconds == 1 second
 
-        handler3.postDelayed(new Runnable() {
+        final int delay2 = 45000;
+        Runnable general = new Runnable() {
             public void run() {
-                if (extras != null) {
-                    String usuario = extras.getString("usu");
-                    guardarDatos(usuario);
-                }
+                guardarDatos(usuario);
 
                 int i = planeta.getMeasuredHeight();
                 int j = planeta.getMeasuredWidth();
@@ -132,24 +127,24 @@ public class MainActivity extends AppCompatActivity {
                 animation.setRepeatCount(ObjectAnimator.INFINITE);
                 animation.setInterpolator(new LinearInterpolator());
                 animation.start();
-                handler3.postDelayed(this, delay3);
+                handler.postDelayed(this, delay2);
             }
-        }, delay);
+        };
+        listaRun[1] = general;
+        handler.postDelayed(listaRun[1], delay2);
 
 
-
-        final int[] cont2 = {0};
-        final Handler handler2 = new Handler();
-        final int delay2 = 100; // 1000 milliseconds == 1 second
-
-        handler2.postDelayed(new Runnable() {
+        final int delay3 = 100;
+        Runnable actualizarTextos = new Runnable() {
             public void run() {
                 textOxigeno.setText(ponerCantidad(oxi.getOxigeno()));
                 textOxiToque.setText(ponerCantidad(oxi.getOxiToque()));
                 textOxiSegundo.setText(ponerCantidad(oxi.getOxiSegundo()));
-                handler2.postDelayed(this, delay2);
+                handler.postDelayed(this, delay3);
             }
-        }, delay2);
+        };
+        listaRun[2] = actualizarTextos;
+        handler.postDelayed(listaRun[2], delay3);
 
         planeta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,48 +268,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         DialogFragment dialogocerrar= new DialogoSalir();
         dialogocerrar.show(getSupportFragmentManager(), "etiqueta");
-
-        //shareTwitter("¡Genial! He conseguido " + ponerCantidad(oxi.getOxigeno()) + " de oxígeno para mi planeta en OxyMars.");
-    }
-
-    //https://stackoverflow.com/questions/14317512/how-can-i-post-on-twitter-with-intent-action-send
-    private void shareTwitter(String message) {
-        Intent tweetIntent = new Intent(Intent.ACTION_SEND);
-        tweetIntent.putExtra(Intent.EXTRA_TEXT, message);
-        tweetIntent.setType("text/plain");
-
-        PackageManager packManager = getPackageManager();
-        List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
-
-        boolean resolved = false;
-        for (ResolveInfo resolveInfo : resolvedInfoList) {
-            if (resolveInfo.activityInfo.packageName.startsWith("com.twitter.android")) {
-                tweetIntent.setClassName(
-                        resolveInfo.activityInfo.packageName,
-                        resolveInfo.activityInfo.name);
-                resolved = true;
-                break;
-            }
-        }
-        if (resolved) {
-            startActivity(tweetIntent);
-        } else {
-            Intent i = new Intent();
-            i.putExtra(Intent.EXTRA_TEXT, message);
-            i.setAction(Intent.ACTION_VIEW);
-            i.setData(Uri.parse("https://twitter.com/intent/tweet?text=" + urlEncode(message)));
-            startActivity(i);
-            //Toast.makeText(this, "Twitter app isn't found", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private String urlEncode(String s) {
-        try {
-            return URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            Log.wtf("TAG", "UTF-8 should always be supported", e);
-            return "";
-        }
     }
 
     public void cambiarBotonCambio(){

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:textAlignment="center"
+    tools:context=".AjustesActivity">
+
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="com.example.entrega1.Preferencias"
+        android:layout_width="390dp"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="2dp"
+            android:text="Info"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toTopOf="@+id/infoImg"
+            app:layout_constraintEnd_toEndOf="@+id/infoImg" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:text="Compartir"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toTopOf="@+id/twitterImg"
+            app:layout_constraintEnd_toEndOf="@+id/twitterImg" />
+
+        <ImageView
+            android:id="@+id/twitterImg"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/botonLogout"
+            app:layout_constraintTop_toTopOf="@+id/botonLogout"
+            app:srcCompat="@drawable/twitter" />
+
+        <ImageView
+            android:id="@+id/infoImg"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toEndOf="@+id/botonLogout"
+            app:layout_constraintTop_toTopOf="@+id/botonLogout"
+            app:srcCompat="@drawable/info" />
+
+        <TextView
+            android:id="@+id/textUsuarioLogout"
+            android:layout_width="245dp"
+            android:layout_height="19dp"
+            android:layout_weight="0"
+            android:text="Usuario:"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.392" />
+
+        <Button
+            android:id="@+id/botonLogout"
+            android:layout_width="135dp"
+            android:layout_height="48dp"
+            android:layout_weight="0"
+            android:text="Cerrar sesión"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textUsuarioLogout"
+            app:layout_constraintVertical_bias="0.173" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
