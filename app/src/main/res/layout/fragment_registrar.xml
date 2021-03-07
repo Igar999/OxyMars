@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistrarFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/textRegistrarValidContra"
+            android:layout_width="185dp"
+            android:layout_height="47dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textRegistrarContra"
+            app:layout_constraintVertical_bias="0.142" />
+
+        <EditText
+            android:id="@+id/textRegistrarUsuario"
+            android:layout_width="187dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintVertical_bias="0.104" />
+
+        <EditText
+            android:id="@+id/textRegistrarContra"
+            android:layout_width="183dp"
+            android:layout_height="52dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textRegistrarUsuario"
+            app:layout_constraintVertical_bias="0.102" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:tag="fragmentRegistrar"
+            android:text="Contraseña"
+            app:layout_constraintBottom_toTopOf="@+id/textRegistrarContra"
+            app:layout_constraintStart_toStartOf="@+id/textRegistrarContra" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Repite la contraseña"
+            app:layout_constraintBottom_toTopOf="@+id/textRegistrarValidContra"
+            app:layout_constraintStart_toStartOf="@+id/textRegistrarValidContra" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:tag="fragmentRegistrar"
+            android:text="Nombre de usuario"
+            app:layout_constraintBottom_toTopOf="@+id/textRegistrarUsuario"
+            app:layout_constraintStart_toStartOf="@+id/textRegistrarUsuario" />
+
+        <Button
+            android:id="@+id/botonRegistrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textRegistrarValidContra"
+            app:layout_constraintVertical_bias="0.083" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/titan_one"
+            android:text="REGISTRAR"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.129" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

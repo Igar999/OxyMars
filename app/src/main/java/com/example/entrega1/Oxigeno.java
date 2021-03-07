@@ -1,7 +1,10 @@
 package com.example.entrega1;
 
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 

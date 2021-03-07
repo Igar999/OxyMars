@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="fondos">
+        <item>Fondo 1</item>
+        <item>Fondo 2</item>
+        <item>Fondo 3</item>
+        <item>Fondo 4</item>
+        <item>Fondo 5</item>
+    </string-array>
+    <string-array name="codsFondos">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+</resources>

@@ -12,7 +12,6 @@ public class GuardarDatos extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE Datos (" +

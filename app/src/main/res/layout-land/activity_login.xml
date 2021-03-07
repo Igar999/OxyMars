@@ -6,38 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <fragment
-        android:id="@+id/fragmentLogin"
-        android:name="com.example.entrega1.LoginFragment"
-        android:layout_width="394dp"
-        android:layout_height="693dp"
-        android:tag="fragmentLogin"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_login" />
-
-    <fragment
-        android:id="@+id/fragmentRegistrar"
-        android:name="com.example.entrega1.RegistrarFragment"
-        android:layout_width="392dp"
-        android:layout_height="692dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_registrar" />
-
     <TextView
         android:id="@+id/cambioLoginRegistrar"
         android:layout_width="174dp"
         android:layout_height="21dp"
         android:text="¿No tienes usuario?"
         android:textAlignment="center"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -45,4 +20,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.973" />
 
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.example.entrega1.LoginFragment"
+        android:layout_width="351dp"
+        android:layout_height="392dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.018"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.473" />
+
+    <fragment
+        android:id="@+id/fragmentRegistrar"
+        android:name="com.example.entrega1.RegistrarFragment"
+        android:layout_width="358dp"
+        android:layout_height="392dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.989"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.473" />
 </androidx.constraintlayout.widget.ConstraintLayout>

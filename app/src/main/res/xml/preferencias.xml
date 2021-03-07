@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:key="cat_preferencias_juego"
+        app:title="Preferencias del juego"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="notacion"
+            app:title="Notación simplificada (K, M...)" />
+        <ListPreference
+            app:iconSpaceReserved="false"
+            android:defaultValue="1"
+            android:entries="@array/fondos"
+            android:entryValues="@array/codsFondos"
+            android:key="lista_fondo"
+            android:title="Fondo" />
+    </PreferenceCategory>
+</PreferenceScreen>
