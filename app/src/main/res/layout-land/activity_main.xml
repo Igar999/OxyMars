@@ -37,8 +37,8 @@
         android:id="@+id/botonSegundo"
         android:layout_width="125dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="344dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/boton"
         android:text="Mejorar\nOxi/segundo"
         android:visibility="invisible"
@@ -51,13 +51,15 @@
         android:id="@+id/botonToque"
         android:layout_width="125dp"
         android:layout_height="50dp"
-        android:layout_marginStart="376dp"
-        android:layout_marginBottom="344dp"
         android:background="@drawable/boton"
         android:text="Mejorar\nOxi/toque"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.737"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958" />
 
     <ImageView
         android:id="@+id/planeta"
@@ -218,22 +220,31 @@
         android:background="@drawable/boton"
         android:text="MEJORAS\nOXI/SEGUNDO"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintEnd_toEndOf="@+id/mejorasToque"
+        app:layout_constraintHorizontal_bias="0.998"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.059" />
+        app:layout_constraintVertical_bias="0.051" />
 
     <ImageView
         android:id="@+id/botonAjustes"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.982"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/mejorasToque"
+        app:layout_constraintEnd_toStartOf="@+id/botonCambio"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toEndOf="@+id/botonRanking"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044"
+        app:layout_constraintVertical_bias="0.28"
         app:srcCompat="@drawable/ajustes" />
+
+    <Button
+        android:id="@+id/botonRanking"
+        android:layout_width="90dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="44dp"
+        android:text="RANKING"
+        app:layout_constraintBottom_toTopOf="@+id/mejorasToque"
+        app:layout_constraintStart_toStartOf="@+id/mejorasToque" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -100,26 +100,22 @@ public class MainActivity extends AppCompatActivity {
             utils.showFragment(getFragmentManager().findFragmentById(R.id.mejorasToque),this);
         }
 
-        final int delay = 1000;
         Runnable aumentarOxi = new Runnable() {
             public void run() {
                 oxi.aumentarOxigenoSegundo();
                 textOxigeno.setText(ponerCantidad(oxi.getOxigeno()));
-                handler.postDelayed(this, delay);
+                handler.postDelayed(this, 1000);
             }
         };
         listaRun[0] = aumentarOxi;
-        handler.postDelayed(listaRun[0], delay);
+        handler.postDelayed(listaRun[0], 1000);
 
 
-        final int delay2 = 45000;
         Runnable general = new Runnable() {
             public void run() {
                 guardarDatos(usuario);
-
                 int i = planeta.getMeasuredHeight();
                 int j = planeta.getMeasuredWidth();
-
                 ObjectAnimator animation = ObjectAnimator.ofFloat(planeta, "rotation", 0, 360);
                 animation.setDuration(45000);
                 planeta.setPivotX(i/2);
@@ -127,24 +123,23 @@ public class MainActivity extends AppCompatActivity {
                 animation.setRepeatCount(ObjectAnimator.INFINITE);
                 animation.setInterpolator(new LinearInterpolator());
                 animation.start();
-                handler.postDelayed(this, delay2);
+                handler.postDelayed(this, 45000);
             }
         };
         listaRun[1] = general;
-        handler.postDelayed(listaRun[1], delay2);
+        handler.postDelayed(listaRun[1], 250);
 
 
-        final int delay3 = 100;
         Runnable actualizarTextos = new Runnable() {
             public void run() {
                 textOxigeno.setText(ponerCantidad(oxi.getOxigeno()));
                 textOxiToque.setText(ponerCantidad(oxi.getOxiToque()));
                 textOxiSegundo.setText(ponerCantidad(oxi.getOxiSegundo()));
-                handler.postDelayed(this, delay3);
+                handler.postDelayed(this, 100);
             }
         };
         listaRun[2] = actualizarTextos;
-        handler.postDelayed(listaRun[2], delay3);
+        handler.postDelayed(listaRun[2], 100);
 
         planeta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,21 +149,16 @@ public class MainActivity extends AppCompatActivity {
                 animation.start();*/
                 oxi.aumentarOxigenoToque();
                 textOxigeno.setText(ponerCantidad(oxi.getOxigeno()));
-
                 ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 1.025f, 1.0f,
                         1.025f, Animation.RELATIVE_TO_SELF, 0.5f,
                         Animation.RELATIVE_TO_SELF, 0.5f);
-
                 scaleAnim.setDuration(75);
                 // scaleAnim.setFillEnabled(true);
                 scaleAnim.setFillAfter(true);
-
                 scaleAnim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-
                     }
-
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         ScaleAnimation scaleAnim2 = new ScaleAnimation(1.025f, 1.0f, 1.025f,
@@ -179,21 +169,15 @@ public class MainActivity extends AppCompatActivity {
                         scaleAnim2.setFillAfter(true);
                         planeta.setAnimation(scaleAnim2);
                         planeta.startAnimation(scaleAnim2);
-
                     }
-
                     @Override
                     public void onAnimationRepeat(Animation animation) {
-
                     }
                 });
-
                 planeta.setAnimation(scaleAnim);
                 planeta.startAnimation(scaleAnim);
-
             }
         });
-
 
         Button botonToque = findViewById(R.id.botonToque);
         botonToque.setOnClickListener(new View.OnClickListener() {
@@ -249,6 +233,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button ranking = findViewById(R.id.botonRanking);
+        ranking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, RankingActivity.class);
+                i.putExtra("usu", usuario);
+                startActivity(i);
+                finish();
+            }
+        });
+
     }
 
     private void setFondo() {
@@ -279,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cargarDatos(String usuario){
-        GuardarDatos GestorDB = new GuardarDatos (this, "NombreBD", null, 1);
+        GuardarDatos GestorDB = new GuardarDatos (this, "OxyMars", null, 1);
         SQLiteDatabase bd = GestorDB.getWritableDatabase();
 
         String[] campos = new String[] {"Usuario", "Oxigeno", "OxiToque", "OxiSegundo", "DesbloqueadoToque", "DesbloqueadoSegundo"};
@@ -292,14 +287,17 @@ public class MainActivity extends AppCompatActivity {
             float oxiSegundo = cu.getFloat(3);
             int desbloqueadoToque = cu.getInt(4);
             int desbloqueadoSegundo = cu.getInt(5);
-            Oxigeno.getOxi().cargarOxi(oxigeno,oxiToque,oxiSegundo,desbloqueadoToque,desbloqueadoSegundo);
+            Oxigeno.getOxi().cargarOxi(this,oxigeno,oxiToque,oxiSegundo,desbloqueadoToque,desbloqueadoSegundo);
+        }
+        else{
+            Oxigeno.getOxi().cargarOxi(this,0,1,0,0,0);
         }
     }
 
     public void guardarDatos(String usuario){
         Oxigeno oxi = Oxigeno.getOxi();
-        GuardarDatos GestorDB = new GuardarDatos (this, "NombreBD", null, 1);
-        SQLiteDatabase bd = GestorDB.getWritableDatabase();
+        GuardarDatos gestorDB = new GuardarDatos (this, "OxyMars", null, 1);
+        SQLiteDatabase bd = gestorDB.getWritableDatabase();
 
         ContentValues valores = new ContentValues();
         valores.put("Usuario", usuario);

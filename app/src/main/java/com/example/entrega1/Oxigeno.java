@@ -1,5 +1,6 @@
 package com.example.entrega1;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,8 @@ public class Oxigeno {
 
     private static Oxigeno oxi;
 
+    private Context context;
+
     private float oxigeno;
     private float oxiToque;
     private float oxiSegundo;
@@ -26,7 +29,8 @@ public class Oxigeno {
     private int desbloqueadoSegundo;
 
 
-    public void cargarOxi(float oxigeno, float oxiToque, float oxiSegundo, int desbloqueadoToque, int desbloqueadoSegundo){
+    public void cargarOxi(Context context, float oxigeno, float oxiToque, float oxiSegundo, int desbloqueadoToque, int desbloqueadoSegundo){
+        this.context = context;
         this.oxigeno = oxigeno;
         this.oxiToque = oxiToque;
         this.oxiSegundo = oxiSegundo;
@@ -102,24 +106,28 @@ public class Oxigeno {
     }
 
     public String ponerCantidad(float cant){
-        String cantFinal;
-        String texto = "";
-        if (cant >= 1000000000000.0){
-            cantFinal = String.format("%.2f",(float)(cant/1000000000000.0));
-            texto =  String.valueOf(cantFinal) + "B";
-        }else if (cant >= 1000000000.0){
-            cantFinal = String.format("%.2f",(float)(cant/1000000000.0));
-            texto =  String.valueOf(cantFinal) + "KM";
-        }else if (cant >= 1000000.0){
-            cantFinal = String.format("%.2f",(float)(cant/1000000.0));
-            texto =  String.valueOf(cantFinal) + "M";
-        }else if (cant >= 1000.0){
-            cantFinal = String.format("%.2f",(float)(cant/1000.0));
-            texto =  String.valueOf(cantFinal) + "K";
-        }else{
-            cantFinal = String.valueOf(cant);
-            texto = cantFinal.substring(0,cantFinal.length()-2);
+        String texto = String.valueOf(cant);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.getBoolean("notacion", true)){
+            String cantFinal;
+            if (cant >= 1000000000000.0){
+                cantFinal = String.format("%.2f",(float)(cant/1000000000000.0));
+                texto =  String.valueOf(cantFinal) + "B";
+            }else if (cant >= 1000000000.0){
+                cantFinal = String.format("%.2f",(float)(cant/1000000000.0));
+                texto =  String.valueOf(cantFinal) + "KM";
+            }else if (cant >= 1000000.0){
+                cantFinal = String.format("%.2f",(float)(cant/1000000.0));
+                texto =  String.valueOf(cantFinal) + "M";
+            }else if (cant >= 1000.0){
+                cantFinal = String.format("%.2f",(float)(cant/1000.0));
+                texto =  String.valueOf(cantFinal) + "K";
+            }else{
+                cantFinal = String.valueOf(cant);
+                texto = cantFinal.substring(0,cantFinal.length()-2);
+            }
         }
         return texto;
     }
+
 }
