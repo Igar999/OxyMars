@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name=".RankingActivity"></activity>
+        <activity android:name=".AyudaActivity"></activity>
+        <activity android:name=".RankingActivity" />
         <activity android:name=".AjustesActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">

@@ -14,4 +14,12 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    <string-array name="idiomas">
+        <item>Castellano</item>
+        <item>Inglés</item>
+    </string-array>
+    <string-array name="codsIdiomas">
+        <item>es</item>
+        <item>en</item>
+    </string-array>
 </resources>

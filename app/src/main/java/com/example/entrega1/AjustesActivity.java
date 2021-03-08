@@ -62,6 +62,17 @@ public class AjustesActivity extends AppCompatActivity {
             }
         });
 
+        ImageView info = findViewById(R.id.infoImg);
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AjustesActivity.this, AyudaActivity.class);
+                i.putExtra("usu", usuario);
+                startActivity(i);
+                finish();
+            }
+        });
+
     }
 
     @Override

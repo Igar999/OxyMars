@@ -16,5 +16,12 @@
             android:entryValues="@array/codsFondos"
             android:key="lista_fondo"
             android:title="Fondo" />
+        <ListPreference
+            app:iconSpaceReserved="false"
+            android:defaultValue="es"
+            android:entries="@array/idiomas"
+            android:entryValues="@array/codsIdiomas"
+            android:key="lista_idioma"
+            android:title="Idioma" />
     </PreferenceCategory>
 </PreferenceScreen>

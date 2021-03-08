@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager;
 
 import android.animation.ObjectAnimator;
 import android.app.AlarmManager;
+import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -261,8 +262,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DialogFragment dialogocerrar= new DialogoSalir();
-        dialogocerrar.show(getSupportFragmentManager(), "etiqueta");
+        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+        if (!getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) {
+            ft.hide(getFragmentManager().findFragmentById(R.id.mejorasToque));
+            ft.commit();
+        }
+        if (!getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden()) {
+            ft.hide(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
+            ft.commit();
+        }
+        if(getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden() && getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()){
+            DialogFragment dialogocerrar= new DialogoSalir();
+            dialogocerrar.show(getSupportFragmentManager(), "etiqueta");
+        }
     }
 
     public void cambiarBotonCambio(){
