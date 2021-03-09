@@ -75,6 +75,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if(!prefs.getString("lista_idioma", "es").equals(Locale.getDefault().getLanguage())){
+            Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
+            //Locale nuevaloc = new Locale("es");
+            Locale.setDefault(nuevaloc);
+            Configuration configuration = getResources().getConfiguration();
+            configuration.setLocale(nuevaloc);
+            configuration.setLayoutDirection(nuevaloc);
+
+            Context context = createConfigurationContext(configuration);
+            getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+            finish();
+            startActivity(getIntent());
+        }
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -107,12 +123,12 @@ public class MainActivity extends AppCompatActivity {
         Runnable aumentarOxi = new Runnable() {
             public void run() {
                 oxi.aumentarOxigenoSegundo();
-                textOxigeno.setText(ponerCantidad(oxi.getOxigeno()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
                 handler.postDelayed(this, 1000);
             }
         };
         listaRun[0] = aumentarOxi;
-        handler.postDelayed(listaRun[0], 1000);
+
 
 
         Runnable general = new Runnable() {
@@ -131,19 +147,17 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         listaRun[1] = general;
-        handler.postDelayed(listaRun[1], 250);
 
 
         Runnable actualizarTextos = new Runnable() {
             public void run() {
-                textOxigeno.setText(ponerCantidad(oxi.getOxigeno()));
-                textOxiToque.setText(ponerCantidad(oxi.getOxiToque()));
-                textOxiSegundo.setText(ponerCantidad(oxi.getOxiSegundo()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
+                textOxiToque.setText(oxi.ponerCantidad(oxi.getOxiToque()));
+                textOxiSegundo.setText(oxi.ponerCantidad(oxi.getOxiSegundo()));
                 handler.postDelayed(this, 100);
             }
         };
         listaRun[2] = actualizarTextos;
-        handler.postDelayed(listaRun[2], 100);
 
         planeta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 animation.setDuration(2000);
                 animation.start();*/
                 oxi.aumentarOxigenoToque();
-                textOxigeno.setText(ponerCantidad(oxi.getOxigeno()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
                 ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 1.025f, 1.0f,
                         1.025f, Animation.RELATIVE_TO_SELF, 0.5f,
                         Animation.RELATIVE_TO_SELF, 0.5f);
@@ -248,6 +262,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        handler.postDelayed(listaRun[0], 1000);
+        handler.postDelayed(listaRun[2], 100);
+        handler.postDelayed(listaRun[1], 250);
     }
 
     private void setFondo() {
@@ -278,13 +295,24 @@ public class MainActivity extends AppCompatActivity {
             DialogFragment dialogocerrar= new DialogoSalir();
             dialogocerrar.show(getSupportFragmentManager(), "etiqueta");
         }
+
+        /*Locale nuevaloc = new Locale("en");
+        Locale.setDefault(nuevaloc);
+        Configuration configuration = getResources().getConfiguration();
+        configuration.setLocale(nuevaloc);
+        configuration.setLayoutDirection(nuevaloc);
+
+        Context context = createConfigurationContext(configuration);
+        getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+        finish();
+        startActivity(getIntent());*/
     }
 
     public void cambiarBotonCambio(){
         if (getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) {
-            ((Button)findViewById(R.id.botonCambio)).setText("MEJORAS\nOXI/SEGUNDO");
+            ((Button)findViewById(R.id.botonCambio)).setText(getString(R.string.mejoras_oxi_segundo));
         } else {
-            ((Button)findViewById(R.id.botonCambio)).setText("MEJORAS\nOXI/TOQUE");
+            ((Button)findViewById(R.id.botonCambio)).setText(getString(R.string.mejoras_oxi_toque));
         }
     }
 
@@ -334,14 +362,5 @@ public class MainActivity extends AppCompatActivity {
             //UPDATE
             bd.update("Datos", valores, "Usuario=?", argumentos);
         }
-    }
-
-    public String ponerCantidad(float cant){
-        String texto = String.valueOf(cant);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-         if (prefs.getBoolean("notacion", true)){
-             texto = oxi.ponerCantidad(cant);
-         }
-         return texto;
     }
 }
