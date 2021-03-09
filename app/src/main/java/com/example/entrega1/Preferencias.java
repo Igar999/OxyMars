@@ -22,9 +22,8 @@ public class Preferencias extends PreferenceFragmentCompat {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 if (key.equals("lista_idioma")){
-                    /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    //Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es_ES"));
-                    Locale nuevaloc = new Locale("en_rGB");
+                    Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
+                    //Locale nuevaloc = new Locale("en");
                     Locale.setDefault(nuevaloc);
                     Configuration configuration = getActivity().getBaseContext().getResources().getConfiguration();
                     configuration.setLocale(nuevaloc);
@@ -33,20 +32,7 @@ public class Preferencias extends PreferenceFragmentCompat {
                     Context context = getActivity().getBaseContext().createConfigurationContext(configuration);
                     getActivity().getBaseContext().getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
                     getActivity().finish();
-                    startActivity(getActivity().getIntent());*/
-
-                    Locale myLocale = new Locale(prefs.getString("lista_idioma", "es"));
-                    Resources res = getActivity().getResources();
-                    DisplayMetrics dm = res.getDisplayMetrics();
-                    Configuration conf = res.getConfiguration();
-                    //conf.locale = myLocale;
-                    conf.setLocale(myLocale);
-                    res.updateConfiguration(conf, dm);
-                    Intent refresh = new Intent(Preferencias.this.getContext(), MainActivity.class);
-
-                    getActivity().finish();
-                    startActivity(refresh);
-
+                    startActivity(getActivity().getIntent());
                 }
             }
         });

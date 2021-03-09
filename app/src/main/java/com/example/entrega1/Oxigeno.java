@@ -126,6 +126,8 @@ public class Oxigeno {
                 cantFinal = String.valueOf(cant);
                 texto = cantFinal.substring(0,cantFinal.length()-2);
             }
+        }else{
+            texto = texto.substring(0,texto.length()-2);
         }
         return texto;
     }

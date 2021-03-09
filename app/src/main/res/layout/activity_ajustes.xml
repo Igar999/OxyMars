@@ -28,21 +28,34 @@
                 android:layout_width="350dp"
                 android:layout_height="23dp"
                 android:layout_weight="0"
-                android:text="Usuario:"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.491"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.148" />
+                app:layout_constraintVertical_bias="0.19" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="350dp"
+                android:layout_height="23dp"
+                android:layout_weight="0"
+                android:text="@string/usuario"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/textUsuarioLogout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <Button
                 android:id="@+id/botonLogout"
                 android:layout_width="135dp"
                 android:layout_height="48dp"
                 android:layout_weight="0"
-                android:text="Cerrar sesión"
+                android:text="@string/cerrar_sesion"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
-                android:text="Compartir"
+                android:text="@string/compartir"
                 android:textSize="8sp"
                 app:layout_constraintBottom_toTopOf="@+id/twitterImg"
                 app:layout_constraintEnd_toEndOf="@+id/twitterImg" />
@@ -85,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="2dp"
-                android:text="Info"
+                android:text="@string/info"
                 android:textSize="8sp"
                 app:layout_constraintBottom_toTopOf="@+id/infoImg"
                 app:layout_constraintEnd_toEndOf="@+id/infoImg" />

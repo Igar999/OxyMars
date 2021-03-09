@@ -36,7 +36,7 @@
         android:id="@+id/cambioLoginRegistrar"
         android:layout_width="174dp"
         android:layout_height="21dp"
-        android:text="¿No tienes usuario?"
+        android:text="@string/no_tienes_usuario"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

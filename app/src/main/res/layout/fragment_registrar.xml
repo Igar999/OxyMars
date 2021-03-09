@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:tag="fragmentRegistrar"
-            android:text="Contraseña"
+            android:text="@string/contrasena"
             app:layout_constraintBottom_toTopOf="@+id/textRegistrarContra"
             app:layout_constraintStart_toStartOf="@+id/textRegistrarContra" />
 
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="Repite la contraseña"
+            android:text="@string/repite_contrasena"
             app:layout_constraintBottom_toTopOf="@+id/textRegistrarValidContra"
             app:layout_constraintStart_toStartOf="@+id/textRegistrarValidContra" />
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:tag="fragmentRegistrar"
-            android:text="Nombre de usuario"
+            android:text="@string/nombre_usuario"
             app:layout_constraintBottom_toTopOf="@+id/textRegistrarUsuario"
             app:layout_constraintStart_toStartOf="@+id/textRegistrarUsuario" />
 
@@ -84,7 +84,7 @@
             android:id="@+id/botonRegistrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="@string/registrar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/titan_one"
-            android:text="REGISTRAR"
+            android:text="@string/registrar"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

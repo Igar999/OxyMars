@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OxyMars</string>
-    <string name="oxigeno">Oxígeno</string>
+    <string name="oxigeno">OXIGENO</string>
     <string name="oxi_toque">Oxi/toque</string>
     <string name="oxi_segundo">Oxi/seg</string>
     <string name="mejoras_oxi_toque">Mejoras\nOxi/toque</string>
@@ -25,11 +25,11 @@
     <string name="compartir">Compartir</string>
     <string name="info">Info</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
-    <string name="login">Login</string>
+    <string name="login">LOGIN</string>
     <string name="nombre_usuario">Nombre de usuario</string>
     <string name="contrasena">Contraseña</string>
     <string name="no_tienes_usuario">¿No tienes usuario?</string>
-    <string name="registrar">Registrar</string>
+    <string name="registrar">REGISTRAR</string>
     <string name="repite_contrasena">Repite la contraseña</string>
     <string name="volver_login">Volver al login</string>
     <string name="no_existe_usuario">Ese usuario no existe</string>

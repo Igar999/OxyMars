@@ -35,7 +35,7 @@ public class AjustesActivity extends AppCompatActivity {
         if (extras != null) {
             usuario = extras.getString("usu");
             TextView textoUsuario = findViewById(R.id.textUsuarioLogout);
-            textoUsuario.setText("Usuario: " + usuario);
+            textoUsuario.setText(usuario);
         }
 
         Button logout = findViewById(R.id.botonLogout);
