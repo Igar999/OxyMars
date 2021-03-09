@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Locale;
 
 
 public class Utils {
@@ -31,15 +33,11 @@ public class Utils {
     public void showHideFragment(final Fragment fragment, AppCompatActivity contexto){
         FragmentTransaction ft = contexto.getFragmentManager().beginTransaction();
         //ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-
         if (fragment.isHidden()) {
             ft.show(fragment);
-            Log.d("hidden","Show");
         } else {
             ft.hide(fragment);
-            Log.d("Shown","Hide");
         }
-
         ft.commit();
     }
 
@@ -48,7 +46,6 @@ public class Utils {
         //ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         if (fragment.isHidden()) {
             ft.show(fragment);
-            Log.d("hidden","Show");
         }
         ft.commit();
     }
@@ -57,7 +54,6 @@ public class Utils {
         //ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         if (!fragment.isHidden()) {
             ft.hide(fragment);
-            Log.d("Shown","Hide");
         }
         ft.commit();
     }

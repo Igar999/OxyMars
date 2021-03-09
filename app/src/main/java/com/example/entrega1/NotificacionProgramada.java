@@ -24,9 +24,9 @@ public class NotificacionProgramada extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context, "aus")
                         .setSmallIcon(R.drawable.marte)
-                        .setContentTitle("Tu planeta te espera")
-                        .setContentText("Vuelve y haz de Marte un lugar mejor.")
-                        .setSubText("Notificación")
+                        .setContentTitle(context.getString(R.string.tu_planeta_espera))
+                        .setContentText(context.getString(R.string.vuelve))
+                        .setSubText(context.getString(R.string.notificacion))
                         .setAutoCancel(true)
                         .setContent(contentView)
                         .setContentIntent(intentApp)

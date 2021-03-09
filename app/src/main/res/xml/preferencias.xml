@@ -18,7 +18,7 @@
             android:title="Fondo" />
         <ListPreference
             app:iconSpaceReserved="false"
-            android:defaultValue="es"
+            android:defaultValue="en"
             android:entries="@array/idiomas"
             android:entryValues="@array/codsIdiomas"
             android:key="lista_idioma"

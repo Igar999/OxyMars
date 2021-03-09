@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OxyMars</string>
+    <string name="oxigeno">Oxygen</string>
+    <string name="oxi_toque">Oxy/tap</string>
+    <string name="oxi_segundo">Oxy/sec</string>
+    <string name="mejoras_oxi_toque">Oxy/tap\nupgrades</string>
+    <string name="mejoras_oxi_segundo">Oxy/sec\nupgrades</string>
+    <string name="mejoras_de_oxigeno_por_toque">Oxygen per tap upgrades</string>
+    <string name="mejoras_de_oxigeno_por_segundo">Oxygen per second upgrades</string>
+    <string name="precio">Price</string>
+    <string name="preferencias_juego">Game preferences</string>
+    <string name="notacion_smplificada">Simplified notation</string>
+    <string name="fondo">Background</string>
+    <string name="fondo1">Background 1</string>
+    <string name="fondo2">Background 2</string>
+    <string name="fondo3">Background 3</string>
+    <string name="fondo4">Background 4</string>
+    <string name="fondo5">Background 5</string>
+    <string name="idioma">Language</string>
+    <string name="castellano">Spanish</string>
+    <string name="ingles">English</string>
+    <string name="cancelar">Cancel</string>
+    <string name="usuario">User</string>
+    <string name="compartir">Share</string>
+    <string name="info">Info</string>
+    <string name="cerrar_sesion">Log out</string>
+    <string name="login">Log in</string>
+    <string name="nombre_usuario">Username</string>
+    <string name="contrasena">Password</string>
+    <string name="no_tienes_usuario">Need a user?</string>
+    <string name="registrar">Register</string>
+    <string name="repite_contrasena">Repeat the password</string>
+    <string name="volver_login">Return to log in</string>
+    <string name="no_existe_usuario">This username does not exist</string>
+    <string name="contrasena_incorrecta">Wrong password</string>
+    <string name="existe_usuario">This user already exists</string>
+    <string name="contrasena_no_admitida">Invalid password</string>
+    <string name="contrasenas_no_coinciden">Passwords are not the same</string>
+    <string name="rellena_campo">Fill this field</string>
+    <string name="twit1">¡Awesome! I obtained </string>
+    <string name="twit2"> oxygen for my planet in OxyMars.</string>
+    <string name="ranking">Ranking</string>
+    <string name="notificacion">Notification</string>
+    <string name="tu_planeta_espera">Your planet awaits</string>
+    <string name="vuelve">Come back and make Mars a better place</string>
+</resources>

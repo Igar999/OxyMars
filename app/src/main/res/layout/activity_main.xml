@@ -184,24 +184,28 @@
     <fragment
         android:id="@+id/mejorasSegundo"
         android:name="com.example.entrega1.MejorasSegundo"
-        android:layout_width="333dp"
-        android:layout_height="562dp"
+        android:layout_width="335dp"
+        android:layout_height="510dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/botonRanking"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
 
     <fragment
         android:id="@+id/mejorasToque"
         android:name="com.example.entrega1.MejorasToque"
-        android:layout_width="333dp"
-        android:layout_height="562dp"
+        android:layout_width="335dp"
+        android:layout_height="510dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/botonRanking"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
 
     <Button
         android:id="@+id/botonCambio"

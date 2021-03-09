@@ -57,7 +57,7 @@ public class MejorasToque extends Fragment {
         super.onActivityCreated(saveInstanceState);
         ListView lista=getView().findViewById(R.id.lista);
         TextView titulo = new TextView(getActivity());
-        titulo.setText("MEJORAS DE OXIGENO POR TOQUE");
+        titulo.setText(getString(R.string.mejoras_de_oxigeno_por_toque));
         titulo.setTypeface(Typeface.DEFAULT_BOLD);
         titulo.setTextColor(Color.WHITE);
         titulo.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);

@@ -44,7 +44,7 @@ public class AdaptadorMejorasToque extends ArrayAdapter {
         foto.setImageResource(imagenes[position]);
         nombre.setText(nombres[position]);
         cantidad.setText("+" + oxi.ponerCantidad(cantidades[position])+ "ox");
-        boton.setText("PRECIO:\n" + oxi.ponerCantidad(precios[position]) + " ox");
+        boton.setText(context.getString(R.string.precio) + ":\n" + oxi.ponerCantidad(precios[position]) + " ox");
         if (position <= oxi.getDesbloqueadoToque()){
             fila.setVisibility(View.VISIBLE);
         }

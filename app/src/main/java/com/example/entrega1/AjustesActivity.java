@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Locale;
 
 public class AjustesActivity extends AppCompatActivity {
 
@@ -58,7 +60,7 @@ public class AjustesActivity extends AppCompatActivity {
         twitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareTwitter("¡Genial! He conseguido " + oxi.ponerCantidad(oxi.getOxigeno()) + " de oxígeno para mi planeta en OxyMars.");
+                shareTwitter(getString(R.string.twit1) + oxi.ponerCantidad(oxi.getOxigeno()) + getString(R.string.twit2));
             }
         });
 
@@ -122,5 +124,4 @@ public class AjustesActivity extends AppCompatActivity {
             return "";
         }
     }
-
 }

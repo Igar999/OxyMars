@@ -78,14 +78,14 @@ public class LoginActivity extends AppCompatActivity {
                 Boolean estado = comprobarLogin(usuarioLogin.getText().toString(),contraLogin.getText().toString());
 
                 if (contraLogin.getText().toString().equals("")){
-                    contraLogin.setError("Rellena este campo");
+                    contraLogin.setError(getString(R.string.rellena_campo));
                 }
                 if (usuarioLogin.getText().toString().equals("")){
-                    usuarioLogin.setError("Rellena este campo");
+                    usuarioLogin.setError(getString(R.string.rellena_campo));
                 }else if (estado == null){
-                    contraLogin.setError("La contraseña es incorrecta");
+                    contraLogin.setError(getString(R.string.contrasena_incorrecta));
                 }else if (estado == false){
-                    usuarioLogin.setError("Ese usuario no existe");
+                    usuarioLogin.setError(getString(R.string.no_existe_usuario));
                 }else{
                     jugar(usuarioLogin.getText().toString());
                 }
@@ -101,21 +101,21 @@ public class LoginActivity extends AppCompatActivity {
                 EditText contraValidarRegistrar = login.getActivity().findViewById(R.id.textRegistrarValidContra);
 
                 if (usuarioRegistrar.getText().toString().equals("")){
-                    usuarioRegistrar.setError("Rellena este campo");
+                    usuarioRegistrar.setError(getString(R.string.rellena_campo));
                 }
                 if (contraRegistrar.getText().toString().equals("")){
-                    contraRegistrar.setError("Rellena este campo");
+                    contraRegistrar.setError(getString(R.string.rellena_campo));
                 }
                 if (contraValidarRegistrar.getText().toString().equals("")){
-                    contraValidarRegistrar.setError("Rellena este campo");
+                    contraValidarRegistrar.setError(getString(R.string.rellena_campo));
                 }else if (!contraRegistrar.getText().toString().equals(contraValidarRegistrar.getText().toString())){
-                    contraValidarRegistrar.setError("Las contraseñas no coinciden");
+                    contraValidarRegistrar.setError(getString(R.string.contrasenas_no_coinciden));
                 }else{
                     Boolean estado = registrarUsuario(usuarioRegistrar.getText().toString(),contraRegistrar.getText().toString());
                     if (estado == null){
-                        contraRegistrar.setError("Esa contraseña no se admite");
+                        contraRegistrar.setError(getString(R.string.contrasena_no_admitida));
                     }else if (estado == false){
-                        usuarioRegistrar.setError("Ese usuario ya existe");
+                        usuarioRegistrar.setError(getString(R.string.existe_usuario));
                     }else{
                         escribirAFichero();
                         jugar(usuarioRegistrar.getText().toString());
@@ -153,9 +153,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void cambiarBotonCambio(){
         if (getFragmentManager().findFragmentById(R.id.fragmentLogin).isHidden()) {
-            ((TextView)findViewById(R.id.cambioLoginRegistrar)).setText("¿No tienes usuario?");
+            ((TextView)findViewById(R.id.cambioLoginRegistrar)).setText(getString(R.string.no_tienes_usuario));
         } else {
-            ((TextView)findViewById(R.id.cambioLoginRegistrar)).setText("Volver al Login");
+            ((TextView)findViewById(R.id.cambioLoginRegistrar)).setText(getString(R.string.volver_login));
         }
     }
 

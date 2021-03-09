@@ -53,7 +53,7 @@ public class RankingActivity extends AppCompatActivity {
         ListView rank = (ListView) findViewById(R.id.ranking);
         ListView lista=findViewById(R.id.lista);
         TextView titulo = new TextView(this);
-        titulo.setText("RANKING");
+        titulo.setText(getString(R.string.ranking));
         titulo.setTypeface(Typeface.DEFAULT_BOLD);
         titulo.setTextColor(Color.WHITE);
         titulo.setTextSize(TypedValue.COMPLEX_UNIT_DIP,30);
