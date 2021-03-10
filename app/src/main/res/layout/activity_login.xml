@@ -4,7 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondologin"
     tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="274dp"
+        android:layout_height="46dp"
+        android:fontFamily="@font/monoton"
+        android:text="OXYMARS"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.103" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="274dp"
+        android:layout_height="49dp"
+        android:fontFamily="@font/monoton"
+        android:text="OXYMARS"
+        android:textAlignment="center"
+        android:textColor="#40FFFFFF"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="272dp"
+        android:layout_height="56dp"
+        android:fontFamily="@font/monoton"
+        android:text="OXYMARS"
+        android:textAlignment="center"
+        android:textColor="#1AFFFFFF"
+        android:textSize="44sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.071" />
 
     <fragment
         android:id="@+id/fragmentLogin"
@@ -23,13 +72,14 @@
     <fragment
         android:id="@+id/fragmentRegistrar"
         android:name="com.example.entrega1.RegistrarFragment"
-        android:layout_width="392dp"
-        android:layout_height="692dp"
+        android:layout_width="379dp"
+        android:layout_height="544dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
         tools:layout="@layout/fragment_registrar" />
 
     <TextView

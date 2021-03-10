@@ -2,8 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fondoAjustes"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/fondoajustes"
+    android:backgroundTintMode="add"
     android:orientation="vertical"
     android:textAlignment="center"
     tools:context=".AjustesActivity">
@@ -11,6 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTintMode="add"
         android:orientation="vertical">
 
         <fragment
@@ -91,7 +95,6 @@
                 android:textSize="8sp"
                 app:layout_constraintBottom_toTopOf="@+id/twitterImg"
                 app:layout_constraintEnd_toEndOf="@+id/twitterImg"
-                app:layout_constraintHorizontal_bias="0.531"
                 app:layout_constraintStart_toStartOf="@+id/twitterImg" />
 
             <TextView

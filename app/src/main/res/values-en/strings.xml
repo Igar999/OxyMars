@@ -31,15 +31,15 @@
     <string name="no_tienes_usuario">Need a user?</string>
     <string name="registrar">REGISTER</string>
     <string name="repite_contrasena">Repeat the password</string>
-    <string name="volver_login">Return to log in</string>
+    <string name="volver_login">Return to login</string>
     <string name="no_existe_usuario">This username does not exist</string>
     <string name="contrasena_incorrecta">Wrong password</string>
     <string name="existe_usuario">This user already exists</string>
     <string name="contrasena_no_admitida">Invalid password</string>
     <string name="contrasenas_no_coinciden">Passwords are not the same</string>
     <string name="rellena_campo">Fill this field</string>
-    <string name="twit1">¡Awesome! I obtained </string>
-    <string name="twit2"> oxygen for my planet in OxyMars.</string>
+    <string name="twit1">¡Awesome! I obtained\u0020</string>
+    <string name="twit2">\u0020oxygen for my planet in OxyMars.</string>
     <string name="ranking">Ranking</string>
     <string name="notificacion">Notification</string>
     <string name="tu_planeta_espera">Your planet awaits</string>
@@ -48,4 +48,11 @@
     <string name="salir">Do you want to exit?</string>
     <string name="si">Yes</string>
     <string name="no">No</string>
+    <string name="como_jugar">How to play</string>
+    <string name="parrafo_ayuda">OxyMars consists in getting oxygen to create life in Mars.\n\n
+                Each time the planet is tapped, oxygen will be generated, which can be viewed in the upper part of the screen.\n\n
+                There are two types of upgrades:\n
+                   - Oxygen per tap upgrades: They increase the amount of oxygen generated every tap.\n
+                   - Oxygen per second upgrades: They increase the amount of oxygen generated every second, even if the planet isn\'t tapped.\n\n
+                There is a ranking, where one can see the own score and the scores of the rest of the registered players.\n\n</string>
 </resources>

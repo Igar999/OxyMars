@@ -36,13 +36,16 @@ public class RankingActivity extends AppCompatActivity {
         Cursor cu = bd.rawQuery("SELECT Usuario,Oxigeno FROM Datos ORDER BY Oxigeno DESC", null);
         //String[] campos = new String[] {"Usuario", "Oxigeno"};
         //Cursor cu = bd.query("Datos",campos,null,null,null,null,"Oxigeno");
-        String[] listaUsu = new String[0];;
-        float[] listaCant = new float[0];;
+        String[] listaUsu = new String[0];
+        float[] listaCant = new float[0];
+        int[] listaPos = new int[0];
         if(cu.getCount() != 0){
             listaUsu = new String[cu.getCount()];
             listaCant = new float[cu.getCount()];
+            listaPos = new int[cu.getCount()];
             cu.moveToFirst();
             for(int i = 0; i < cu.getCount(); i++){
+                listaPos[i] = i+1;
                 listaUsu[i] = cu.getString(0);
                 listaCant[i] = cu.getFloat(1);
                 cu.moveToNext();
@@ -59,7 +62,7 @@ public class RankingActivity extends AppCompatActivity {
         titulo.setTextSize(TypedValue.COMPLEX_UNIT_DIP,30);
         titulo.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         rank.addHeaderView(titulo);
-        AdaptadorRanking adaptador= new AdaptadorRanking(this,listaUsu,listaCant);
+        AdaptadorRanking adaptador= new AdaptadorRanking(this,listaUsu,listaCant,listaPos,usuario);
         rank.setAdapter(adaptador);
     }
 

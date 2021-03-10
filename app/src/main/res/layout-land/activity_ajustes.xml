@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fondoAjustes"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/fondoajustesland"
     android:textAlignment="center"
     tools:context=".AjustesActivity">
 

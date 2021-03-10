@@ -38,8 +38,8 @@
     <string name="contrasena_no_admitida">Esa contraseña no se admite</string>
     <string name="contrasenas_no_coinciden">Las contraseñas no coinciden</string>
     <string name="rellena_campo">Rellena este campo</string>
-    <string name="twit1">¡Genial! He conseguido </string>
-    <string name="twit2"> de oxígeno para mi planeta en OxyMars.</string>
+    <string name="twit1">¡Genial! He conseguido\u0020</string>
+    <string name="twit2">\u0020de oxígeno para mi planeta en OxyMars.</string>
     <string name="ranking">Ranking</string>
     <string name="notificacion">Notificación</string>
     <string name="tu_planeta_espera">Tu planeta te espera</string>
@@ -48,4 +48,11 @@
     <string name="salir">¿Quieres salir?</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
+    <string name="como_jugar">Cómo jugar</string>
+    <string name="parrafo_ayuda">OxyMars consiste en conseguir oxígeno para crear vida en Marte.\n\n
+                Cada vez que se toca el planeta, se genera oxígeno, que se puede ver en la parte superior de la pantalla.\n\n
+                Existen dos tipos de mejoras:\n
+                   - Mejoras de oxígeno por toque: Hacen que al tocar el planeta se genere mayor cantidad de oxígeno.\n
+                   - Mejoras de oxígeno por segundo: Hacen que cada segundo se obtenga mayor cantidad de oxígeno aunque no se toque el planeta.\n\n
+                Existe un ranking, en el que se pueden ver la puntuación propia y la del resto de usuarios registrados.\n\n</string>
 </resources>

@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#CD000000"
+    android:backgroundTint="#CB000000"
+    android:backgroundTintMode="add">
     <PreferenceCategory
+        android:background="#CD000000"
+        android:backgroundTint="#CD000000"
+        android:backgroundTintMode="add"
+        app:iconSpaceReserved="false"
         app:key="cat_preferencias_juego"
-        app:title="@string/preferencias_juego"
-        app:iconSpaceReserved="false">
+        app:title="@string/preferencias_juego">
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="notacion"
             app:title="@string/notacion_smplificada" />
         <ListPreference
-            app:iconSpaceReserved="false"
             android:defaultValue="1"
             android:entries="@array/fondos"
             android:entryValues="@array/codsFondos"
             android:key="lista_fondo"
-            android:title="@string/fondo" />
+            android:title="@string/fondo"
+            app:iconSpaceReserved="false" />
         <ListPreference
-            app:iconSpaceReserved="false"
             android:defaultValue="en"
             android:entries="@array/idiomas"
             android:entryValues="@array/codsIdiomas"
             android:key="lista_idioma"
-            android:title="@string/idioma" />
+            android:title="@string/idioma"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 </PreferenceScreen>
