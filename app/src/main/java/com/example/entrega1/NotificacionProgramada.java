@@ -5,14 +5,28 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
+import androidx.preference.PreferenceManager;
+
+import java.util.Locale;
 
 public class NotificacionProgramada extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
+        Locale.setDefault(nuevaloc);
+        Configuration configuration = context.getResources().getConfiguration();
+        configuration.setLocale(nuevaloc);
+        configuration.setLayoutDirection(nuevaloc);
+        Context contexto = context.createConfigurationContext(configuration);
+        context.getResources().updateConfiguration(configuration, contexto.getResources().getDisplayMetrics());
+
         Intent i = new Intent(context,LoginActivity.class);
         PendingIntent intentApp = PendingIntent.getActivity(context, 13, i, 0);
 

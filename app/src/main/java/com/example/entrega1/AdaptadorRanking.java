@@ -37,7 +37,7 @@ public class AdaptadorRanking extends ArrayAdapter {
         TextView usuario = (TextView) fila.findViewById(R.id.usuarioRank);
         TextView cantidad = (TextView) fila.findViewById(R.id.cantidadRank);
 
-        puesto.setText((position+1) + "º");
+        puesto.setText(String.valueOf(position+1));
         usuario.setText(usuarios[position]);
         cantidad.setText(oxi.ponerCantidad(cantidades[position])+ " ox");
 

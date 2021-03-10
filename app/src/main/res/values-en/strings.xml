@@ -10,7 +10,7 @@
     <string name="mejoras_de_oxigeno_por_segundo">Oxygen per second upgrades</string>
     <string name="precio">Price</string>
     <string name="preferencias_juego">Game preferences</string>
-    <string name="notacion_smplificada">Simplified notation</string>
+    <string name="notacion_smplificada">Simplified notation (K,M,...)</string>
     <string name="fondo">Background</string>
     <string name="fondo1">Background 1</string>
     <string name="fondo2">Background 2</string>
@@ -44,4 +44,8 @@
     <string name="notificacion">Notification</string>
     <string name="tu_planeta_espera">Your planet awaits</string>
     <string name="vuelve">Come back and make Mars a better place</string>
+    <string name="hasta_otra">See you soon</string>
+    <string name="salir">Do you want to exit?</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
 </resources>

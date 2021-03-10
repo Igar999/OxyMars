@@ -84,24 +84,26 @@
 
             <TextView
                 android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_width="93dp"
+                android:layout_height="9dp"
                 android:text="@string/compartir"
+                android:textAlignment="center"
                 android:textSize="8sp"
                 app:layout_constraintBottom_toTopOf="@+id/twitterImg"
-                app:layout_constraintEnd_toEndOf="@+id/twitterImg" />
+                app:layout_constraintEnd_toEndOf="@+id/twitterImg"
+                app:layout_constraintHorizontal_bias="0.531"
+                app:layout_constraintStart_toStartOf="@+id/twitterImg" />
 
             <TextView
                 android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="2dp"
+                android:layout_width="91dp"
+                android:layout_height="10dp"
                 android:text="@string/info"
+                android:textAlignment="center"
                 android:textSize="8sp"
                 app:layout_constraintBottom_toTopOf="@+id/infoImg"
-                app:layout_constraintEnd_toEndOf="@+id/infoImg" />
+                app:layout_constraintEnd_toEndOf="@+id/infoImg"
+                app:layout_constraintStart_toStartOf="@+id/infoImg" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

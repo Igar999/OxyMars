@@ -9,7 +9,7 @@
     <string name="mejoras_de_oxigeno_por_segundo">Mejoras de oxígeno por segundo</string>
     <string name="precio">Precio</string>
     <string name="preferencias_juego">Preferencias del juego</string>
-    <string name="notacion_smplificada">Notación simplificada</string>
+    <string name="notacion_smplificada">Notación simplificada (K,M,...)</string>
     <string name="fondo">Fondo</string>
     <string name="fondo1">Fondo 1</string>
     <string name="fondo2">Fondo 2</string>
@@ -43,4 +43,8 @@
     <string name="notificacion">Notificación</string>
     <string name="tu_planeta_espera">Tu planeta te espera</string>
     <string name="vuelve">Vuelve y haz de Marte un lugar mejor</string>
+    <string name="hasta_otra">Hasta otra</string>
+    <string name="salir">¿Quieres salir?</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
 </resources>

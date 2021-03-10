@@ -31,11 +31,11 @@
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center_vertical"
         android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/cantidadRank"
-        android:layout_width="124dp"
+        android:layout_width="111dp"
         android:layout_height="55dp"
         android:layout_row="0"
         android:layout_column="2"
@@ -48,6 +48,6 @@
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center_vertical"
         android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
 </GridLayout>

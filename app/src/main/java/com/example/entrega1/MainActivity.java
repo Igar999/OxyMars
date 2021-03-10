@@ -73,24 +73,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
+        Locale.setDefault(nuevaloc);
+        Configuration configuration = getResources().getConfiguration();
+        configuration.setLocale(nuevaloc);
+        configuration.setLayoutDirection(nuevaloc);
+        Context context = createConfigurationContext(configuration);
+        getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if(!prefs.getString("lista_idioma", "es").equals(Locale.getDefault().getLanguage())){
-            Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
-            //Locale nuevaloc = new Locale("es");
-            Locale.setDefault(nuevaloc);
-            Configuration configuration = getResources().getConfiguration();
-            configuration.setLocale(nuevaloc);
-            configuration.setLayoutDirection(nuevaloc);
-
-            Context context = createConfigurationContext(configuration);
-            getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
-            finish();
-            startActivity(getIntent());
-        }
-
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -264,11 +257,11 @@ public class MainActivity extends AppCompatActivity {
 
         handler.postDelayed(listaRun[0], 1000);
         handler.postDelayed(listaRun[2], 100);
-        handler.postDelayed(listaRun[1], 250);
+        handler.postDelayed(listaRun[1], 500);
     }
 
     private void setFondo() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String num = prefs.getString("lista_fondo", "1");
         String ori = "land";
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){

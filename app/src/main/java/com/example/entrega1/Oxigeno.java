@@ -107,7 +107,7 @@ public class Oxigeno {
 
     public String ponerCantidad(float cant){
         String texto = String.valueOf(cant);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         if (prefs.getBoolean("notacion", true)){
             String cantFinal;
             if (cant >= 1000000000000.0){

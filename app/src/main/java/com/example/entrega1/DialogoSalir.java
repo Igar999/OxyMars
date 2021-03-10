@@ -16,9 +16,9 @@ public class DialogoSalir extends DialogFragment {
         super.onCreateDialog(savedInstanceState);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("¿Salir?");
-        builder.setMessage("¿Deseas salir?");
-        builder.setNegativeButton("Sí", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.hasta_otra));
+        builder.setMessage(getString(R.string.salir));
+        builder.setNegativeButton(getString(R.string.si), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
@@ -28,7 +28,7 @@ public class DialogoSalir extends DialogFragment {
                 }
             }
         });
-        builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
