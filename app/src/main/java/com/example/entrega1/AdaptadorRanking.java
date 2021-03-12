@@ -36,8 +36,9 @@ public class AdaptadorRanking extends ArrayAdapter {
         int posicion = posiciones[position];
         View fila=view;
         LayoutInflater inflater = context.getLayoutInflater();
-        if(view==null)
-            fila = inflater.inflate(R.layout.fila_ranking, null, true);
+        /*if(view==null)
+            fila = inflater.inflate(R.layout.fila_ranking, null, true);*/
+        fila = inflater.inflate(R.layout.fila_ranking, null, true);
         TextView puesto = (TextView) fila.findViewById(R.id.puestoRank);
         TextView usuario = (TextView) fila.findViewById(R.id.usuarioRank);
         TextView cantidad = (TextView) fila.findViewById(R.id.cantidadRank);

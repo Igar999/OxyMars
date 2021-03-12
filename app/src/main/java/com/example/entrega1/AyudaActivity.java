@@ -27,4 +27,16 @@ public class AyudaActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Utils.getUtils().musicaPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.getUtils().musicaPlay();
+    }
 }

@@ -48,6 +48,8 @@
     <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="como_jugar">Cómo jugar</string>
+    <string name="musica">Música de fondo</string>
+    <string name="sonido">Sonido</string>
     <string name="parrafo_ayuda">OxyMars consiste en conseguir oxígeno para crear vida en Marte.\n\n
                 Cada vez que se toca el planeta, se genera oxígeno, que se puede ver en la parte superior de la pantalla.\n\n
                 Existen dos tipos de mejoras:\n

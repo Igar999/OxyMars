@@ -15,6 +15,14 @@
             app:iconSpaceReserved="false"
             app:key="notacion"
             app:title="@string/notacion_smplificada" />
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="musica"
+            app:title="@string/musica" />
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="sonido"
+            app:title="@string/sonido" />
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/fondos"

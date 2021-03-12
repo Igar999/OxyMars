@@ -18,10 +18,12 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -69,10 +71,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         guardarDatos(usuario);
+        utils.musicaPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("musica", true)){
+            utils.musicaPlay();
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
         Locale.setDefault(nuevaloc);
@@ -89,6 +101,13 @@ public class MainActivity extends AppCompatActivity {
         if (extras != null) {
             usuario = extras.getString("usu");
             cargarDatos(usuario);
+        }
+
+        utils.setContext(context);
+        if(Utils.getUtils().musicaLista()){
+            Utils.getUtils().musicaPlay();
+        }else{
+            Utils.getUtils().empezarMusica(this);
         }
 
         setFondo();
@@ -122,8 +141,6 @@ public class MainActivity extends AppCompatActivity {
         };
         listaRun[0] = aumentarOxi;
 
-
-
         Runnable general = new Runnable() {
             public void run() {
                 guardarDatos(usuario);
@@ -141,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
         };
         listaRun[1] = general;
 
-
         Runnable actualizarTextos = new Runnable() {
             public void run() {
                 textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
@@ -152,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
         };
         listaRun[2] = actualizarTextos;
 
+
+
         planeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 animation.start();*/
                 oxi.aumentarOxigenoToque();
                 textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
+                utils.reproducirSonido(MainActivity.this, R.raw.planeta);
                 ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 1.025f, 1.0f,
                         1.025f, Animation.RELATIVE_TO_SELF, 0.5f,
                         Animation.RELATIVE_TO_SELF, 0.5f);
@@ -237,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
         botonAjustes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                utils.reproducirSonido(MainActivity.this, R.raw.ajustes);
                 Intent i = new Intent(MainActivity.this, AjustesActivity.class);
                 i.putExtra("usu", usuario);
                 startActivity(i);

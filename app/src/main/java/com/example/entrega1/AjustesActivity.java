@@ -85,6 +85,18 @@ public class AjustesActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Utils.getUtils().musicaPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.getUtils().musicaPlay();
+    }
+
     //https://stackoverflow.com/questions/14317512/how-can-i-post-on-twitter-with-intent-action-send
     private void shareTwitter(String message) {
         Intent tweetIntent = new Intent(Intent.ACTION_SEND);

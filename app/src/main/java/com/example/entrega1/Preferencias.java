@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,13 +19,6 @@ public class Preferencias extends PreferenceFragmentCompat implements SharedPref
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferencias);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
-            }
-        });
     }
 
     @Override
@@ -48,7 +42,6 @@ public class Preferencias extends PreferenceFragmentCompat implements SharedPref
         Log.i("algo", "aqui");
         if (key.equals("lista_idioma")){
             Locale nuevaloc = new Locale(sharedPreferences.getString("lista_idioma", "es"));
-            //Locale nuevaloc = new Locale("en");
             Locale.setDefault(nuevaloc);
             Configuration configuration = getActivity().getBaseContext().getResources().getConfiguration();
             configuration.setLocale(nuevaloc);
@@ -59,7 +52,13 @@ public class Preferencias extends PreferenceFragmentCompat implements SharedPref
 
             getActivity().finish();
             startActivity(getActivity().getIntent());
-            //startActivity(new Intent(getContext(),Preferencias.class));
+        } else if (key.equals("musica")){
+            if(sharedPreferences.getBoolean("musica",true)){
+                Utils.getUtils().musicaPlay();
+            }
+            else{
+                Utils.getUtils().musicaPause();
+            }
         }
     }
 }

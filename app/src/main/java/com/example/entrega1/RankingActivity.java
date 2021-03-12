@@ -26,6 +26,8 @@ public class RankingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
+        Utils.getUtils().musicaPlay();
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             usuario = extras.getString("usu");
@@ -74,4 +76,9 @@ public class RankingActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Utils.getUtils().musicaPause();
+    }
 }

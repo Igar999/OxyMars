@@ -49,6 +49,8 @@
     <string name="si">Yes</string>
     <string name="no">No</string>
     <string name="como_jugar">How to play</string>
+    <string name="musica">Background music</string>
+    <string name="sonido">Sound</string>
     <string name="parrafo_ayuda">OxyMars consists in getting oxygen to create life in Mars.\n\n
                 Each time the planet is tapped, oxygen will be generated, which can be viewed in the upper part of the screen.\n\n
                 There are two types of upgrades:\n
