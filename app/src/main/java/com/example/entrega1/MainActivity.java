@@ -1,31 +1,23 @@
 package com.example.entrega1;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.preference.PreferenceManager;
 
 import android.animation.ObjectAnimator;
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.provider.MediaStore;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -34,10 +26,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -296,18 +284,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-        if (!getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) {
+        if((getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden() && getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) || this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            /*DialogFragment dialogocerrar= new DialogoSalir();
+            dialogocerrar.show(getSupportFragmentManager(),"cerrar");*/
+            Dialog dialogocerrar= new DialogoSalir(this);
+            dialogocerrar.show();
+        } else if (!getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) {
             ft.hide(getFragmentManager().findFragmentById(R.id.mejorasToque));
             ft.commit();
-        }
-        if (!getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden()) {
+        } else if (!getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden()) {
             ft.hide(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
             ft.commit();
         }
-        if(getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden() && getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()){
-            DialogFragment dialogocerrar= new DialogoSalir();
-            dialogocerrar.show(getSupportFragmentManager(), "etiqueta");
-        }
+
 
         /*Locale nuevaloc = new Locale("en");
         Locale.setDefault(nuevaloc);

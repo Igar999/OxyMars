@@ -1,44 +1,45 @@
 package com.example.entrega1;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 
-public class DialogoSalir extends DialogFragment {
-    @NonNull
+import java.util.MissingFormatArgumentException;
+
+public class DialogoSalir extends Dialog {
+
+    private Activity padre;
+    public DialogoSalir(@NonNull Context context) {
+        super(context);
+        this.padre = (Activity)context;
+    }
+
+
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        super.onCreateDialog(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialogo_salir);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getString(R.string.hasta_otra));
-        builder.setMessage(getString(R.string.salir));
-        builder.setNegativeButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+        Button botonSi = findViewById(R.id.botonSi);
+        Button botonNo = findViewById(R.id.botonNo);
+        botonSi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    getActivity().finish();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        });
-        builder.setPositiveButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    this.finalize();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
+            public void onClick(View v) {
+                padre.finish();
             }
         });
 
-        return builder.create();
+        botonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 }

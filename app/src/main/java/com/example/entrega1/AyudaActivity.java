@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 public class AyudaActivity extends AppCompatActivity {
@@ -18,6 +19,8 @@ public class AyudaActivity extends AppCompatActivity {
         if (extras != null) {
             usuario = extras.getString("usu");
         }
+        TextView texto = findViewById(R.id.textoAyuda);
+        texto.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override

@@ -50,7 +50,11 @@
     <string name="como_jugar">Cómo jugar</string>
     <string name="musica">Música de fondo</string>
     <string name="sonido">Sonido</string>
-    <string name="parrafo_ayuda">OxyMars consiste en conseguir oxígeno para crear vida en Marte.\n\n
+    <string name="salir_si">Sí,\n volver a la Tierra</string>
+    <string name="salir_no">No,\n seguir en Marte</string>
+    <string name="audio">Preferencias de audio</string>
+    <string name="parrafo_ayuda">Hola compañero astronauta, te he dejado esta nota por si en algún momento se te olvida tu misión.\n\n
+                Tu misión consiste en conseguir oxígeno para crear vida en Marte.\n\n
                 Cada vez que se toca el planeta, se genera oxígeno, que se puede ver en la parte superior de la pantalla.\n\n
                 Existen dos tipos de mejoras:\n
                    - Mejoras de oxígeno por toque: Hacen que al tocar el planeta se genere mayor cantidad de oxígeno.\n

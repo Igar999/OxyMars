@@ -9,4 +9,22 @@
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 
+    <style name="CustomTheme.Dialog" parent="android:Theme.Holo.Light.Dialog">
+        <item name="android:buttonBarPositiveButtonStyle">@style/CustomTheme.Dialog.Button.Yes</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/CustomTheme.Dialog.Button.No</item>
+        <!-- See caveat -->
+        <item name="android:windowBackground">@drawable/fondoestrellas</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+    </style>
+
+    <style name="CustomTheme.Dialog.Button.Yes" parent="@android:style/Widget.Holo.Light.Button.Borderless.Small">
+        <item name="android:background">@drawable/layout_salir_si</item>
+    </style>
+
+    <style name="CustomTheme.Dialog.Button.No" parent="@android:style/Widget.Holo.Light.Button.Borderless.Small">
+        <item name="android:background">@drawable/layout_salir_no</item>
+    </style>
+
 </resources>

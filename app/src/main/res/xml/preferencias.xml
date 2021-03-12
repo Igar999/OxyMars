@@ -15,14 +15,6 @@
             app:iconSpaceReserved="false"
             app:key="notacion"
             app:title="@string/notacion_smplificada" />
-        <SwitchPreferenceCompat
-            app:iconSpaceReserved="false"
-            app:key="musica"
-            app:title="@string/musica" />
-        <SwitchPreferenceCompat
-            app:iconSpaceReserved="false"
-            app:key="sonido"
-            app:title="@string/sonido" />
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/fondos"
@@ -37,5 +29,22 @@
             android:key="lista_idioma"
             android:title="@string/idioma"
             app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:background="#CD000000"
+        android:backgroundTint="#CD000000"
+        android:backgroundTintMode="add"
+        app:iconSpaceReserved="false"
+        app:key="cat_preferencias_juego"
+        app:title="@string/audio">
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="musica"
+            app:title="@string/musica" />
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="sonido"
+            app:title="@string/sonido" />
     </PreferenceCategory>
 </PreferenceScreen>

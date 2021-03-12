@@ -51,7 +51,11 @@
     <string name="como_jugar">How to play</string>
     <string name="musica">Background music</string>
     <string name="sonido">Sound</string>
-    <string name="parrafo_ayuda">OxyMars consists in getting oxygen to create life in Mars.\n\n
+    <string name="salir_si">Yes,\n return to Earth</string>
+    <string name="salir_no">No,\n stay in Mars</string>
+    <string name="audio">Audio preferences</string>
+    <string name="parrafo_ayuda">Hello astronaut partner, i left you this note in case you ever forget your mission.\n\n
+                OxyMars consists in getting oxygen to create life in Mars.\n\n
                 Each time the planet is tapped, oxygen will be generated, which can be viewed in the upper part of the screen.\n\n
                 There are two types of upgrades:\n
                    - Oxygen per tap upgrades: They increase the amount of oxygen generated every tap.\n

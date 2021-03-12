@@ -7,6 +7,18 @@
     android:background="@drawable/fondologinland"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="112dp"
+        android:layout_height="119dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.633"
+        app:srcCompat="@drawable/luna" />
+
     <TextView
         android:id="@+id/cambioLoginRegistrar"
         android:layout_width="174dp"
@@ -92,4 +104,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.008" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
