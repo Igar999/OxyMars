@@ -1,7 +1,10 @@
 package com.example.entrega1;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,8 +52,8 @@ public class Oxigeno {
         oxigeno = 0;
         oxiToque = 1;
         oxiSegundo = 0;
-        desbloqueadoToque = 0;
-        desbloqueadoSegundo = 0;
+        desbloqueadoToque = -1;
+        desbloqueadoSegundo = -1;
     }
 
     public void aumentarOxigenoSegundo(){
@@ -105,10 +108,10 @@ public class Oxigeno {
         desbloqueadoToque = Integer.max(desbloqueadoToque,pos);
     }
 
-    public String ponerCantidad(float cant){
+    public String ponerCantidad(float cant, Boolean forzar){
         String texto = String.valueOf(cant);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        if (prefs.getBoolean("notacion", true)){
+        if (prefs.getBoolean("notacion", true) || forzar){
             String cantFinal;
             if (cant >= 1000000000000.0){
                 cantFinal = String.format("%.2f",(float)(cant/1000000000000.0));
@@ -130,6 +133,40 @@ public class Oxigeno {
             texto = texto.substring(0,texto.length()-2);
         }
         return texto;
+    }
+
+    public void actualizarInterfaz(Activity activity) {
+        //DESBLOQUEADO VA DE 0 a 12
+        // -1 = nada
+        // 0 =
+        int des = desbloqueadoToque;
+
+        ImageView asteroide = activity.findViewById(R.id.imgAsteroide);
+        ImageView cohete = activity.findViewById(R.id.imgCohete);
+        ImageView tierra = activity.findViewById(R.id.imgTierra);
+        ImageView jupiter = activity.findViewById(R.id.imgJupiter);
+        ImageView meteorito = activity.findViewById(R.id.imgMeteorito);
+        ImageView satelite = activity.findViewById(R.id.imgSatelite);
+        ImageView saturno = activity.findViewById(R.id.imgSaturno);
+        ImageView iss = activity.findViewById(R.id.imgISS);
+        ImageView constelaciones = activity.findViewById(R.id.imgConstelaciones);
+        ImageView galaxia = activity.findViewById(R.id.imgGalaxia);
+        ImageView sol = activity.findViewById(R.id.imgSol);
+        ImageView ovni = activity.findViewById(R.id.imgOvni);
+        ImageView agujeroNegro = activity.findViewById(R.id.imgAgujeroNegro);
+
+        ImageView[] lista = new ImageView[]{asteroide,cohete,tierra,jupiter,meteorito,satelite,saturno,iss,constelaciones,galaxia,sol,ovni,agujeroNegro};
+
+        for(ImageView item:lista){
+            item.setVisibility(View.INVISIBLE);
+        }
+        for(int i=0;i<lista.length;i++){
+            if(des-1 >= i){
+                lista[i].setVisibility(View.VISIBLE);
+            }
+        }
+
+
     }
 
 }

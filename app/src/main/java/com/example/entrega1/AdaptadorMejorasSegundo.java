@@ -19,6 +19,7 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
     private float[] precios;
     private Activity context;
     private Oxigeno oxi = Oxigeno.getOxi();
+    private Utils utils = Utils.getUtils();
 
     public AdaptadorMejorasSegundo(Activity context, Integer[] imagenes, String[] nombres, float[] cantidades, float[] precios) {
         super(context, R.layout.fila_mejora, nombres);
@@ -41,8 +42,8 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
 
         foto.setImageResource(imagenes[position]);
         nombre.setText(nombres[position]);
-        cantidad.setText("+" + oxi.ponerCantidad(cantidades[position])+ "ox");
-        boton.setText(context.getString(R.string.precio) + ":\n" + oxi.ponerCantidad(precios[position]) + " ox");
+        cantidad.setText("+" + oxi.ponerCantidad(cantidades[position], true)+ "ox");
+        boton.setText(context.getString(R.string.precio) + ":\n" + oxi.ponerCantidad(precios[position], true) + " ox");
         if (position <= oxi.getDesbloqueadoSegundo()){
             fila.setVisibility(View.VISIBLE);
         }
@@ -58,8 +59,17 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
                     oxi.sumarOxiSegundo(cantidades[position]);
                     if(parent.indexOfChild(filaFin) != parent.getChildCount()-1){
                         parent.getChildAt(parent.indexOfChild(filaFin)+1).setVisibility(View.VISIBLE);
-                        oxi.desbloquearSegundo(position+1);
                     }
+
+                    if(position == oxi.getDesbloqueadoSegundo()){
+                        utils.reproducirSonido(getContext(), R.raw.primerdesbloqueo);
+                    }
+                    else{
+                        utils.reproducirSonido((Activity)getContext(), R.raw.comprar);
+                    }
+
+                    oxi.desbloquearSegundo(position+1);
+                    oxi.actualizarInterfaz((Activity)getContext());
                 }
             }
         });

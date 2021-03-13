@@ -53,6 +53,33 @@
     <string name="salir_si">Sí,\n volver a la Tierra</string>
     <string name="salir_no">No,\n seguir en Marte</string>
     <string name="audio">Preferencias de audio</string>
+    <string name="mar">Mar</string>
+    <string name="rios">Rios</string>
+    <string name="hierba">Hierba</string>
+    <string name="arena">Arena</string>
+    <string name="hielo">Hielo</string>
+    <string name="arboles">Árboles</string>
+    <string name="montanas">Monatañas</string>
+    <string name="flores">Flores</string>
+    <string name="nieve">Nieve</string>
+    <string name="humanos">Humanos</string>
+    <string name="pueblos">Pueblos</string>
+    <string name="minas">Minas</string>
+    <string name="ciudades">Ciudades</string>
+    <string name="asteroide">Asteroide</string>
+    <string name="cohete">Cohete</string>
+    <string name="tierra">Tierra</string>
+    <string name="jupiter">Júpiter</string>
+    <string name="meteorito">Meteorito</string>
+    <string name="satelite">Satélite</string>
+    <string name="saturno">Saturno</string>
+    <string name="iss">ISS</string>
+    <string name="constelaciones">Constelaciones</string>
+    <string name="galaxia">Galaxia</string>
+    <string name="sol">Sol</string>
+    <string name="ovni">OVNI</string>
+    <string name="agujeronegro">Agujero negro</string>
+    <string name="borrarUsuario">¿Quieres borrar este usuario?</string>
     <string name="parrafo_ayuda">Hola compañero astronauta, te he dejado esta nota por si en algún momento se te olvida tu misión.\n\n
                 Tu misión consiste en conseguir oxígeno para crear vida en Marte.\n\n
                 Cada vez que se toca el planeta, se genera oxígeno, que se puede ver en la parte superior de la pantalla.\n\n

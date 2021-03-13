@@ -46,6 +46,13 @@ public class LoginActivity extends AppCompatActivity {
         Fragment login =  getFragmentManager().findFragmentById(R.id.fragmentLogin);
         Fragment registrar = getFragmentManager().findFragmentById(R.id.fragmentRegistrar);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(extras.getString("borrar") != null){
+                mapa.remove(extras.getString("borrar"));
+                escribirAFichero();
+            }
+        }
 
         if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             utils.hideFragment(registrar,this);

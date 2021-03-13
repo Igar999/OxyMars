@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             usuario = extras.getString("usu");
+            Utils.getUtils().setUsuario(usuario);
             cargarDatos(usuario);
         }
 
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setFondo();
+        oxi.actualizarInterfaz(this);
 
         AlarmManager alarmMgr;
         PendingIntent alarmIntent;
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         Runnable aumentarOxi = new Runnable() {
             public void run() {
                 oxi.aumentarOxigenoSegundo();
-                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno(), false));
                 handler.postDelayed(this, 1000);
             }
         };
@@ -148,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
 
         Runnable actualizarTextos = new Runnable() {
             public void run() {
-                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
-                textOxiToque.setText(oxi.ponerCantidad(oxi.getOxiToque()));
-                textOxiSegundo.setText(oxi.ponerCantidad(oxi.getOxiSegundo()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno(), false));
+                textOxiToque.setText(oxi.ponerCantidad(oxi.getOxiToque(), false));
+                textOxiSegundo.setText(oxi.ponerCantidad(oxi.getOxiSegundo(), false));
                 handler.postDelayed(this, 100);
             }
         };
@@ -165,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 animation.setDuration(2000);
                 animation.start();*/
                 oxi.aumentarOxigenoToque();
-                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno()));
+                textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno(), false));
                 utils.reproducirSonido(MainActivity.this, R.raw.planeta);
                 ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 1.025f, 1.0f,
                         1.025f, Animation.RELATIVE_TO_SELF, 0.5f,

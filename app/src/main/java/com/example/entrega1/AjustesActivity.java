@@ -2,6 +2,7 @@ package com.example.entrega1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -56,12 +57,20 @@ public class AjustesActivity extends AppCompatActivity {
                 finish();
             }
         });
+        logout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Dialog dialogoborrar= new DialogoBorrarUsuario(AjustesActivity.this);
+                dialogoborrar.show();
+                return false;
+            }
+        });
 
         ImageView twitter = findViewById(R.id.twitterImg);
         twitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareTwitter(getString(R.string.twit1) + oxi.ponerCantidad(oxi.getOxigeno()) + getString(R.string.twit2));
+                shareTwitter(getString(R.string.twit1) + oxi.ponerCantidad(oxi.getOxigeno(), true) + getString(R.string.twit2));
             }
         });
 

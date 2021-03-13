@@ -45,7 +45,7 @@ public class AdaptadorRanking extends ArrayAdapter {
 
         puesto.setText(String.valueOf(posicion));
         usuario.setText(usuarios[posicion-1]);
-        cantidad.setText(oxi.ponerCantidad(cantidades[posicion-1])+ " ox");
+        cantidad.setText(oxi.ponerCantidad(cantidades[posicion-1], true)+ " ox");
         fila.setEnabled(false);
         if (String.valueOf(posicion).equals("1")){
             puesto.setTextColor(Color.parseColor("#edd013"));

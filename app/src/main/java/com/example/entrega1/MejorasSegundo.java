@@ -13,26 +13,6 @@ import android.widget.TextView;
 
 public class MejorasSegundo extends Fragment {
 
-    private Integer imagenes[] = {
-            R.drawable.mar,
-            R.drawable.rio,
-            R.drawable.hierba,
-            R.drawable.arena,
-            R.drawable.hielo,
-            R.drawable.arboles,
-            R.drawable.montanas,
-            R.drawable.flores,
-            R.drawable.nieve,
-            R.drawable.humanos,
-            R.drawable.pueblos,
-            R.drawable.minas,
-            R.drawable.ciudades
-    };
-
-    private String nombres[] =   {"Mar", "Rios", "Hierba", "Arena", "Hielo", "Árboles", "Montañas", "Flores", "Nieve", "Humanos", "Pueblos", "Minas", "Ciuddaes"};
-    private float cantidades[] = { 1,     3,      7,        15,      31,      63,        127,        255,      511,     1023,      2047,      4095,    8191};
-    private float precios[] =    { 25,    100,    300,      1000,    2000,    5000,      10000,      25000,    75000,   200000,    600000,    1500000, 5000000};
-
     public MejorasSegundo() {
         // Required empty public constructor
     }
@@ -43,8 +23,7 @@ public class MejorasSegundo extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         return inflater.inflate(R.layout.fragment_mejoras, container, false);
     }
@@ -52,6 +31,28 @@ public class MejorasSegundo extends Fragment {
     @Override
     public void onActivityCreated(Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
+
+        Integer[] imagenes = {
+                R.drawable.mar,
+                R.drawable.rio,
+                R.drawable.hierba,
+                R.drawable.arena,
+                R.drawable.hielo,
+                R.drawable.arboles,
+                R.drawable.montanas,
+                R.drawable.flores,
+                R.drawable.nieve,
+                R.drawable.humanos,
+                R.drawable.pueblos,
+                R.drawable.minas,
+                R.drawable.ciudades
+        };
+
+        String[] nombres =   {getString(R.string.mar), getString(R.string.rios), getString(R.string.hierba), getString(R.string.arena), getString(R.string.hielo), getString(R.string.arboles), getString(R.string.montanas), getString(R.string.flores), getString(R.string.nieve), getString(R.string.humanos), getString(R.string.pueblos), getString(R.string.minas), getString(R.string.ciudades)};
+        float[] cantidades = { 1,     5,      10,       30,      50,      75,        150,        250,      600,     1500,      3000,      7500,    20000};
+        //float[] precios =    { 30,    150,    450,      1500,    2000,    6000,      10000,      22500,    80000,   300000,    800000,    2500000, 10000000};
+        float[] precios =    { 0,    0,    0,      0,    0,    0,      0,      0,    0,   0,    0,    0, 0};
+
         ListView lista=getView().findViewById(R.id.lista);
         TextView titulo = new TextView(getActivity());
         titulo.setText(getString(R.string.mejoras_de_oxigeno_por_segundo));

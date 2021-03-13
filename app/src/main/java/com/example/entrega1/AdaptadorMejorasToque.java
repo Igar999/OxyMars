@@ -20,6 +20,7 @@ public class AdaptadorMejorasToque extends ArrayAdapter {
     private float[] precios;
     private Activity context;
     private Oxigeno oxi = Oxigeno.getOxi();
+    private Utils utils = Utils.getUtils();
 
     public AdaptadorMejorasToque(Activity context, Integer[] imagenes, String[] nombres, float[] cantidades, float[] precios) {
         super(context, R.layout.fila_mejora, nombres);
@@ -43,14 +44,15 @@ public class AdaptadorMejorasToque extends ArrayAdapter {
 
         foto.setImageResource(imagenes[position]);
         nombre.setText(nombres[position]);
-        cantidad.setText("+" + oxi.ponerCantidad(cantidades[position])+ "ox");
-        boton.setText(context.getString(R.string.precio) + ":\n" + oxi.ponerCantidad(precios[position]) + " ox");
+        cantidad.setText("+" + oxi.ponerCantidad(cantidades[position], true)+ "ox");
+        boton.setText(context.getString(R.string.precio) + ":\n" + oxi.ponerCantidad(precios[position], true) + " ox");
         if (position <= oxi.getDesbloqueadoToque()){
             fila.setVisibility(View.VISIBLE);
         }
         else{
             fila.setVisibility(View.INVISIBLE);
         }
+
         final View filaFin = fila;
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +62,17 @@ public class AdaptadorMejorasToque extends ArrayAdapter {
                     oxi.sumarOxiToque(cantidades[position]);
                     if(parent.indexOfChild(filaFin) != parent.getChildCount()-1){
                         parent.getChildAt(parent.indexOfChild(filaFin)+1).setVisibility(View.VISIBLE);
-                        oxi.desbloquearToque(position+1);
                     }
+
+                    if(position == oxi.getDesbloqueadoSegundo()){
+                        utils.reproducirSonido(getContext(), R.raw.primerdesbloqueo);
+                    }
+                    else{
+                        utils.reproducirSonido((Activity)getContext(), R.raw.comprar);
+                    }
+
+                    oxi.desbloquearToque(position+1);
+                    oxi.actualizarInterfaz((Activity)getContext());
                 }
             }
         });

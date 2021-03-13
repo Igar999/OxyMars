@@ -26,6 +26,7 @@ public class Utils {
     private MediaPlayer musica;
     private Context context;
     private Boolean musicaLista = false;
+    private String usuario;
 
 
     public static Utils getUtils() {
@@ -130,6 +131,14 @@ public class Utils {
                 }
             });
         }
+    }
+
+    public String getUsuario(){
+        return this.usuario;
+    }
+
+    public void setUsuario(String nombre){
+        this.usuario = nombre;
     }
 
 
