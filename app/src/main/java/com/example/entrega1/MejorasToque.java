@@ -27,14 +27,13 @@ public class MejorasToque extends Fragment {
             R.drawable.marte_mar,
             R.drawable.marte_mar,
             R.drawable.marte_mar,
+            R.drawable.marte_mar,
             R.drawable.marte_mar
     };
 
-    private String nombres[] = {"Mar", "Rios", "Hierba", "Arena", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo"};
-
-    private float cantidades[] = {1, 5, 20, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100};
-
-    private float precios[] = {10, 50, 200, 800, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
+    private String nombres[] =   {"Asteroide", "Cohete", "Tierra", "Júpiter", "Meteorito", "Satélite", "Saturno", "ISS", "Constelaciones", "Galaxia", "Sol",  "Ovni",  "Agujero negro"};
+    private float cantidades[] = { 1,           3,        7,        15,        31,          63,         127,       255,   511,              1023,      2047,   4095,    8191};
+    private float precios[] =    { 25,          100,      300,      1000,      2000,        5000,       10000,     25000, 75000,            200000,    600000, 1500000, 5000000};
 
     public MejorasToque() {
         // Required empty public constructor

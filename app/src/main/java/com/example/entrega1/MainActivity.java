@@ -297,7 +297,6 @@ public class MainActivity extends AppCompatActivity {
             ft.commit();
         }
 
-
         /*Locale nuevaloc = new Locale("en");
         Locale.setDefault(nuevaloc);
         Configuration configuration = getResources().getConfiguration();

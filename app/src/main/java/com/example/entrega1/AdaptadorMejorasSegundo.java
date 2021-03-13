@@ -33,8 +33,7 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         View fila = view;
         LayoutInflater inflater = context.getLayoutInflater();
-        if(view==null)
-            fila = inflater.inflate(R.layout.fila_mejora, null, true);
+        fila = inflater.inflate(R.layout.fila_mejora, null, true);
         ImageView foto = (ImageView) fila.findViewById(R.id.foto);
         TextView nombre = (TextView) fila.findViewById(R.id.nombre);
         TextView cantidad = (TextView) fila.findViewById(R.id.cantidad);

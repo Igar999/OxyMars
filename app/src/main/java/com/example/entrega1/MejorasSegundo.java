@@ -14,25 +14,24 @@ import android.widget.TextView;
 public class MejorasSegundo extends Fragment {
 
     private Integer imagenes[] = {
-            R.drawable.marte_mar,
-            R.drawable.marte,
-            R.drawable.marte,
-            R.drawable.marte_mar,
-            R.drawable.marte_mar,
-            R.drawable.marte_mar,
-            R.drawable.marte_mar,
-            R.drawable.marte_mar,
-            R.drawable.marte_mar,
-            R.drawable.marte_mar,
-            R.drawable.marte_mar,
-            R.drawable.marte_mar
+            R.drawable.mar,
+            R.drawable.rio,
+            R.drawable.hierba,
+            R.drawable.arena,
+            R.drawable.hielo,
+            R.drawable.arboles,
+            R.drawable.montanas,
+            R.drawable.flores,
+            R.drawable.nieve,
+            R.drawable.humanos,
+            R.drawable.pueblos,
+            R.drawable.minas,
+            R.drawable.ciudades
     };
 
-    private String nombres[] = {"Cohete", "Nave", "Ovni", "ISS", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo", "Algo"};
-
-    private float cantidades[] = {1, 5, 20, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100};
-
-    private float precios[] = {10, 50, 200, 800, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
+    private String nombres[] =   {"Mar", "Rios", "Hierba", "Arena", "Hielo", "Árboles", "Montañas", "Flores", "Nieve", "Humanos", "Pueblos", "Minas", "Ciuddaes"};
+    private float cantidades[] = { 1,     3,      7,        15,      31,      63,        127,        255,      511,     1023,      2047,      4095,    8191};
+    private float precios[] =    { 25,    100,    300,      1000,    2000,    5000,      10000,      25000,    75000,   200000,    600000,    1500000, 5000000};
 
     public MejorasSegundo() {
         // Required empty public constructor
