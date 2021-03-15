@@ -201,8 +201,7 @@
             app:layout_constraintHorizontal_bias="0.548"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oxigeno"
-            app:layout_constraintVertical_bias="0.635"
-            app:srcCompat="@drawable/marte" />
+            app:layout_constraintVertical_bias="0.635" />
 
         <TextView
             android:id="@+id/textOxiToque"

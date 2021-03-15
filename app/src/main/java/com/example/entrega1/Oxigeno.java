@@ -3,6 +3,7 @@ package com.example.entrega1;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -139,7 +140,7 @@ public class Oxigeno {
         //DESBLOQUEADO VA DE 0 a 12
         // -1 = nada
         // 0 =
-        int des = desbloqueadoToque;
+        int desToque = desbloqueadoToque;
 
         ImageView asteroide = activity.findViewById(R.id.imgAsteroide);
         ImageView cohete = activity.findViewById(R.id.imgCohete);
@@ -161,10 +162,19 @@ public class Oxigeno {
             item.setVisibility(View.INVISIBLE);
         }
         for(int i=0;i<lista.length;i++){
-            if(des-1 >= i){
+            if(desToque-1 >= i){
                 lista[i].setVisibility(View.VISIBLE);
             }
         }
+
+        int desSegundo = desbloqueadoSegundo;
+        ImageView marte = activity.findViewById(R.id.planeta);
+
+        String nombre = "marte"+desSegundo;
+
+        int id = activity.getResources().getIdentifier(nombre, "drawable", activity.getPackageName());
+        activity.findViewById(R.id.planeta).setBackground(activity.getDrawable(id));
+
 
 
     }
