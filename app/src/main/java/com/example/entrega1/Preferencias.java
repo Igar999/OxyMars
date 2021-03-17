@@ -37,6 +37,11 @@ public class Preferencias extends PreferenceFragmentCompat implements SharedPref
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    /**
+     * Comprueba que preferencia ha cambiado, si es el idioma, cambia el idioma, y si es la música, la para o la reproduce
+     * @param sharedPreferences Las preferencias
+     * @param key La clave
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Log.i("algo", "aqui");

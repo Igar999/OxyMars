@@ -7,11 +7,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class GuardarDatos extends SQLiteOpenHelper {
+    /**
+     * Constructora del gestor de la base de datos
+     * @param context El contexto
+     * @param name El nombre
+     * @param factory El factory
+     * @param version La versión
+     */
     public GuardarDatos(@Nullable Context context, @Nullable String name,
                         @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
+    /**
+     * Se crea la tabla para almacenar los datos si no existe
+     * @param db La base de datos
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE Datos (" +

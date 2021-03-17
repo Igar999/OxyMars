@@ -2,12 +2,16 @@ package com.example.entrega1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ListView;
@@ -17,22 +21,26 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
-public class RankingActivity extends AppCompatActivity {
+public class RankingActivity extends Actividad {
 
     private String usuario;
 
+    /**
+     * Se explica en el código con comentarios
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
-        Utils.getUtils().musicaPlay();
-
+        //Se obtiene el usuario actual, para marcarlo de manera distinta en el ranking
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             usuario = extras.getString("usu");
         }
 
+        //Se accede a la base de datos para obtener los datos de todos los usuarios y meterlos en listas
         GuardarDatos gestorDB = new GuardarDatos (this, "OxyMars", null, 1);
         SQLiteDatabase bd = gestorDB.getWritableDatabase();
         Cursor cu = bd.rawQuery("SELECT Usuario,Oxigeno FROM Datos ORDER BY Oxigeno DESC", null);
@@ -55,6 +63,7 @@ public class RankingActivity extends AppCompatActivity {
 
         }
 
+        //Se crea la cabecera de la lista y el adaptador de la lista
         ListView rank = (ListView) findViewById(R.id.ranking);
         ListView lista=findViewById(R.id.lista);
         TextView titulo = new TextView(this);
@@ -68,17 +77,15 @@ public class RankingActivity extends AppCompatActivity {
         rank.setAdapter(adaptador);
     }
 
+    /**
+     * Al pulsar el botón "atrás", se reproduce un sonido y se vuelve a la actividad principal
+     */
     @Override
     public void onBackPressed() {
+        Utils.getUtils().reproducirSonido(this, R.raw.atras);
         Intent i = new Intent(RankingActivity.this, MainActivity.class);
         i.putExtra("usu", usuario);
         startActivity(i);
         finish();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Utils.getUtils().musicaPause();
     }
 }

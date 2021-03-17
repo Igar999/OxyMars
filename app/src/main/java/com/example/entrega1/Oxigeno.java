@@ -33,6 +33,15 @@ public class Oxigeno {
     private int desbloqueadoSegundo;
 
 
+    /**
+     * Se almecenan en la clase los parámetros que se utilizarán en el futuro
+     * @param context El contexto
+     * @param oxigeno El oxígeno
+     * @param oxiToque El oxígeno por toque
+     * @param oxiSegundo El oxígeno por segundo
+     * @param desbloqueadoToque La cantidad de mejoras de oxígeno por toque desbloqueadas
+     * @param desbloqueadoSegundo La cantidad de mejoras de oxígeno por segundo desbloqueadas
+     */
     public void cargarOxi(Context context, float oxigeno, float oxiToque, float oxiSegundo, int desbloqueadoToque, int desbloqueadoSegundo){
         this.context = context;
         this.oxigeno = oxigeno;
@@ -42,6 +51,10 @@ public class Oxigeno {
         this.desbloqueadoSegundo = desbloqueadoSegundo;
     }
 
+    /**
+     * Crea una instancia de la clase o devuelve la que ya existe
+     * @return instancia de la clase Oxigeno (Singleton)
+     */
     public static Oxigeno getOxi() {
         if (oxi == null) {
             oxi = new Oxigeno();
@@ -49,6 +62,9 @@ public class Oxigeno {
         return oxi;
     }
 
+    /**
+     * Constructora de la clase, establece unos valores por defecto
+     */
     private Oxigeno(){
         oxigeno = 0;
         oxiToque = 1;
@@ -57,10 +73,16 @@ public class Oxigeno {
         desbloqueadoSegundo = -1;
     }
 
+    /**
+     * Suma la cantidad correspondiente de oxígeno por segundo al oxígeno total
+     */
     public void aumentarOxigenoSegundo(){
         oxigeno = oxigeno + oxiSegundo;
     }
 
+    /**
+     * Suma la cantidad correspondiente de oxígeno por segundo al oxígeno total
+     */
     public void aumentarOxigenoToque(){
         oxigeno = oxigeno + oxiToque;
     }
@@ -77,18 +99,35 @@ public class Oxigeno {
         return oxiSegundo;
     }
 
+    /**
+     * Comprueba si hay suficiente oxígeno para comprar una mejora
+     * @param cantidad El coste de la mejora
+     * @return Booleano que representa si hay más que esa cantidad
+     */
     public Boolean hayOxigeno(float cantidad){
         return oxigeno >= cantidad;
     }
 
+    /**
+     * Resta una cantidad del oxígeno total
+     * @param cantidad La cantidad a restar
+     */
     public void quitarOxigeno(float cantidad){
         oxigeno = oxigeno - cantidad;
     }
 
+    /**
+     * Aumenta el oxígeno por toque en una cantidad
+     * @param cantidad La cantidad a aumentar
+     */
     public void sumarOxiToque(float cantidad){
         oxiToque = oxiToque + cantidad;
     }
 
+    /**
+     * Aumenta el oxígeno por segundo en una cantidad
+     * @param cantidad La cantidad a aumentar
+     */
     public void sumarOxiSegundo(float cantidad){
         oxiSegundo = oxiSegundo + cantidad;
     }
@@ -97,6 +136,10 @@ public class Oxigeno {
         return desbloqueadoSegundo;
     }
 
+    /**
+     * Establece el número de mejoras desbloqueadas como el máximo entre la mejora más alta desbloqueada, que está almacenada en la propia clase, y la que se le pasa como parámetro, que es la que se acaba de comprar
+     * @param pos La posición de la mejora que se acaba de comprar
+     */
     public void desbloquearSegundo(Integer pos){
         desbloqueadoSegundo = Integer.max(desbloqueadoSegundo,pos);
     }
@@ -104,11 +147,21 @@ public class Oxigeno {
     public Integer getDesbloqueadoToque(){
         return desbloqueadoToque;
     }
+    /**
+     * Establece el número de mejoras desbloqueadas como el máximo entre la mejora más alta desbloqueada, que está almacenada en la propia clase, y la que se le pasa como parámetro, que es la que se acaba de comprar
+     * @param pos La posición de la mejora que se acaba de comprar
+     */
 
     public void desbloquearToque(Integer pos){
         desbloqueadoToque = Integer.max(desbloqueadoToque,pos);
     }
 
+    /**
+     * Transforma una cantidad numérica a String, y si el usuario lo desea, lo transforma a notación simplificada
+     * @param cant La cantidad a transformar
+     * @param forzar Si se desea pasar a notación simplificada aunque en las preferencias diga que no
+     * @return La cantidad en formato string con la notación correspondiente
+     */
     public String ponerCantidad(float cant, Boolean forzar){
         String texto = String.valueOf(cant);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -136,12 +189,13 @@ public class Oxigeno {
         return texto;
     }
 
+    /**
+     * En caso de las mejoras por toque, oculta y muestra las imágenes dependiendo del número de mejoras desbloqueadas
+     * En caso de las mejoras por segundo, cambia la imágen del planeta a la que representa las mejoras desbloqueadas
+     * @param activity La actividad en la que se quiere actualizar la interfaz
+     */
     public void actualizarInterfaz(Activity activity) {
-        //DESBLOQUEADO VA DE 0 a 12
-        // -1 = nada
-        // 0 =
         int desToque = desbloqueadoToque;
-
         ImageView asteroide = activity.findViewById(R.id.imgAsteroide);
         ImageView cohete = activity.findViewById(R.id.imgCohete);
         ImageView tierra = activity.findViewById(R.id.imgTierra);
@@ -155,9 +209,7 @@ public class Oxigeno {
         ImageView sol = activity.findViewById(R.id.imgSol);
         ImageView ovni = activity.findViewById(R.id.imgOvni);
         ImageView agujeroNegro = activity.findViewById(R.id.imgAgujeroNegro);
-
         ImageView[] lista = new ImageView[]{asteroide,cohete,tierra,jupiter,meteorito,satelite,saturno,iss,constelaciones,galaxia,sol,ovni,agujeroNegro};
-
         for(ImageView item:lista){
             item.setVisibility(View.INVISIBLE);
         }
@@ -167,16 +219,11 @@ public class Oxigeno {
             }
         }
 
+
         int desSegundo = desbloqueadoSegundo;
-        ImageView marte = activity.findViewById(R.id.planeta);
-
         String nombre = "marte"+desSegundo;
-
         int id = activity.getResources().getIdentifier(nombre, "drawable", activity.getPackageName());
         activity.findViewById(R.id.planeta).setBackground(activity.getDrawable(id));
-
-
-
     }
 
 }

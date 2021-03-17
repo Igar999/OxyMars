@@ -2,7 +2,9 @@ package com.example.entrega1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +12,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,16 +26,21 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
 
-public class AjustesActivity extends AppCompatActivity {
+public class AjustesActivity extends Actividad {
 
     String usuario = "";
     Oxigeno oxi = Oxigeno.getOxi();
 
+    /**
+     * Se explica en el código con comentarios
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
 
+        //Se obtiene el usuario actual para ponerlo en el lugar en el que se muestra el usuario actual
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             usuario = extras.getString("usu");
@@ -40,6 +48,7 @@ public class AjustesActivity extends AppCompatActivity {
             textoUsuario.setText(usuario);
         }
 
+        //Se establece el listener del botón de cierre de sesión para que al pulsarlo cierre sesión
         Button logout = findViewById(R.id.botonLogout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +57,7 @@ public class AjustesActivity extends AppCompatActivity {
                     OutputStreamWriter fichero = new OutputStreamWriter(openFileOutput("usuLog.txt", Context.MODE_PRIVATE));
                     fichero.write("");
                     fichero.close();
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -57,15 +66,18 @@ public class AjustesActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        //Se establece el listener para que  si se mantiene pulsado el botón, muestre el diálogo para confirmar que se quiere borrar el usuario
         logout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Dialog dialogoborrar= new DialogoBorrarUsuario(AjustesActivity.this);
+                Dialog dialogoborrar = new DialogoBorrarUsuario(AjustesActivity.this);
                 dialogoborrar.show();
                 return false;
             }
         });
 
+        //Se establece el listener para que el botón lleve a Twitter con el texto correspondiente
         ImageView twitter = findViewById(R.id.twitterImg);
         twitter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +86,7 @@ public class AjustesActivity extends AppCompatActivity {
             }
         });
 
+        //Se establece el listener para que el botón lleve a la actividad que muestra el texto de ayuda
         ImageView info = findViewById(R.id.infoImg);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,26 +99,22 @@ public class AjustesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Al pulsar el botón "atrás", se reproduce un sonido y se vuelve a la actividad principal
+     */
     @Override
     public void onBackPressed() {
+        Utils.getUtils().reproducirSonido(this, R.raw.atras);
         Intent i = new Intent(AjustesActivity.this, MainActivity.class);
         i.putExtra("usu", usuario);
         startActivity(i);
         finish();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Utils.getUtils().musicaPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Utils.getUtils().musicaPlay();
-    }
-
+    /**
+     * Se va a Twitter (app o web) para poder publicar la cantidad de oxígeno actual del jugador (es necesario tener sesión iniciada en Twitter)
+     * @param message El mensaje a escribir
+     */
     //https://stackoverflow.com/questions/14317512/how-can-i-post-on-twitter-with-intent-action-send
     private void shareTwitter(String message) {
         Intent tweetIntent = new Intent(Intent.ACTION_SEND);
@@ -133,10 +142,14 @@ public class AjustesActivity extends AppCompatActivity {
             i.setAction(Intent.ACTION_VIEW);
             i.setData(Uri.parse("https://twitter.com/intent/tweet?text=" + urlEncode(message)));
             startActivity(i);
-            //Toast.makeText(this, "Twitter app isn't found", Toast.LENGTH_LONG).show();
         }
     }
 
+    /**
+     * Se codifica la url pasada como parámetro
+     * @param s La url a codificar
+     * @return La url codificada
+     */
     private String urlEncode(String s) {
         try {
             return URLEncoder.encode(s, "UTF-8");

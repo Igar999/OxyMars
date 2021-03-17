@@ -2,15 +2,23 @@ package com.example.entrega1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
-public class AyudaActivity extends AppCompatActivity {
+public class AyudaActivity extends Actividad {
 
     private String usuario;
 
+    /**
+     * Se muestra la ventana y se pone un scroll en el texto, por si es demasiado largo. También se obtiene el usuario
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,23 +31,15 @@ public class AyudaActivity extends AppCompatActivity {
         texto.setMovementMethod(new ScrollingMovementMethod());
     }
 
+    /**
+     * Al pulsar el botón "atrás", se reproduce un sonido y se vuelve a la actividad de ajustes
+     */
     @Override
     public void onBackPressed() {
+        Utils.getUtils().reproducirSonido(this, R.raw.atras);
         Intent i = new Intent(AyudaActivity.this, AjustesActivity.class);
         i.putExtra("usu", usuario);
         startActivity(i);
         finish();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Utils.getUtils().musicaPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Utils.getUtils().musicaPlay();
     }
 }

@@ -18,12 +18,20 @@ import java.io.OutputStreamWriter;
 public class DialogoBorrarUsuario extends Dialog {
 
     private Activity padre;
+
+    /**
+     * Constructora del diálogo
+     * @param context El contexto de la actividad donde se muestra el diálogo
+     */
     public DialogoBorrarUsuario(@NonNull Context context) {
         super(context);
         this.padre = (Activity)context;
     }
 
-
+    /**
+     * Se crea el diálogo, asignando las acciones correspondientes a cada botón mediante listeners. Si dice que sí, se accede a la base de datos para borrar el usuario y a la pantalla de login se le pasa el nombre de usuario, para borrarlo del fichero de usuarios y contraseñas
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

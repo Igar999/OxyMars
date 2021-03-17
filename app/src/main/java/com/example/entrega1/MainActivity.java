@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Actividad {
 
     Oxigeno oxi = Oxigeno.getOxi();
     Utils utils = Utils.getUtils();
@@ -36,43 +36,33 @@ public class MainActivity extends AppCompatActivity {
     Handler handler = new Handler();
     Runnable[] listaRun = new Runnable[3];
 
+    /**
+     * Destruye los handlers, para evitar que se queden activos y al crear de nuevo la actividad se creen otros nuevos y estos sigan funcionando
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //Lanzar notificación
-        //https://developer.android.com/training/scheduling/alarms
-        AlarmManager alarmMgr;
-        PendingIntent alarmIntent;
-        alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificacionProgramada.class);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 5 * 1000, alarmIntent);
-
         handler.removeCallbacks(listaRun[0]);
         handler.removeCallbacks(listaRun[1]);
         handler.removeCallbacks(listaRun[2]);
-
     }
 
+    /**
+     * Guarda los datos, para poder seguir el juego desde el mismo punto la próxima vez
+     */
     @Override
     protected void onPause() {
         super.onPause();
         guardarDatos(usuario);
-        utils.musicaPause();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("musica", true)){
-            utils.musicaPlay();
-        }
-    }
-
+    /**
+     * Se explica en el código con comentarios
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        //Se establece el idioma antes de cargar la interfaz, para que se ponga en el idioma correcto al abrir la aplicación
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
         Locale.setDefault(nuevaloc);
@@ -85,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Se obtiene el nombre del usuario, que se obtiene de la actividad del login, y se cargan de la base de datos sus estadísticas, para colocarlas en la interfaz
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             usuario = extras.getString("usu");
@@ -93,27 +84,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         utils.setContext(context);
+
+        //Se empieza la música si es necesario. Si se acaba de abrir se creará un nuevo MediaPlayer, si se llega desde otra actividad se reproducirá el ya existente
         if(Utils.getUtils().musicaLista()){
             Utils.getUtils().musicaPlay();
         }else{
             Utils.getUtils().empezarMusica(this);
         }
 
+        //Se establece el fondo según las preferencias
         setFondo();
+
+        //Se actualiza la interfaz para mostrar las mejoras compradas. Aparecen imagenes en el fondo y el planeta cambia para tener más cosas dentro
         oxi.actualizarInterfaz(this);
 
-        AlarmManager alarmMgr;
-        PendingIntent alarmIntent;
-        alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificacionProgramada.class);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmMgr.cancel(alarmIntent);
-
+        //Se obtienen los elementos de la interfaz que se van a utilizar
         TextView textOxigeno = findViewById(R.id.oxigeno);
         TextView textOxiSegundo = findViewById(R.id.textOxiSegundo);
         TextView textOxiToque = findViewById(R.id.textOxiToque);
         ImageView planeta = findViewById(R.id.planeta);
 
+        //Se esconden o muestan los fragments de mejoras dependiendo de la orientación. Si es vertical, no se muestra ninguno, si es horizontal se muestra uno
         if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             utils.hideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque),this);
             utils.hideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo),this);
@@ -122,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             utils.showFragment(getFragmentManager().findFragmentById(R.id.mejorasToque),this);
         }
 
+        //Se establece el runnable que hace que cada segundo se sume la cantidad correspondiente al oxígeno por segundo y se actualice la cantidad en la interfaz
         Runnable aumentarOxi = new Runnable() {
             public void run() {
                 oxi.aumentarOxigenoSegundo();
@@ -131,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         };
         listaRun[0] = aumentarOxi;
 
+        //Se establece el runnable que se encarga de la animación de que el planeta rote sobre sí mismo. Adicionalmente, se guardan los datos del usuario en la base de datos
         Runnable general = new Runnable() {
             public void run() {
                 guardarDatos(usuario);
@@ -148,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         };
         listaRun[1] = general;
 
+        //Se establece el runnable que actualiza los textos de oxígeno, oxígeno por toque y oxígeno por segundo, de modo que siempre muestre el valor correcto
         Runnable actualizarTextos = new Runnable() {
             public void run() {
                 textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno(), false));
@@ -158,14 +152,11 @@ public class MainActivity extends AppCompatActivity {
         };
         listaRun[2] = actualizarTextos;
 
-
-
+        //Se establece el listener en el planeta para que tenga animación de hacerse ligeramente más grande y se encoja acto seguido cada vez que se toca sobre él.
+        //Además, se reproduce un sonido y se suma a la cantidad de oxñigeno lo correspondiente a la cantidad de oxígeno por toque.
         planeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*ObjectAnimator animation = ObjectAnimator.ofFloat(planeta, "translationY", -200f);
-                animation.setDuration(2000);
-                animation.start();*/
                 oxi.aumentarOxigenoToque();
                 textOxigeno.setText(oxi.ponerCantidad(oxi.getOxigeno(), false));
                 utils.reproducirSonido(MainActivity.this, R.raw.planeta);
@@ -173,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
                         1.025f, Animation.RELATIVE_TO_SELF, 0.5f,
                         Animation.RELATIVE_TO_SELF, 0.5f);
                 scaleAnim.setDuration(75);
-                // scaleAnim.setFillEnabled(true);
                 scaleAnim.setFillAfter(true);
                 scaleAnim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -199,34 +189,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Se le asigna el listener al botón de mejoras de oxígeno por toque para que al pulsarlo se muestren u oculten los fragmentos que correspondan (Solo se muestra en vertical)
         Button botonToque = findViewById(R.id.botonToque);
         botonToque.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 utils.showHideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque),MainActivity.this);
                 utils.hideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo),MainActivity.this);
-                //getFragmentManager().beginTransaction().add(R.id.layout, new MejorasToque(), "mejorasToque");
-
-                /*Fragment f = getFragmentManager().findFragmentByTag("mejoras");
-                if(f!=null) getFragmentManager().beginTransaction().remove(f);
-                getFragmentManager().beginTransaction().commit();*/
 
             }
         });
+
+        //Se le asigna el listener al botón de mejoras de oxígeno por segundo para que al pulsarlo se muestren u oculten los fragmentos que correspondan (Solo se muestra en vertical)
         Button botonSegundo = findViewById(R.id.botonSegundo);
         botonSegundo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 utils.showHideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo),MainActivity.this);
                 utils.hideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque),MainActivity.this);
-                //getFragmentManager().beginTransaction().add(R.id.layout, new MejorasToque(), "mejorasToque");
-
-                /*Fragment f = getFragmentManager().findFragmentByTag("mejoras");
-                if(f!=null) getFragmentManager().beginTransaction().remove(f);
-                getFragmentManager().beginTransaction().commit();*/
-
             }
         });
+
+        //Se le asigna el listener al botón de cambio de listado de mejoras para que al pulsarlo se esconda una lista y se muestre la otra. (Solo se muestra en horizontal)
         Button botonCambio = findViewById(R.id.botonCambio);
         botonCambio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,14 +218,10 @@ public class MainActivity extends AppCompatActivity {
                 utils.showHideFragment(getFragmentManager().findFragmentById(R.id.mejorasSegundo),MainActivity.this);
                 utils.showHideFragment(getFragmentManager().findFragmentById(R.id.mejorasToque),MainActivity.this);
                 cambiarBotonCambio();
-                //getFragmentManager().beginTransaction().add(R.id.layout, new MejorasToque(), "mejorasToque");
-
-                /*Fragment f = getFragmentManager().findFragmentByTag("mejoras");
-                if(f!=null) getFragmentManager().beginTransaction().remove(f);
-                getFragmentManager().beginTransaction().commit();*/
             }
         });
 
+        //Se le asigna el listener al botón de ajustes para que reproduzca un sonido y lleve a la pantalla de ajustes
         ImageView botonAjustes = findViewById(R.id.botonAjustes);
         botonAjustes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Se le asigna el listener al botón de ranking para que lleve a la pantalla de ranking
         Button ranking = findViewById(R.id.botonRanking);
         ranking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,11 +246,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Se lanzan los tres runnables creados previamente
         handler.postDelayed(listaRun[0], 1000);
         handler.postDelayed(listaRun[2], 100);
         handler.postDelayed(listaRun[1], 500);
     }
 
+    /**
+     * Se establece como fondo la imagen que dicen las preferencias
+     */
     private void setFondo() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String num = prefs.getString("lista_fondo", "1");
@@ -283,12 +268,15 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.layout).setBackground(getDrawable(id));
     }
 
+    /**
+     * Al pulsar el botón "atrás" se esconde el fragment que estuviera mostrandose, y si no hay ninguno, muestra el diálogo para confirmar que se quiere salir de la aplicación
+     * En horizontal muesta el diálogo siempre que se pulsa, ya que siempre hay un fragment en pantalla
+     */
     @Override
     public void onBackPressed() {
+        utils.reproducirSonido(this, R.raw.atras);
         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
         if((getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden() && getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) || this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            /*DialogFragment dialogocerrar= new DialogoSalir();
-            dialogocerrar.show(getSupportFragmentManager(),"cerrar");*/
             Dialog dialogocerrar= new DialogoSalir(this);
             dialogocerrar.show();
         } else if (!getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) {
@@ -298,19 +286,11 @@ public class MainActivity extends AppCompatActivity {
             ft.hide(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
             ft.commit();
         }
-
-        /*Locale nuevaloc = new Locale("en");
-        Locale.setDefault(nuevaloc);
-        Configuration configuration = getResources().getConfiguration();
-        configuration.setLocale(nuevaloc);
-        configuration.setLayoutDirection(nuevaloc);
-
-        Context context = createConfigurationContext(configuration);
-        getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
-        finish();
-        startActivity(getIntent());*/
     }
 
+    /**
+     * Solo se usa en horizontal, cambia el texto que aparece en el botón que cambia entre los dos listados de mejoras
+     */
     public void cambiarBotonCambio(){
         if (getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) {
             ((Button)findViewById(R.id.botonCambio)).setText(getString(R.string.mejoras_oxi_segundo));
@@ -319,6 +299,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Accede a la base de datos para obtener el oxígeno, el oxígeno por toque, el oxígeno por segundo y las mejoras desbloqueadas de cada tipo para el usuario indicado, y los almacena en la clase Oxigeno
+     * Si el usuario no está en la base de datos, se almacenan en la clase Oxigeno unos valores por defecto
+     * @param usuario El nombre del usuario actual
+     */
     public void cargarDatos(String usuario){
         GuardarDatos GestorDB = new GuardarDatos (this, "OxyMars", null, 1);
         SQLiteDatabase bd = GestorDB.getWritableDatabase();
@@ -340,6 +325,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Accede a la base de datos para modificar el registro del jugador cuyo nombre se pasa como parámetro y almacenar las estadísticas actuales
+     * Si el usuario no existe (porque es la primera vez que juega tras crear su usuario), se crea un nuevo registro y se insertan las estadísticas actuales
+     * @param usuario El nombre del usuario actual
+     */
     public void guardarDatos(String usuario){
         Oxigeno oxi = Oxigeno.getOxi();
         GuardarDatos gestorDB = new GuardarDatos (this, "OxyMars", null, 1);

@@ -1,5 +1,6 @@
 package com.example.entrega1;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -7,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -16,8 +19,14 @@ import java.util.Locale;
 
 public class NotificacionProgramada extends BroadcastReceiver {
 
+    /**
+     * Cuando se recive la señal, se crea la notificación, se le establece el pendingIntent para que abra la aplicación al pulsar la notificación y se lanza
+     * @param context El contexto
+     * @param intent El intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.i("notificacion", "Llega aqui");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
         Locale.setDefault(nuevaloc);
@@ -34,6 +43,14 @@ public class NotificacionProgramada extends BroadcastReceiver {
         RemoteViews contentView;
         contentView = new RemoteViews(context.getPackageName(), R.layout.notificacion);
         contentView.setImageViewResource(R.id.planeta, R.mipmap.ic_launcher);
+
+        NotificationManager elManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel elCanal = new NotificationChannel("aus", "Ausente",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            elManager.createNotificationChannel(elCanal);
+        }
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context, "aus")

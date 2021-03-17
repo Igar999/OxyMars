@@ -31,8 +31,13 @@ public class LoginActivity extends AppCompatActivity {
     private Map<String,String> mapa;
 
 
+    /**
+     * Se explica en el código con comentarios
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Se comprueba si ya hay algun usuario logeado, y si es el caso, se salta directamente al juego
         String usuario = comprobarUsuarioLogeado();
         if (usuario != ""){
             jugar(usuario);
@@ -41,11 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Utils utils = Utils.getUtils();
 
+        //Se carga el json del fichero de usuarios y contraseñas a un HashMap, para poder acceder fácilmente a los datos
         leerDeFichero();
 
+        //Se obtienen los dos fragments
         Fragment login =  getFragmentManager().findFragmentById(R.id.fragmentLogin);
         Fragment registrar = getFragmentManager().findFragmentById(R.id.fragmentRegistrar);
 
+        //Se comprueba si hay que borrar algún usuario (por si se ha dado a la opción de borrarlo desde el menú de ajustes)
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if(extras.getString("borrar") != null){
@@ -54,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+        //Si es vertical, se muestra el login, si es horizontal, se muestran ambos fragments
         if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             utils.hideFragment(registrar,this);
             utils.showFragment(login,this);
@@ -62,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             utils.showFragment(login,this);
         }
 
+        //Se establece el listener para que el botón que cambia entre login y registro cambie su texto correctamente (solo en vertical)
         TextView cambio = findViewById(R.id.cambioLoginRegistrar);
         cambio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,11 +82,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //Se asigna el listener al botón para que compruebe en el HashMap si los datos de login son correctos, y si lo son, se va al juego. Si no, se muestra el error
         Button botonLogin = login.getActivity().findViewById(R.id.botonLogin);
-
-
-        Button botonRegistrar = login.getActivity().findViewById(R.id.botonRegistrar);
-
         botonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                     usuarioLogin.setError(getString(R.string.rellena_campo));
                 }else if (estado == null){
                     contraLogin.setError(getString(R.string.contrasena_incorrecta));
-                }else if (estado == false){
+                }else if (!estado){
                     usuarioLogin.setError(getString(R.string.no_existe_usuario));
                 }else{
                     jugar(usuarioLogin.getText().toString());
@@ -99,6 +106,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //Se asigna el listener al botón para que compruebe si los datos de registro son correctos, y si lo son, se va al juego. Si no, se muestra el error
+        Button botonRegistrar = login.getActivity().findViewById(R.id.botonRegistrar);
         botonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                     Boolean estado = registrarUsuario(usuarioRegistrar.getText().toString(),contraRegistrar.getText().toString());
                     if (estado == null){
                         contraRegistrar.setError(getString(R.string.contrasena_no_admitida));
-                    }else if (estado == false){
+                    }else if (!estado){
                         usuarioRegistrar.setError(getString(R.string.existe_usuario));
                     }else{
                         escribirAFichero();
@@ -135,6 +144,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Comprueba si previamente había un usuario logeado al cerrar la app, para que no tenga que logearse de nuevo
+     * @return nombre del usuario logeado (vacío si no hay)
+     */
     private String comprobarUsuarioLogeado() {
         String usuarioLog = "";
         try {
@@ -158,6 +171,9 @@ public class LoginActivity extends AppCompatActivity {
         return usuarioLog;
     }
 
+    /**
+     * Se cambia el texto del botón para cambiar entre login y registro
+     */
     public void cambiarBotonCambio(){
         if (getFragmentManager().findFragmentById(R.id.fragmentLogin).isHidden()) {
             ((TextView)findViewById(R.id.cambioLoginRegistrar)).setText(getString(R.string.no_tienes_usuario));
@@ -166,6 +182,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Se carga el json del fichero de usuarios y contraseñas a un HashMap, y si no existe, se crea un HashMap vacío
+     */
     private void leerDeFichero(){
         try {
             BufferedReader ficherointerno = new BufferedReader(new InputStreamReader(openFileInput("usuCont.txt")));
@@ -187,6 +206,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Se guarda el HashMap en formato json en el fichero de contraseñas, sobreescribiendo el que ya estaba
+     */
     private void escribirAFichero(){
         try {
             String json = new Gson().toJson(new HashMap(mapa));
@@ -198,6 +220,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Se comprueba si los datos de login son correctos
+     * @param usuario Nombre de usuario
+     * @param contra Contraseña
+     * @return Booleano que indica si es correcto
+     */
     private Boolean comprobarLogin(String usuario, String contra){
         Boolean login = null;
         String contraEnc = encriptar(contra);
@@ -213,6 +241,12 @@ public class LoginActivity extends AppCompatActivity {
         return login;
     }
 
+    /**
+     * Se coloca el usuario y la contraseña encriptada en el HashMap si no hay problemas con los datos
+     * @param usuario Nombre de usuario
+     * @param contra Contraseña
+     * @return Booleano que representa si ha ido bien
+     */
     private Boolean registrarUsuario(String usuario, String contra){
         String contraEnc = encriptar(contra);
         Boolean estado = null;
@@ -225,6 +259,11 @@ public class LoginActivity extends AppCompatActivity {
         return estado;
     }
 
+    /**
+     * Encripta un string mediante el algoritmo Blowfish
+     * @param string El string a encriptar
+     * @return El string encriptado
+     */
     //http://www.adeveloperdiary.com/java/how-to-easily-encrypt-and-decrypt-text-in-java/
     private String encriptar(String string){
         String encr = null;
@@ -240,6 +279,10 @@ public class LoginActivity extends AppCompatActivity {
         return encr;
     }
 
+    /**
+     * Se guarda en el fichero de usuario logeado el usuario introducido y se va a la actividad principal
+     * @param usu El nombre de usuario del jugador
+     */
     private void jugar(String usu){
         try {
             OutputStreamWriter fichero = new OutputStreamWriter(openFileOutput("usuLog.txt", Context.MODE_PRIVATE));

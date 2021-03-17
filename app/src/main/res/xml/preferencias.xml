@@ -23,7 +23,7 @@
             android:title="@string/fondo"
             app:iconSpaceReserved="false" />
         <ListPreference
-            android:defaultValue="en"
+            android:defaultValue="es"
             android:entries="@array/idiomas"
             android:entryValues="@array/codsIdiomas"
             android:key="lista_idioma"

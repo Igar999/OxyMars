@@ -22,6 +22,14 @@ public class AdaptadorRanking extends ArrayAdapter {
     private String usu;
     private Oxigeno oxi = Oxigeno.getOxi();
 
+    /**
+     * Constructora del adaptador
+     * @param context La actividad en la que se crea la lista
+     * @param usuarios Lista de nombres a poner en los elementos de la lista
+     * @param cantidades Lista de cantidades a poner en los elementos de la lista
+     * @param posiciones Lista de posiciones a poner en los elementos de la lista
+     * @param usu El usuario registrado actualmentez
+     */
     public AdaptadorRanking(Activity context, String[] usuarios, float[] cantidades, int[] posiciones, String usu) {
         super(context, R.layout.fila_mejora, usuarios);
         this.context = context;
@@ -31,13 +39,19 @@ public class AdaptadorRanking extends ArrayAdapter {
         this.usu = usu;
     }
 
+    /**
+     * Se crea el elemento en la posición indicada, asignandole los datos correspondientes
+     * @param position La posición del elemento que se va a crear
+     * @param view La vista
+     * @param parent El padre
+     * @return La fila de la lista
+     */
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         int posicion = posiciones[position];
         View fila=view;
         LayoutInflater inflater = context.getLayoutInflater();
-        /*if(view==null)
-            fila = inflater.inflate(R.layout.fila_ranking, null, true);*/
+
         fila = inflater.inflate(R.layout.fila_ranking, null, true);
         TextView puesto = (TextView) fila.findViewById(R.id.puestoRank);
         TextView usuario = (TextView) fila.findViewById(R.id.usuarioRank);

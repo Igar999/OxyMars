@@ -21,6 +21,14 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
     private Oxigeno oxi = Oxigeno.getOxi();
     private Utils utils = Utils.getUtils();
 
+    /**
+     * Constructora del adaptador
+     * @param context La actividad en la que se crea la lista
+     * @param imagenes Lista de las imágenes a poner en las filas de la lista
+     * @param nombres Lista de los nombres a poner en las filas de la lista
+     * @param cantidades Lista de las cantidades a poner en las filas de la lista
+     * @param precios Lista de los precios a poner en las filas de la lista
+     */
     public AdaptadorMejorasSegundo(Activity context, Integer[] imagenes, String[] nombres, float[] cantidades, float[] precios) {
         super(context, R.layout.fila_mejora, nombres);
         this.context = context;
@@ -30,6 +38,13 @@ public class AdaptadorMejorasSegundo extends ArrayAdapter {
         this.precios = precios;
     }
 
+    /**
+     * Se crea el elemento en la posición indicada, asignandole los datos correspondientes y creando el listener del botón para que compruebe si hay oxigeno y añada la cantidad correspondiente a la mejora comprada, y desbloquee la siguiente mejora si es necesario
+     * @param position La posición del elemento que se va a crear
+     * @param view La vista
+     * @param parent El padre
+     * @return La fila de la lista
+     */
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         View fila = view;

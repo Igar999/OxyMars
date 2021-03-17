@@ -15,12 +15,20 @@ import java.util.MissingFormatArgumentException;
 public class DialogoSalir extends Dialog {
 
     private Activity padre;
+
+    /**
+     * Constructora del diálogo
+     * @param context El contexto de la actividad donde se muestra el diálogo
+     */
     public DialogoSalir(@NonNull Context context) {
         super(context);
         this.padre = (Activity)context;
     }
 
-
+    /**
+     * Se crea el diálogo, asignando las acciones correspondientes a cada botón mediante listeners
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
