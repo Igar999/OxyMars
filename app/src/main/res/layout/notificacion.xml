@@ -7,14 +7,14 @@
 
     <ImageView
         android:id="@+id/flashButton"
-        android:layout_width="55dp"
-        android:layout_height="51dp"
+        android:layout_width="41dp"
+        android:layout_height="39dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="9dp"
-        android:layout_marginRight="27dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/cohete" />
 
     <ImageView
@@ -45,7 +45,7 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/charging"
+            android:id="@+id/textoVuelve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"

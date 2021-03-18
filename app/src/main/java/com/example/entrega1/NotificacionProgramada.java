@@ -52,6 +52,8 @@ public class NotificacionProgramada extends BroadcastReceiver {
             elManager.createNotificationChannel(elCanal);
         }
 
+        contentView.setTextViewText(R.id.textoVuelve, context.getString(R.string.vuelve));
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context, "aus")
                         .setSmallIcon(R.drawable.marte)
