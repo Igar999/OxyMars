@@ -74,6 +74,7 @@ public class Utils {
      * @param fragment El fragment a esconder
      * @param actividad La actividad en la que está el fragment
      */
+    //https://www.semicolonworld.com/question/47971/show-hide-fragment-in-android (respuesta de kishan patel)
     public void showFragment(final Fragment fragment, Activity actividad){
         FragmentTransaction ft = actividad.getFragmentManager().beginTransaction();
         if (fragment.isHidden()) {
@@ -87,6 +88,7 @@ public class Utils {
      * @param fragment El fragment a mostrar
      * @param actividad La actividad en la que está el fragment
      */
+    //https://www.semicolonworld.com/question/47971/show-hide-fragment-in-android (respuesta de kishan patel)
     public void hideFragment(final Fragment fragment, Activity actividad){
         FragmentTransaction ft = actividad.getFragmentManager().beginTransaction();
         if (!fragment.isHidden()) {
@@ -139,6 +141,7 @@ public class Utils {
      * @param context El contexto de la actividad en la que se va a reproducir el sonido
      * @param sonido El sonido a reproducir
      */
+    //https://stackoverflow.com/questions/42326228/playing-short-sound-on-touch
     public void reproducirSonido(Context context, int sonido){
         if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("sonido",true)){
             MediaPlayer mediaPlayer = MediaPlayer.create(context,sonido);

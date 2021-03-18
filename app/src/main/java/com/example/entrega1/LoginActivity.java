@@ -185,11 +185,12 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Se carga el json del fichero de usuarios y contraseñas a un HashMap, y si no existe, se crea un HashMap vacío
      */
+    //https://stackoverflow.com/questions/21720759/convert-a-json-string-to-a-hashmap/27679348
     private void leerDeFichero(){
         try {
             BufferedReader ficherointerno = new BufferedReader(new InputStreamReader(openFileInput("usuCont.txt")));
             String datos = ficherointerno.readLine();
-            Map<String,String> mapRes = new Gson().fromJson(datos, new TypeToken<HashMap<String, String>>() {}.getType()); //https://stackoverflow.com/questions/21720759/convert-a-json-string-to-a-hashmap/27679348
+            Map<String,String> mapRes = new Gson().fromJson(datos, new TypeToken<HashMap<String, String>>() {}.getType());
             if (mapRes == null){
                 mapRes = new HashMap<String, String>();
             }

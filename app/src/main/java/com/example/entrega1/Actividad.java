@@ -31,13 +31,14 @@ public class Actividad extends AppCompatActivity {
         super.onPause();
         Utils.getUtils().musicaPause();
 
+        //https://stackoverflow.com/questions/39674850/send-a-notification-when-the-app-is-closed
         AlarmManager alarmMgr;
         PendingIntent alarmIntent;
         alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, NotificacionProgramada.class);
         alarmIntent = PendingIntent.getBroadcast(this, 01, intent, 0);
         alarmMgr.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 30 * 60 * 1000, alarmIntent); //LA NOTIFICACION LLEGA 30 MINUTOS DESPUES
+                SystemClock.elapsedRealtime() + 30 * 60 * 1000, alarmIntent); //LA NOTIFICACION LLEGA 30 MINUTOS DESPUÉS
     }
 
     /**
@@ -48,6 +49,7 @@ public class Actividad extends AppCompatActivity {
         super.onResume();
         Utils.getUtils().musicaPlay();
 
+        //https://stackoverflow.com/questions/28922521/how-to-cancel-alarm-from-alarmmanager/28922621
         AlarmManager alarmMgr;
         PendingIntent alarmIntent;
         alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);

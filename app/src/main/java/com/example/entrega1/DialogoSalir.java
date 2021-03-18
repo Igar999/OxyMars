@@ -29,6 +29,7 @@ public class DialogoSalir extends Dialog {
      * Se crea el diálogo, asignando las acciones correspondientes a cada botón mediante listeners
      * @param savedInstanceState
      */
+    //https://stackoverflow.com/questions/13341560/how-to-create-a-custom-dialog-box-in-android
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

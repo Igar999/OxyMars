@@ -39,6 +39,7 @@ public class MainActivity extends Actividad {
     /**
      * Destruye los handlers, para evitar que se queden activos y al crear de nuevo la actividad se creen otros nuevos y estos sigan funcionando
      */
+    //https://stackoverflow.com/questions/22718951/stop-handler-postdelayed
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -113,6 +114,9 @@ public class MainActivity extends Actividad {
             utils.showFragment(getFragmentManager().findFragmentById(R.id.mejorasToque),this);
         }
 
+        //Establecer el handler y ls runnables para ejecutar acciones cada X tiempo
+        //https://stackoverflow.com/questions/11434056/how-to-run-a-method-every-x-seconds
+
         //Se establece el runnable que hace que cada segundo se sume la cantidad correspondiente al oxígeno por segundo y se actualice la cantidad en la interfaz
         Runnable aumentarOxi = new Runnable() {
             public void run() {
@@ -124,6 +128,7 @@ public class MainActivity extends Actividad {
         listaRun[0] = aumentarOxi;
 
         //Se establece el runnable que se encarga de la animación de que el planeta rote sobre sí mismo. Adicionalmente, se guardan los datos del usuario en la base de datos
+        //https://stackoverflow.com/questions/14039265/how-to-rotate-a-drawable-by-objectanimator
         Runnable general = new Runnable() {
             public void run() {
                 guardarDatos(usuario);
@@ -154,6 +159,7 @@ public class MainActivity extends Actividad {
 
         //Se establece el listener en el planeta para que tenga animación de hacerse ligeramente más grande y se encoja acto seguido cada vez que se toca sobre él.
         //Además, se reproduce un sonido y se suma a la cantidad de oxñigeno lo correspondiente a la cantidad de oxígeno por toque.
+        //https://developer.android.com/reference/android/view/animation/ScaleAnimation
         planeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

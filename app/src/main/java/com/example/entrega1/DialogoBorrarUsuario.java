@@ -32,6 +32,7 @@ public class DialogoBorrarUsuario extends Dialog {
      * Se crea el diálogo, asignando las acciones correspondientes a cada botón mediante listeners. Si dice que sí, se accede a la base de datos para borrar el usuario y a la pantalla de login se le pasa el nombre de usuario, para borrarlo del fichero de usuarios y contraseñas
      * @param savedInstanceState
      */
+    //https://stackoverflow.com/questions/13341560/how-to-create-a-custom-dialog-box-in-android
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

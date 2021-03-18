@@ -44,8 +44,6 @@ public class RankingActivity extends Actividad {
         GuardarDatos gestorDB = new GuardarDatos (this, "OxyMars", null, 1);
         SQLiteDatabase bd = gestorDB.getWritableDatabase();
         Cursor cu = bd.rawQuery("SELECT Usuario,Oxigeno FROM Datos ORDER BY Oxigeno DESC", null);
-        //String[] campos = new String[] {"Usuario", "Oxigeno"};
-        //Cursor cu = bd.query("Datos",campos,null,null,null,null,"Oxigeno");
         String[] listaUsu = new String[0];
         float[] listaCant = new float[0];
         int[] listaPos = new int[0];
@@ -60,12 +58,10 @@ public class RankingActivity extends Actividad {
                 listaCant[i] = cu.getFloat(1);
                 cu.moveToNext();
             }
-
         }
 
         //Se crea la cabecera de la lista y el adaptador de la lista
         ListView rank = (ListView) findViewById(R.id.ranking);
-        ListView lista=findViewById(R.id.lista);
         TextView titulo = new TextView(this);
         titulo.setText(getString(R.string.ranking));
         titulo.setTypeface(Typeface.DEFAULT_BOLD);

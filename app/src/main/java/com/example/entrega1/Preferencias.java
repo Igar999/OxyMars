@@ -15,6 +15,7 @@ import androidx.preference.PreferenceManager;
 
 import java.util.Locale;
 
+//https://stackoverflow.com/questions/34886871/listening-for-preference-change
 public class Preferencias extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -24,7 +25,6 @@ public class Preferencias extends PreferenceFragmentCompat implements SharedPref
     @Override
     public void onResume() {
         super.onResume();
-        // Set up a listener whenever a key changes
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
     }
@@ -32,7 +32,6 @@ public class Preferencias extends PreferenceFragmentCompat implements SharedPref
     @Override
     public void onPause() {
         super.onPause();
-        // Unregister the listener whenever a key changes
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
