@@ -26,6 +26,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.entrega1.runnables.ActualizarDatosUsuario;
+import com.example.entrega1.runnables.ObtenerDatosUsuario;
+
 import java.util.Locale;
 
 public class MainActivity extends Actividad {
@@ -54,7 +57,9 @@ public class MainActivity extends Actividad {
     @Override
     protected void onPause() {
         super.onPause();
-        guardarDatos(usuario);
+        ActualizarDatosUsuario guardarDatos = new ActualizarDatosUsuario(usuario, oxi.getOxigeno(), oxi.getOxiToque(), oxi.getOxiSegundo(), oxi.getDesbloqueadoToque(), oxi.getDesbloqueadoSegundo());
+        new Thread(guardarDatos).start();
+        //guardarDatos(usuario); //BD LOCAL
     }
 
     /**
@@ -81,8 +86,11 @@ public class MainActivity extends Actividad {
         if (extras != null) {
             usuario = extras.getString("usu");
             Utils.getUtils().setUsuario(usuario);
-            cargarDatos(usuario);
+            //cargarDatos(usuario); //BD LOCAL
+            ObtenerDatosUsuario cargarDatos = new ObtenerDatosUsuario(usuario);
+            new Thread(cargarDatos).start();
         }
+        oxi.setContext(this);
 
         utils.setContext(context);
 
@@ -131,7 +139,11 @@ public class MainActivity extends Actividad {
         //https://stackoverflow.com/questions/14039265/how-to-rotate-a-drawable-by-objectanimator
         Runnable general = new Runnable() {
             public void run() {
-                guardarDatos(usuario);
+                //guardarDatos(usuario);
+
+                ActualizarDatosUsuario guardarDatos = new ActualizarDatosUsuario(usuario, oxi.getOxigeno(), oxi.getOxiToque(), oxi.getOxiSegundo(), oxi.getDesbloqueadoToque(), oxi.getDesbloqueadoSegundo());
+                new Thread(guardarDatos).start();
+
                 int i = planeta.getMeasuredHeight();
                 int j = planeta.getMeasuredWidth();
                 ObjectAnimator animation = ObjectAnimator.ofFloat(planeta, "rotation", 0, 360);
@@ -306,11 +318,11 @@ public class MainActivity extends Actividad {
     }
 
     /**
-     * Accede a la base de datos para obtener el oxígeno, el oxígeno por toque, el oxígeno por segundo y las mejoras desbloqueadas de cada tipo para el usuario indicado, y los almacena en la clase Oxigeno
+     * Accede a la base de datos local para obtener el oxígeno, el oxígeno por toque, el oxígeno por segundo y las mejoras desbloqueadas de cada tipo para el usuario indicado, y los almacena en la clase Oxigeno
      * Si el usuario no está en la base de datos, se almacenan en la clase Oxigeno unos valores por defecto
      * @param usuario El nombre del usuario actual
      */
-    public void cargarDatos(String usuario){
+    /*public void cargarDatos(String usuario){
         GuardarDatos GestorDB = new GuardarDatos (this, "OxyMars", null, 1);
         SQLiteDatabase bd = GestorDB.getWritableDatabase();
 
@@ -329,14 +341,14 @@ public class MainActivity extends Actividad {
         else{
             Oxigeno.getOxi().cargarOxi(this,0,1,0,0,0);
         }
-    }
+    }*/
 
     /**
      * Accede a la base de datos para modificar el registro del jugador cuyo nombre se pasa como parámetro y almacenar las estadísticas actuales
      * Si el usuario no existe (porque es la primera vez que juega tras crear su usuario), se crea un nuevo registro y se insertan las estadísticas actuales
      * @param usuario El nombre del usuario actual
      */
-    public void guardarDatos(String usuario){
+    /*public void guardarDatos(String usuario){
         Oxigeno oxi = Oxigeno.getOxi();
         GuardarDatos gestorDB = new GuardarDatos (this, "OxyMars", null, 1);
         SQLiteDatabase bd = gestorDB.getWritableDatabase();
@@ -361,5 +373,5 @@ public class MainActivity extends Actividad {
             //UPDATE
             bd.update("Datos", valores, "Usuario=?", argumentos);
         }
-    }
+    }*/
 }

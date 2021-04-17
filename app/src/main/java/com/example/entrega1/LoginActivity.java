@@ -7,11 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.entrega1.runnables.ComprobarExisteUsuario;
+import com.example.entrega1.runnables.ComprobarUsuario;
+import com.example.entrega1.runnables.CrearUsuario;
+import com.example.entrega1.runnables.ReceptorResultados;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -89,19 +94,42 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText usuarioLogin = login.getActivity().findViewById(R.id.textLoginUsuario);
                 EditText contraLogin = login.getActivity().findViewById(R.id.textLoginContra);
-                Boolean estado = comprobarLogin(usuarioLogin.getText().toString(),contraLogin.getText().toString());
+                //Boolean estado = comprobarLogin(usuarioLogin.getText().toString(),contraLogin.getText().toString()); //BD LOCAL
 
                 if (contraLogin.getText().toString().equals("")){
                     contraLogin.setError(getString(R.string.rellena_campo));
                 }
                 if (usuarioLogin.getText().toString().equals("")){
                     usuarioLogin.setError(getString(R.string.rellena_campo));
-                }else if (estado == null){
-                    contraLogin.setError(getString(R.string.contrasena_incorrecta));
-                }else if (!estado){
-                    usuarioLogin.setError(getString(R.string.no_existe_usuario));
                 }else{
-                    jugar(usuarioLogin.getText().toString());
+                    String contraEnc = encriptar(contraLogin.getText().toString());
+                    ComprobarUsuario comprobar = new ComprobarUsuario(usuarioLogin.getText().toString(), contraEnc);
+                    Thread hiloComprobar = new Thread(comprobar);
+                    hiloComprobar.start();
+                    while (!ReceptorResultados.getReceptorResultados().haAcabadoUsuario()){
+                        ;
+                    }
+
+                    Handler handler = new Handler();
+                    Runnable run = new Runnable() {
+                        @Override
+                        public void run() {
+                            if (ReceptorResultados.getReceptorResultados().haAcabadoUsuario()) {
+                                ReceptorResultados.getReceptorResultados().setFinUsuario(false);
+                                String resComprobar = ReceptorResultados.getReceptorResultados().obtenerResultadoUsuario();
+                                if (resComprobar.equals("usuarioInexistente")){
+                                    usuarioLogin.setError(getString(R.string.no_existe_usuario));
+                                } else if (resComprobar.equals("contraIncorrecta")){
+                                    contraLogin.setError(getString(R.string.contrasena_incorrecta));
+                                }else{
+                                    jugar(usuarioLogin.getText().toString());
+                                }
+                            }else {
+                                handler.postDelayed(this, 200);
+                            }
+                        }
+                    };
+                    handler.postDelayed(run,100);
                 }
             }
         });
@@ -127,15 +155,48 @@ public class LoginActivity extends AppCompatActivity {
                 }else if (!contraRegistrar.getText().toString().equals(contraValidarRegistrar.getText().toString())){
                     contraValidarRegistrar.setError(getString(R.string.contrasenas_no_coinciden));
                 }else{
-                    Boolean estado = registrarUsuario(usuarioRegistrar.getText().toString(),contraRegistrar.getText().toString());
-                    if (estado == null){
-                        contraRegistrar.setError(getString(R.string.contrasena_no_admitida));
-                    }else if (!estado){
-                        usuarioRegistrar.setError(getString(R.string.existe_usuario));
-                    }else{
-                        escribirAFichero();
-                        jugar(usuarioRegistrar.getText().toString());
-                    }
+                    //Boolean estado = registrarUsuario(usuarioRegistrar.getText().toString(),contraRegistrar.getText().toString());
+                    ComprobarExisteUsuario existe = new ComprobarExisteUsuario(usuarioRegistrar.getText().toString());
+                    Thread hiloExiste = new Thread(existe);
+                    hiloExiste.start();
+
+                    Handler handler = new Handler();
+                    Runnable run = new Runnable() {
+                        @Override
+                        public void run() {
+                            if (ReceptorResultados.getReceptorResultados().haAcabadoExiste()){
+                                String resExiste = ReceptorResultados.getReceptorResultados().obtenerResultadoExiste();
+                                if (resExiste.equals("si")){
+                                    usuarioRegistrar.setError(getString(R.string.existe_usuario));
+                                }else{
+                                    //escribirAFichero();
+                                    CrearUsuario crear = new CrearUsuario(usuarioRegistrar.getText().toString(), encriptar(contraRegistrar.getText().toString()));
+                                    Thread hiloCrear = new Thread(crear);
+                                    hiloCrear.start();
+                                    Runnable run2 = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (ReceptorResultados.getReceptorResultados().haAcabadoCrear()){
+                                                jugar(usuarioRegistrar.getText().toString());
+                                            }
+                                            else{
+                                                handler.postDelayed(this, 200);
+                                            }
+                                        }
+                                    };
+                                    handler.postDelayed(run2, 100);
+
+                                }
+                            }
+                            else{
+                                handler.postDelayed(this, 200);
+                            }
+                        }
+                    };
+                    handler.postDelayed(run, 100);
+                    ReceptorResultados.getReceptorResultados().setFinExiste(false);
+
+
                 }
 
             }
@@ -227,7 +288,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param contra Contraseña
      * @return Booleano que indica si es correcto
      */
-    private Boolean comprobarLogin(String usuario, String contra){
+    /*private Boolean comprobarLogin(String usuario, String contra){
         Boolean login = null;
         String contraEnc = encriptar(contra);
         if(contraEnc != null){
@@ -240,7 +301,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         return login;
-    }
+    }*/
 
     /**
      * Se coloca el usuario y la contraseña encriptada en el HashMap si no hay problemas con los datos
@@ -248,7 +309,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param contra Contraseña
      * @return Booleano que representa si ha ido bien
      */
-    private Boolean registrarUsuario(String usuario, String contra){
+    /*private Boolean registrarUsuario(String usuario, String contra){
         String contraEnc = encriptar(contra);
         Boolean estado = null;
         if (mapa.containsKey(usuario)){
@@ -258,7 +319,7 @@ public class LoginActivity extends AppCompatActivity {
             estado = true;
         }
         return estado;
-    }
+    }*/
 
     /**
      * Encripta un string mediante el algoritmo Blowfish

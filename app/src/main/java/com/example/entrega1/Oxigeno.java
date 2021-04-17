@@ -52,6 +52,27 @@ public class Oxigeno {
     }
 
     /**
+     * Se actualizan en la clase los valores de los parámetros
+     * @param oxigeno El oxígeno
+     * @param oxiToque El oxígeno por toque
+     * @param oxiSegundo El oxígeno por segundo
+     * @param desbloqueadoToque La cantidad de mejoras de oxígeno por toque desbloqueadas
+     * @param desbloqueadoSegundo La cantidad de mejoras de oxígeno por segundo desbloqueadas
+     */
+    public void actualizarValores(float oxigeno, float oxiToque, float oxiSegundo, int desbloqueadoToque, int desbloqueadoSegundo){
+        this.oxigeno = oxigeno;
+        this.oxiToque = oxiToque;
+        this.oxiSegundo = oxiSegundo;
+        this.desbloqueadoToque = desbloqueadoToque;
+        this.desbloqueadoSegundo = desbloqueadoSegundo;
+    }
+
+    public void setContext(Context pContext) {
+        this.context = pContext;
+    }
+
+
+    /**
      * Crea una instancia de la clase o devuelve la que ya existe
      * @return instancia de la clase Oxigeno (Singleton)
      */
@@ -196,6 +217,9 @@ public class Oxigeno {
      */
     public void actualizarInterfaz(Activity activity) {
         int desToque = desbloqueadoToque;
+        if (desToque == -1){
+            desToque = 0;
+        }
         ImageView asteroide = activity.findViewById(R.id.imgAsteroide);
         ImageView cohete = activity.findViewById(R.id.imgCohete);
         ImageView tierra = activity.findViewById(R.id.imgTierra);
@@ -221,6 +245,9 @@ public class Oxigeno {
 
 
         int desSegundo = desbloqueadoSegundo;
+        if (desSegundo == -1){
+            desSegundo = 0;
+        }
         String nombre = "marte"+desSegundo;
         int id = activity.getResources().getIdentifier(nombre, "drawable", activity.getPackageName());
         activity.findViewById(R.id.planeta).setBackground(activity.getDrawable(id));

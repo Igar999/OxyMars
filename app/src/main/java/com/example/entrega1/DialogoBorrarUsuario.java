@@ -13,6 +13,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.entrega1.runnables.BorrarUsuario;
+
 import java.io.OutputStreamWriter;
 
 public class DialogoBorrarUsuario extends Dialog {
@@ -43,12 +45,12 @@ public class DialogoBorrarUsuario extends Dialog {
         botonSi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                padre.finish();
+                /*padre.finish();
                 GuardarDatos GestorDB = new GuardarDatos (padre, "OxyMars", null, 1);
                 SQLiteDatabase bd = GestorDB.getWritableDatabase();
                 String[] argumentos = new String[] {Utils.getUtils().getUsuario()};
                 bd.delete("Datos", "Usuario=?", argumentos);
-
+                */
                 try {
                     OutputStreamWriter fichero = new OutputStreamWriter(padre.openFileOutput("usuLog.txt", Context.MODE_PRIVATE));
                     fichero.write("");
@@ -56,8 +58,11 @@ public class DialogoBorrarUsuario extends Dialog {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+
+                BorrarUsuario borrar = new BorrarUsuario(Utils.getUtils().getUsuario());
+                new Thread(borrar).start();
+
                 Intent i = new Intent(padre, LoginActivity.class);
-                i.putExtra("borrar", Utils.getUtils().getUsuario());
                 padre.startActivity(i);
                 padre.finish();
             }

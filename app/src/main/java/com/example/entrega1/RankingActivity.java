@@ -11,14 +11,24 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.entrega1.runnables.ObtenerDatosUsuario;
+import com.example.entrega1.runnables.ObtenerUsuariosRanking;
+import com.example.entrega1.runnables.ReceptorResultados;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 public class RankingActivity extends Actividad {
@@ -40,8 +50,8 @@ public class RankingActivity extends Actividad {
             usuario = extras.getString("usu");
         }
 
-        //Se accede a la base de datos para obtener los datos de todos los usuarios y meterlos en listas
-        GuardarDatos gestorDB = new GuardarDatos (this, "OxyMars", null, 1);
+        //Se accede a la base de datos local para obtener los datos de todos los usuarios y meterlos en listas
+        /*GuardarDatos gestorDB = new GuardarDatos (this, "OxyMars", null, 1);
         SQLiteDatabase bd = gestorDB.getWritableDatabase();
         Cursor cu = bd.rawQuery("SELECT Usuario,Oxigeno FROM Datos ORDER BY Oxigeno DESC", null);
         String[] listaUsu = new String[0];
@@ -58,19 +68,63 @@ public class RankingActivity extends Actividad {
                 listaCant[i] = cu.getFloat(1);
                 cu.moveToNext();
             }
+        }*/
+
+
+
+        ObtenerUsuariosRanking personas = new ObtenerUsuariosRanking();
+        Thread hiloPersonas = new Thread(personas);
+        hiloPersonas.start();
+        while(!ReceptorResultados.getReceptorResultados().haAcabadoRanking()){
+            ;
         }
 
-        //Se crea la cabecera de la lista y el adaptador de la lista
-        ListView rank = (ListView) findViewById(R.id.ranking);
-        TextView titulo = new TextView(this);
-        titulo.setText(getString(R.string.ranking));
-        titulo.setTypeface(Typeface.DEFAULT_BOLD);
-        titulo.setTextColor(Color.WHITE);
-        titulo.setTextSize(TypedValue.COMPLEX_UNIT_DIP,30);
-        titulo.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        rank.addHeaderView(titulo);
-        AdaptadorRanking adaptador= new AdaptadorRanking(this,listaUsu,listaCant,listaPos,usuario);
-        rank.setAdapter(adaptador);
+        Handler handler = new Handler();
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                if (ReceptorResultados.getReceptorResultados().haAcabadoRanking()){
+                    String[] listaUsu = new String[0];
+                    float[] listaCant = new float[0];
+                    int[] listaPos = new int[0];
+
+                    ReceptorResultados.getReceptorResultados().setFinRanking(false);
+                    try{
+                        JSONArray array = ReceptorResultados.getReceptorResultados().obtenerResultadoRanking();
+                        listaUsu = new String[array.length()];
+                        listaCant = new float[array.length()];
+                        listaPos = new int[array.length()];
+                        for (int i = 0; i < array.length(); i++){
+                            JSONObject j = array.getJSONObject(i);
+                            listaPos[i] = i+1;
+                            listaUsu[i] = j.getString("usuario");
+                            listaCant[i] = j.getInt("oxigeno");
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
+                    //Se crea la cabecera de la lista y el adaptador de la lista
+                    ListView rank = (ListView) findViewById(R.id.ranking);
+                    TextView titulo = new TextView(RankingActivity.this);
+                    titulo.setText(getString(R.string.ranking));
+                    titulo.setTypeface(Typeface.DEFAULT_BOLD);
+                    titulo.setTextColor(Color.WHITE);
+                    titulo.setTextSize(TypedValue.COMPLEX_UNIT_DIP,30);
+                    titulo.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    rank.addHeaderView(titulo);
+                    AdaptadorRanking adaptador= new AdaptadorRanking(RankingActivity.this,listaUsu,listaCant,listaPos,usuario);
+                    rank.setAdapter(adaptador);
+                }else{
+                    handler.postDelayed(this, 200);
+                }
+            }
+        };
+
+        handler.postDelayed(run, 100);
+
+
     }
 
     /**
