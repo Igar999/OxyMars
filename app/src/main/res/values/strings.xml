@@ -30,6 +30,7 @@
     <string name="no_tienes_usuario">¿No tienes usuario?</string>
     <string name="registrar">REGISTER</string>
     <string name="repite_contrasena">Repite la contraseña</string>
+    <string name="foto_perfil">Foto de perfil</string>
     <string name="volver_login">Volver al login</string>
     <string name="no_existe_usuario">Ese usuario no existe</string>
     <string name="contrasena_incorrecta">La contraseña es incorrecta</string>
@@ -80,6 +81,7 @@
     <string name="ovni">OVNI</string>
     <string name="agujeronegro">Agujero negro</string>
     <string name="borrarUsuario">¿Quieres borrar este usuario?</string>
+    <string name="borradoCorrectamente">Usuario borrado correctamente</string>
     <string name="parrafo_ayuda">Hola compañero astronauta, te he dejado esta nota por si en algún momento se te olvida tu misión.\n\n
                 Tu misión consiste en conseguir oxígeno para crear vida en Marte.\n\n
                 Cada vez que se toca el planeta, se genera oxígeno, que se puede ver en la parte superior de la pantalla.\n\n

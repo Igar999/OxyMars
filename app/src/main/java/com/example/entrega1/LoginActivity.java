@@ -6,11 +6,13 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.entrega1.runnables.ComprobarExisteUsuario;
@@ -134,15 +136,25 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        ImageView foto = registrar.getActivity().findViewById(R.id.fotoPerfil);
+        foto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent elIntentGal = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(elIntentGal, 64);
+            }
+        });
+
         //Se asigna el listener al botón para que compruebe si los datos de registro son correctos, y si lo son, se va al juego. Si no, se muestra el error
-        Button botonRegistrar = login.getActivity().findViewById(R.id.botonRegistrar);
+        Button botonRegistrar = registrar.getActivity().findViewById(R.id.botonRegistrar);
         botonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                EditText usuarioRegistrar = login.getActivity().findViewById(R.id.textRegistrarUsuario);
-                EditText contraRegistrar = login.getActivity().findViewById(R.id.textRegistrarContra);
-                EditText contraValidarRegistrar = login.getActivity().findViewById(R.id.textRegistrarValidContra);
+                EditText usuarioRegistrar = registrar.getActivity().findViewById(R.id.textRegistrarUsuario);
+                EditText contraRegistrar = registrar.getActivity().findViewById(R.id.textRegistrarContra);
+                EditText contraValidarRegistrar = registrar.getActivity().findViewById(R.id.textRegistrarValidContra);
 
                 if (usuarioRegistrar.getText().toString().equals("")){
                     usuarioRegistrar.setError(getString(R.string.rellena_campo));
@@ -360,6 +372,13 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 64 && resultCode == RESULT_OK) {
+            Uri imagenSeleccionada = data.getData();
+            ((ImageView)getFragmentManager().findFragmentById(R.id.fragmentRegistrar).getActivity().findViewById(R.id.fotoPerfil)).setImageURI(imagenSeleccionada);
+        }
+    }
 
 }

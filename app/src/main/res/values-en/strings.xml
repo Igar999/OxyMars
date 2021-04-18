@@ -31,6 +31,7 @@
     <string name="no_tienes_usuario">Need a user?</string>
     <string name="registrar">REGISTER</string>
     <string name="repite_contrasena">Repeat the password</string>
+    <string name="foto_perfil">Profile picture</string>
     <string name="volver_login">Return to login</string>
     <string name="no_existe_usuario">This username does not exist</string>
     <string name="contrasena_incorrecta">Wrong password</string>
@@ -81,6 +82,7 @@
     <string name="ovni">UFO</string>
     <string name="agujeronegro">Black hola</string>
     <string name="borrarUsuario">Do you want to delete this user?</string>
+    <string name="borradoCorrectamente">User deleted successfuly</string>
     <string name="parrafo_ayuda">Hello astronaut partner, i left you this note in case you ever forget your mission.\n\n
                 OxyMars consists in getting oxygen to create life in Mars.\n\n
                 Each time the planet is tapped, oxygen will be generated, which can be viewed in the upper part of the screen.\n\n

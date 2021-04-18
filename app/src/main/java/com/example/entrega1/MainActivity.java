@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -29,6 +30,12 @@ import android.widget.TextView;
 import com.example.entrega1.runnables.ActualizarDatosUsuario;
 import com.example.entrega1.runnables.ObtenerDatosUsuario;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Locale;
 
 public class MainActivity extends Actividad {
@@ -77,6 +84,8 @@ public class MainActivity extends Actividad {
         configuration.setLayoutDirection(nuevaloc);
         Context context = createConfigurationContext(configuration);
         getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+
+        String token = ServicioFirebase.getToken(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

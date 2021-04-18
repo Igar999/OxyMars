@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "361410402923",
+    "project_id": "oxymarsdas",
+    "storage_bucket": "oxymarsdas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361410402923:android:7992a2f82f91b07dc4ef2e",
+        "android_client_info": {
+          "package_name": "com.example.entrega1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361410402923-780a4tckclirqogcntcoqmvcmufto0gk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXnrrdqfuvCRavg0iHo_Et0j94mhc_ACQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361410402923-780a4tckclirqogcntcoqmvcmufto0gk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,13 @@ import androidx.annotation.Nullable;
 
 import com.example.entrega1.runnables.BorrarUsuario;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class DialogoBorrarUsuario extends Dialog {
 
@@ -62,6 +69,14 @@ public class DialogoBorrarUsuario extends Dialog {
                 BorrarUsuario borrar = new BorrarUsuario(Utils.getUtils().getUsuario());
                 new Thread(borrar).start();
 
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        enviarFCM();
+                    }
+                }).start();
+
+
                 Intent i = new Intent(padre, LoginActivity.class);
                 padre.startActivity(i);
                 padre.finish();
@@ -74,5 +89,33 @@ public class DialogoBorrarUsuario extends Dialog {
                 dismiss();
             }
         });
+    }
+
+
+    private void enviarFCM(){
+        try {
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("token", ServicioFirebase.getToken(padre));
+            String parametros = builder.build().getEncodedQuery();
+
+            String direccion = "http://ec2-54-167-31-169.compute-1.amazonaws.com/igarcia353/WEB/fcm.php";
+            HttpURLConnection urlConnection = null;
+            URL destino = new URL(direccion);
+            urlConnection = (HttpURLConnection) destino.openConnection();
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
+
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setDoOutput(true);
+            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            PrintWriter out = new PrintWriter(urlConnection.getOutputStream());
+            out.print(parametros);
+            out.close();
+
+            int statusCode = urlConnection.getResponseCode();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
