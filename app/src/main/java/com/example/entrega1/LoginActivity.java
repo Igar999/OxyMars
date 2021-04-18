@@ -2,13 +2,19 @@ package com.example.entrega1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,10 +29,19 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.crypto.Cipher;
@@ -140,9 +155,8 @@ public class LoginActivity extends AppCompatActivity {
         foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent elIntentGal = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(elIntentGal, 64);
+                Dialog dialogoFoto= new DialogoImagenPerfil(LoginActivity.this);
+                dialogoFoto.show();
             }
         });
 
@@ -181,15 +195,27 @@ public class LoginActivity extends AppCompatActivity {
                                 if (resExiste.equals("si")){
                                     usuarioRegistrar.setError(getString(R.string.existe_usuario));
                                 }else{
+                                    BitmapDrawable imagen = (BitmapDrawable) foto.getDrawable();
+                                    Bitmap bitmap = imagen.getBitmap();
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    byte[] fototransformada = stream.toByteArray();
+                                    String fotoen64 = Base64.encodeToString(fototransformada,Base64.DEFAULT);
+
                                     //escribirAFichero();
-                                    CrearUsuario crear = new CrearUsuario(usuarioRegistrar.getText().toString(), encriptar(contraRegistrar.getText().toString()));
+                                    CrearUsuario crear = new CrearUsuario(usuarioRegistrar.getText().toString(), encriptar(contraRegistrar.getText().toString()),fotoen64);
                                     Thread hiloCrear = new Thread(crear);
                                     hiloCrear.start();
                                     Runnable run2 = new Runnable() {
                                         @Override
                                         public void run() {
-                                            if (ReceptorResultados.getReceptorResultados().haAcabadoCrear()){
-                                                jugar(usuarioRegistrar.getText().toString());
+                                            if (ReceptorResultados.getReceptorResultados().haAcabadoCrear()) {
+                                                if (ReceptorResultados.getReceptorResultados().obtenerResultadoCrear().equals("ok")){
+                                                    Utils.getUtils().enviarFCM(LoginActivity.this, "okCrear");
+                                                    jugar(usuarioRegistrar.getText().toString());
+                                                }else{
+                                                    Utils.getUtils().enviarFCM(LoginActivity.this, "errorCrear");
+                                                }
                                             }
                                             else{
                                                 handler.postDelayed(this, 200);
@@ -376,9 +402,54 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 64 && resultCode == RESULT_OK) {
+
             Uri imagenSeleccionada = data.getData();
-            ((ImageView)getFragmentManager().findFragmentById(R.id.fragmentRegistrar).getActivity().findViewById(R.id.fotoPerfil)).setImageURI(imagenSeleccionada);
+            Bitmap laminiatura = null;
+            try {
+                laminiatura = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagenSeleccionada);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            File eldirectorio = this.getFilesDir();
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+            String nombrefichero = "IMG_" + timeStamp + "_";
+            File imagenFich = new File(eldirectorio, nombrefichero + ".jpg");
+            OutputStream os;
+            try {
+                os = new FileOutputStream(imagenFich);
+                laminiatura.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                os.flush();
+                os.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                laminiatura = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagenSeleccionada);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Bitmap miniaturaCrop;
+            if(laminiatura.getHeight() >= laminiatura.getWidth()){
+                miniaturaCrop = Bitmap.createBitmap(laminiatura, 0, (laminiatura.getHeight()-laminiatura.getWidth())/2, laminiatura.getWidth(), laminiatura.getWidth());
+            }else{
+                miniaturaCrop = Bitmap.createBitmap(laminiatura, (laminiatura.getWidth()-laminiatura.getHeight())/2, 0, laminiatura.getHeight(), laminiatura.getHeight());
+            }
+
+            ((ImageView)getFragmentManager().findFragmentById(R.id.fragmentRegistrar).getActivity().findViewById(R.id.fotoPerfil)).setImageBitmap(miniaturaCrop);
         }
+        if (requestCode == 70 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap laminiatura = (Bitmap) extras.get("data");
+            Bitmap miniaturaCrop;
+            if(laminiatura.getHeight() >= laminiatura.getWidth()){
+                 miniaturaCrop = Bitmap.createBitmap(laminiatura, 0, (laminiatura.getHeight()-laminiatura.getWidth())/2, laminiatura.getWidth(), laminiatura.getWidth());
+            }else{
+                miniaturaCrop = Bitmap.createBitmap(laminiatura, (laminiatura.getWidth()-laminiatura.getHeight())/2, 0, laminiatura.getHeight(), laminiatura.getHeight());
+            }
+            ((ImageView)getFragmentManager().findFragmentById(R.id.fragmentRegistrar).getActivity().findViewById(R.id.fotoPerfil)).setImageBitmap(miniaturaCrop);
+        }
+
     }
 
 }

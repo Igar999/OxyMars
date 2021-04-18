@@ -14,9 +14,14 @@ exit();
 
 $usuario = $_POST["usuario"];
 $contra = $_POST["contra"];
+$foto = $_POST["foto"];
 
 # Ejecutar la sentencia SQL
-$resultado = mysqli_query($con, "INSERT INTO Datos(Usuario, Contra, Oxigeno, OxiToque, OxiSegundo, DesbloqueadoToque, DesbloqueadoSegundo) VALUES ('$usuario','$contra',0,1,0,0,0)");
+if ($usuario === null){
+	echo 'Error: usuario vacio';
+	exit;
+}
+$resultado = mysqli_query($con, "INSERT INTO Datos(Usuario, Contra, Foto, Oxigeno, OxiToque, OxiSegundo, DesbloqueadoToque, DesbloqueadoSegundo) VALUES ('$usuario','$contra','$foto',0,1,0,0,0)");
 
 # Comprobar si se ha ejecutado correctamente
 if (!$resultado) {

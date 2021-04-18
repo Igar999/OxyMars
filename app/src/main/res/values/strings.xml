@@ -82,6 +82,9 @@
     <string name="agujeronegro">Agujero negro</string>
     <string name="borrarUsuario">¿Quieres borrar este usuario?</string>
     <string name="borradoCorrectamente">Usuario borrado correctamente</string>
+    <string name="creadoCorrectamente">Usuario creado correctamente</string>
+    <string name="errorCreado">Error al crear el usuario</string>
+    <string name="selecciona_metodo">Selecciona un método</string>
     <string name="parrafo_ayuda">Hola compañero astronauta, te he dejado esta nota por si en algún momento se te olvida tu misión.\n\n
                 Tu misión consiste en conseguir oxígeno para crear vida en Marte.\n\n
                 Cada vez que se toca el planeta, se genera oxígeno, que se puede ver en la parte superior de la pantalla.\n\n

@@ -21,7 +21,7 @@
             android:id="@+id/fragment2"
             android:name="com.example.entrega1.Preferencias"
             android:layout_width="fill_parent"
-            android:layout_height="546dp" />
+            android:layout_height="444dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.234" />
+                app:layout_constraintVertical_bias="0.61" />
 
             <TextView
                 android:id="@+id/textView21"
@@ -58,7 +58,7 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/textUsuarioLogout"
                 app:layout_constraintEnd_toEndOf="@+id/textUsuarioLogout"
-                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textUsuarioLogout"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
@@ -117,6 +117,16 @@
                 app:layout_constraintBottom_toTopOf="@+id/infoImg"
                 app:layout_constraintEnd_toEndOf="@+id/infoImg"
                 app:layout_constraintStart_toStartOf="@+id/infoImg" />
+
+            <ImageView
+                android:id="@+id/imagenUsuario"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView21"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_myplaces" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

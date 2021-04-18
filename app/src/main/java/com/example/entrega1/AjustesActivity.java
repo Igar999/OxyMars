@@ -10,9 +10,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
 
@@ -97,6 +101,11 @@ public class AjustesActivity extends Actividad {
                 finish();
             }
         });
+
+        ImageView imagenUsuario = findViewById(R.id.imagenUsuario);
+        byte[] bytes = Base64.decode(Utils.getUtils().getImagenUsu(), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        imagenUsuario.setImageBitmap(bitmap);
     }
 
     /**

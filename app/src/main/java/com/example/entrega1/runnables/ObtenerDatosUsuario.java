@@ -3,6 +3,7 @@ package com.example.entrega1.runnables;
 import android.net.Uri;
 
 import com.example.entrega1.Oxigeno;
+import com.example.entrega1.Utils;
 
 import org.json.JSONObject;
 
@@ -54,6 +55,7 @@ public class ObtenerDatosUsuario implements Runnable {
                 }
                 inputStream.close();
                 JSONObject jsonObject = new JSONObject(result);
+                Utils.getUtils().imagenUsuario(jsonObject.getString("foto"));
                 Oxigeno.getOxi().actualizarValores(
                         jsonObject.getLong("oxigeno"),
                         jsonObject.getLong("oxiToque"),

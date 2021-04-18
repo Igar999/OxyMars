@@ -1,5 +1,6 @@
 <?php
 $token = $_POST['token'];
+$mensaje = $_POST['mensaje'];
 
 $cabecera= array(
 'Authorization: key=AAAAVCW9Gms:APA91bG46Bu3DuGummaz9N0j7hvzZsJVPUO8-FYK7INGRzlxXbqRlS6jA-gXffW0afTrai0nByXgXYYluEDnNm5Nid6qsTRzVswEt78s3ImVFnup-LK5gmWT0Lj-lv68HsGw9npD_4cI',
@@ -7,7 +8,10 @@ $cabecera= array(
 );
 
 $msg= array(
-'to'=> $token
+	'to'=> $token,
+	'data' => array (
+		"mensaje" => "$mensaje",
+	),
 );
 
 $msgJSON= json_encode ($msg);

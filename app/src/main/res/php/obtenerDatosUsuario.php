@@ -15,7 +15,7 @@ if (mysqli_connect_errno($con)) {
 $usuario = $_POST["usuario"];
 
 # Ejecutar la sentencia SQL
-$resultado = mysqli_query($con, "SELECT Oxigeno, OxiToque, OxiSegundo, DesbloqueadoToque, DesbloqueadoSegundo FROM Datos WHERE Usuario = '$usuario'");
+$resultado = mysqli_query($con, "SELECT Foto, Oxigeno, OxiToque, OxiSegundo, DesbloqueadoToque, DesbloqueadoSegundo FROM Datos WHERE Usuario = '$usuario'");
 
 # Comprobar si se ha ejecutado correctamente
 if (!$resultado) {
@@ -27,11 +27,12 @@ if (!$resultado) {
 $fila = mysqli_fetch_row($resultado);
 # Generar el array con los resultados con la forma Atributo - Valor
 $arrayresultados = array(
-'oxigeno' => $fila[0],
-'oxiToque' => $fila[1],
-'oxiSegundo' => $fila[2],
-'desbloqueadoToque' => $fila[3],
-'desbloqueadoSegundo' => $fila[4],
+'foto' => $fila[0],
+'oxigeno' => $fila[1],
+'oxiToque' => $fila[2],
+'oxiSegundo' => $fila[3],
+'desbloqueadoToque' => $fila[4],
+'desbloqueadoSegundo' => $fila[5],
 );
 echo json_encode($arrayresultados);
 

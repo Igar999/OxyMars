@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.entrega1.runnables.ObtenerDatosUsuario;
 import com.example.entrega1.runnables.ObtenerUsuariosRanking;
 import com.example.entrega1.runnables.ReceptorResultados;
 

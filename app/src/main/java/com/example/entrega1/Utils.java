@@ -10,12 +10,16 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -26,6 +30,7 @@ public class Utils {
     private Context context;
     private Boolean musicaLista = false;
     private String usuario;
+    private String imagenUsu;
 
     /**
      * Crea una instancia de la clase o devuelve la que ya existe
@@ -180,4 +185,46 @@ public class Utils {
     }
 
 
+    public void imagenUsuario(String foto) {
+        this.imagenUsu = foto;
+    }
+
+    public String getImagenUsu() {
+        return imagenUsu;
+    }
+
+    public void enviarFCM(Context context, String mensaje){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Uri.Builder builder = new Uri.Builder()
+                            .appendQueryParameter("token", ServicioFirebase.getToken(context))
+                            .appendQueryParameter("mensaje", mensaje);
+                    String parametros = builder.build().getEncodedQuery();
+
+                    String direccion = "http://ec2-54-167-31-169.compute-1.amazonaws.com/igarcia353/WEB/fcm.php";
+                    HttpURLConnection urlConnection = null;
+                    URL destino = new URL(direccion);
+                    urlConnection = (HttpURLConnection) destino.openConnection();
+                    urlConnection.setConnectTimeout(5000);
+                    urlConnection.setReadTimeout(5000);
+
+                    urlConnection.setRequestMethod("POST");
+                    urlConnection.setDoOutput(true);
+                    urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+                    PrintWriter out = new PrintWriter(urlConnection.getOutputStream());
+                    out.print(parametros);
+                    out.close();
+
+                    int statusCode = urlConnection.getResponseCode();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+    }
 }

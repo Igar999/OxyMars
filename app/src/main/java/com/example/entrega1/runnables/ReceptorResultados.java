@@ -13,6 +13,7 @@ public class ReceptorResultados {
     private String resUsuario;
     private String resExiste;
     private JSONArray resRanking;
+    private String resCrear;
 
     private Boolean finUsuario = false;
     private Boolean finExiste = false;
@@ -97,6 +98,14 @@ public class ReceptorResultados {
 
     public void setFinCrear(Boolean finCrear) {
         this.finCrear = finCrear;
+    }
+
+    public void setResCrear(String resCrear) {
+        this.resCrear = resCrear;
+    }
+
+    public String obtenerResultadoCrear(){
+        return resCrear;
     }
 
     public Boolean haAcabadoCargar(){

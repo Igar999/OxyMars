@@ -42,6 +42,7 @@ public class ServicioFirebase extends FirebaseMessagingService {
         }
         if (remoteMessage.getNotification() != null) {
         }*/
+
         Log.i("notificacion", "Llega aqui");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
@@ -65,7 +66,19 @@ public class ServicioFirebase extends FirebaseMessagingService {
             elManager.createNotificationChannel(elCanal);
         }
 
-        contentView.setTextViewText(R.id.textoVuelve, getApplicationContext().getString(R.string.borradoCorrectamente));
+        switch (remoteMessage.toIntent().getExtras().getString("mensaje")){
+            case ("okCrear"):
+                contentView.setTextViewText(R.id.textoVuelve, getApplicationContext().getString(R.string.creadoCorrectamente));
+                break;
+            case ("errorCrear"):
+                contentView.setTextViewText(R.id.textoVuelve, getApplicationContext().getString(R.string.errorCreado));
+                break;
+            case ("okBorrar"):
+                contentView.setTextViewText(R.id.textoVuelve, getApplicationContext().getString(R.string.borradoCorrectamente));
+                break;
+        }
+
+
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext(), "aus")
