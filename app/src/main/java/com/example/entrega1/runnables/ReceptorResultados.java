@@ -1,8 +1,11 @@
 package com.example.entrega1.runnables;
 
 import android.content.Context;
+import android.service.controls.actions.BooleanAction;
 
 import org.json.JSONArray;
+
+import java.util.Base64;
 
 
 public class ReceptorResultados {
@@ -20,6 +23,7 @@ public class ReceptorResultados {
     private Boolean finRanking = false;
     private Boolean finCrear = false;
     private Boolean finCargar = false;
+    private Boolean finActualizar = false;
 
 
 
@@ -114,5 +118,21 @@ public class ReceptorResultados {
 
     public void setFinCargar(Boolean finCargar) {
         this.finCargar = finCargar;
+    }
+
+    public Boolean haAcabadoActualizar(){
+        Boolean ret;
+        if (finActualizar){
+            ret = true;
+            finActualizar = false;
+        }
+        else {
+            ret = false;
+        }
+        return ret;
+    }
+
+    public void setFinActualizar(Boolean finActualizar) {
+        this.finActualizar = finActualizar;
     }
 }

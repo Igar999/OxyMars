@@ -31,6 +31,11 @@ public class Actividad extends AppCompatActivity {
         super.onPause();
         Utils.getUtils().musicaPause();
 
+        AlarmManager am=(AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent2 = new Intent(getApplicationContext(), WidgetActualizar.class);
+        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), 7475, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ 1000, pi);
+
         //https://stackoverflow.com/questions/39674850/send-a-notification-when-the-app-is-closed
         AlarmManager alarmMgr;
         PendingIntent alarmIntent;
@@ -48,6 +53,11 @@ public class Actividad extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Utils.getUtils().musicaPlay();
+
+        AlarmManager am=(AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent2 = new Intent(getApplicationContext(), WidgetActualizar.class);
+        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), 7475, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ 1000, pi);
 
         //https://stackoverflow.com/questions/28922521/how-to-cancel-alarm-from-alarmmanager/28922621
         AlarmManager alarmMgr;

@@ -53,6 +53,7 @@ public class ActualizarDatosUsuario implements Runnable {
             out.close();
 
             int statusCode = urlConnection.getResponseCode();
+            ReceptorResultados.getReceptorResultados().setFinActualizar(true);
         }
         catch (Exception e){
             e.printStackTrace();

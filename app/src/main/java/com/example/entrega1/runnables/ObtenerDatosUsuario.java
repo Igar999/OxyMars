@@ -63,6 +63,7 @@ public class ObtenerDatosUsuario implements Runnable {
                         jsonObject.getInt("desbloqueadoToque"),
                         jsonObject.getInt("desbloqueadoSegundo")
                 );
+                ReceptorResultados.getReceptorResultados().setFinCargar(true);
             }
         }
         catch (Exception e){

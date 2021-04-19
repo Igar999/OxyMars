@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -227,4 +228,32 @@ public class Utils {
 
 
     }
+
+    /**
+     * Comprueba si previamente había un usuario logeado al cerrar la app, para que no tenga que logearse de nuevo
+     * @return nombre del usuario logeado (vacío si no hay)
+     */
+    public String comprobarUsuarioLogeado(Context contexto) {
+        String usuarioLog = "";
+        try {
+            BufferedReader ficherointerno = new BufferedReader(new InputStreamReader(contexto.openFileInput("usuLog.txt")));
+            usuarioLog = ficherointerno.readLine();
+            if (usuarioLog == null){
+                usuarioLog = "";
+            }
+            ficherointerno.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            try{
+                OutputStreamWriter fichero = new OutputStreamWriter(contexto.openFileOutput("usuLog.txt", Context.MODE_PRIVATE));
+                fichero.write("");
+                fichero.close();
+                usuarioLog = "";
+            } catch (Exception f){
+                f.printStackTrace();
+            }
+        }
+        return usuarioLog;
+    }
+
 }

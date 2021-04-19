@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Se comprueba si ya hay algun usuario logeado, y si es el caso, se salta directamente al juego
-        String usuario = comprobarUsuarioLogeado();
+        String usuario = Utils.getUtils().comprobarUsuarioLogeado(this);
         if (usuario != ""){
             jugar(usuario);
         }
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         Utils utils = Utils.getUtils();
 
         //Se carga el json del fichero de usuarios y contraseñas a un HashMap, para poder acceder fácilmente a los datos
-        leerDeFichero();
+        //leerDeFichero();
 
         //Se obtienen los dos fragments
         Fragment login =  getFragmentManager().findFragmentById(R.id.fragmentLogin);
@@ -241,33 +241,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    /**
-     * Comprueba si previamente había un usuario logeado al cerrar la app, para que no tenga que logearse de nuevo
-     * @return nombre del usuario logeado (vacío si no hay)
-     */
-    private String comprobarUsuarioLogeado() {
-        String usuarioLog = "";
-        try {
-            BufferedReader ficherointerno = new BufferedReader(new InputStreamReader(openFileInput("usuLog.txt")));
-            usuarioLog = ficherointerno.readLine();
-            if (usuarioLog == null){
-                usuarioLog = "";
-            }
-            ficherointerno.close();
-        } catch (Exception e){
-            e.printStackTrace();
-            try{
-                OutputStreamWriter fichero = new OutputStreamWriter(openFileOutput("usuLog.txt", Context.MODE_PRIVATE));
-                fichero.write("");
-                fichero.close();
-                usuarioLog = "";
-            } catch (Exception f){
-                f.printStackTrace();
-            }
-        }
-        return usuarioLog;
     }
 
     /**

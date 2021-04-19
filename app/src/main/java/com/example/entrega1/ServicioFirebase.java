@@ -78,8 +78,6 @@ public class ServicioFirebase extends FirebaseMessagingService {
                 break;
         }
 
-
-
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext(), "aus")
                         .setSmallIcon(R.drawable.marte)
