@@ -13,6 +13,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.android.gms.fitness.data.Value;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class Utils {
     private Boolean musicaLista = false;
     private String usuario;
     private String imagenUsu;
+    private Integer pasos = -1;
 
     /**
      * Crea una instancia de la clase o devuelve la que ya existe
@@ -256,4 +259,16 @@ public class Utils {
         return usuarioLog;
     }
 
+    public void setPasos(Integer pasos) {
+        if (this.pasos == -1){
+            this.pasos = pasos;
+        }
+    }
+
+    public void comprobarPasos(Integer nuevosPasos) {
+        if ((nuevosPasos - pasos) >= 20){
+            pasos = pasos + 20;
+            Oxigeno.getOxi().aumentarOxigenoToque();
+        }
+    }
 }

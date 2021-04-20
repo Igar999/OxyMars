@@ -72,11 +72,7 @@ public class RankingActivity extends Actividad {
 
 
         ObtenerUsuariosRanking personas = new ObtenerUsuariosRanking();
-        Thread hiloPersonas = new Thread(personas);
-        hiloPersonas.start();
-        while(!ReceptorResultados.getReceptorResultados().haAcabadoRanking()){
-            ;
-        }
+        new Thread(personas).start();
 
         Handler handler = new Handler();
         Runnable run = new Runnable() {

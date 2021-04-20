@@ -121,8 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     String contraEnc = encriptar(contraLogin.getText().toString());
                     ComprobarUsuario comprobar = new ComprobarUsuario(usuarioLogin.getText().toString(), contraEnc);
-                    Thread hiloComprobar = new Thread(comprobar);
-                    hiloComprobar.start();
+                    new Thread(comprobar).start();
                     while (!ReceptorResultados.getReceptorResultados().haAcabadoUsuario()){
                         ;
                     }
@@ -183,8 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     //Boolean estado = registrarUsuario(usuarioRegistrar.getText().toString(),contraRegistrar.getText().toString());
                     ComprobarExisteUsuario existe = new ComprobarExisteUsuario(usuarioRegistrar.getText().toString());
-                    Thread hiloExiste = new Thread(existe);
-                    hiloExiste.start();
+                    new Thread(existe).start();
 
                     Handler handler = new Handler();
                     Runnable run = new Runnable() {
@@ -204,8 +202,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     //escribirAFichero();
                                     CrearUsuario crear = new CrearUsuario(usuarioRegistrar.getText().toString(), encriptar(contraRegistrar.getText().toString()),fotoen64);
-                                    Thread hiloCrear = new Thread(crear);
-                                    hiloCrear.start();
+                                    new Thread(crear).start();
                                     Runnable run2 = new Runnable() {
                                         @Override
                                         public void run() {

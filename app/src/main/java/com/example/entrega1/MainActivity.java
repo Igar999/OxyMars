@@ -1,5 +1,7 @@
 package com.example.entrega1;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -19,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -29,6 +32,23 @@ import android.widget.TextView;
 
 import com.example.entrega1.runnables.ActualizarDatosUsuario;
 import com.example.entrega1.runnables.ObtenerDatosUsuario;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.DataPoint;
+import com.google.android.gms.fitness.data.DataSet;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.fitness.data.Value;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -36,6 +56,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends Actividad {
@@ -102,6 +123,8 @@ public class MainActivity extends Actividad {
         oxi.setContext(this);
 
         utils.setContext(context);
+
+        accederGoogleFit();
 
         //Se empieza la música si es necesario. Si se acaba de abrir se creará un nuevo MediaPlayer, si se llega desde otra actividad se reproducirá el ya existente
         if(Utils.getUtils().musicaLista()){
@@ -314,6 +337,93 @@ public class MainActivity extends Actividad {
             ft.commit();
         }
     }
+
+
+    public void accederGoogleFit(){
+
+        GoogleSignInAccount cuenta = GoogleSignIn.getLastSignedInAccount(this);
+
+        FitnessOptions fitnessOptions = FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .build();
+        GoogleSignInAccount account = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
+        // all fields of account are empty
+
+        if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
+            Log.i("algo", "Asking for permission");
+            GoogleSignIn.requestPermissions(this, 695, account, fitnessOptions);
+        } else { // this branch is executed which is weird
+            Log.i("algo", "Already has permissions");
+            //writer your code here
+        }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 695);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == 695) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+
+            Task<GoogleSignInAccount> task =
+                    GoogleSignIn.getSignedInAccountFromIntent(data);
+            Log.i("algo", "algo");
+
+
+            try {
+                GoogleSignInAccount cuenta = task.getResult(ApiException.class);
+                FitnessOptions fitnessOptions = FitnessOptions.builder()
+                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                        .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                        .build();
+
+                Handler handler = new Handler();
+                Runnable fit = new Runnable() {
+                    @Override
+                    public void run() {
+                        Fitness.getHistoryClient(MainActivity.this, GoogleSignIn.getAccountForExtension(MainActivity.this,fitnessOptions))
+                                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
+                                .addOnSuccessListener(new OnSuccessListener<DataSet>() {
+                                    @Override
+                                    public void onSuccess(DataSet dataSet) {
+                                        List<DataPoint> totalSteps = dataSet.getDataPoints();
+                                        Value pasos = dataSet.getDataPoints().get(0).zze()[0];
+                                        Utils.getUtils().setPasos(pasos.asInt());
+                                        Utils.getUtils().comprobarPasos(pasos.asInt());
+                                        Log.i("algo", "algo");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                        handler.postDelayed(this, 5000);
+                    }
+                };
+                handler.postDelayed(fit,100);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+
+            Log.i("algo", "algo");
+            //handleSignInResult(task);
+        }
+    }
+
 
     /**
      * Solo se usa en horizontal, cambia el texto que aparece en el botón que cambia entre los dos listados de mejoras

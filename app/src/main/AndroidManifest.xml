@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.entrega1">
 
+
+
     <uses-feature
         android:name="android.hardware.camera2.full"
         android:required="true" />
@@ -72,6 +74,10 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDXqUFHC3w5fkirfoJmY_KDSY7ycyCEvYA" />
     </application>
 
 </manifest>
