@@ -324,7 +324,7 @@ public class MainActivity extends Actividad {
      */
     @Override
     public void onBackPressed() {
-        utils.reproducirSonido(this, R.raw.atras);
+        /*utils.reproducirSonido(this, R.raw.atras);
         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
         if((getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden() && getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) || this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             Dialog dialogocerrar= new DialogoSalir(this);
@@ -335,7 +335,11 @@ public class MainActivity extends Actividad {
         } else if (!getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden()) {
             ft.hide(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
             ft.commit();
-        }
+        }*/
+
+        Intent i = new Intent(MainActivity.this, MapaActivity.class);
+        startActivity(i);
+        finish();
     }
 
 

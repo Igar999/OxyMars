@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.entrega1">
 
-
-
     <uses-feature
         android:name="android.hardware.camera2.full"
         android:required="true" />
@@ -11,6 +9,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="false"
@@ -22,6 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".MapaActivity"></activity>
+
         <receiver android:name=".WidgetOxyMars">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -29,6 +30,7 @@
             <intent-filter>
                 <action android:name="com.example.entrega1.ACTUALIZAR_WIDGET" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_oxy_mars_info" />
@@ -39,7 +41,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity android:name=".AyudaActivity" />
         <activity android:name=".RankingActivity" />
         <activity android:name=".AjustesActivity" />
@@ -68,13 +69,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".WidgetActualizar"/>
+        <receiver android:name=".WidgetActualizar" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDXqUFHC3w5fkirfoJmY_KDSY7ycyCEvYA" />
