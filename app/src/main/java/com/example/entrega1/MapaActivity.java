@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.entrega1.runnables.ActualizarDatosUsuario;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -179,7 +180,8 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                                     .position(nuevascoordenadas)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.marcador))
                                     .title("Yo"));
-                            rellenarListaMarcadores(googleMap);
+                            iniciarMarcadores(googleMap);
+                            actualizarMarcadores(googleMap);
 
                             googleMap.moveCamera(otravista);
 
@@ -207,7 +209,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                     jugador = googleMap.addMarker(new MarkerOptions()
                             .position(pos)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.marcador)));
-                    rellenarListaMarcadores(googleMap);
+                    actualizarMarcadores(googleMap);
                 } else {
                     return;
                 }
@@ -226,6 +228,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Utils.getUtils().setListaMarkers(listaMarkers);
         if (proveedordelocalizacion != null) {
             proveedordelocalizacion.removeLocationUpdates(actualizador);
         }
@@ -261,17 +264,19 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @SuppressLint("ResourceAsColor")
-    private void rellenarListaMarcadores(GoogleMap googleMap){
+    private void iniciarMarcadores(GoogleMap googleMap){
+        for (Marker marcador : Utils.getUtils().getListaMarkers()){
+            Marker marker = googleMap.addMarker(new MarkerOptions()
+                    .position(marcador.getPosition())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.brote)));
+            marker.setDraggable(false);
+            ponerCirculo(googleMap,marcador.getPosition());
+            listaMarkers.add(marker);
+        }
+    }
 
-        Location locJugador = new Location("");
-        locJugador.setLatitude(jugador.getPosition().latitude);
-        locJugador.setLongitude(jugador.getPosition().longitude);
+    private void actualizarMarcadores(GoogleMap googleMap){
         for (int cont = listaMarkers.size()-1; cont >= 0; cont--){
-            Location locMarker = new Location("");
-            locMarker.setLatitude(listaMarkers.get(cont).getPosition().latitude);
-            locMarker.setLongitude(listaMarkers.get(cont).getPosition().latitude);
-
-            //float distancia = locJugador.distanceTo(locMarker);
             double distancia = Math.sqrt((Math.abs(jugador.getPosition().latitude-listaMarkers.get(cont).getPosition().latitude))+(Math.abs(jugador.getPosition().longitude-listaMarkers.get(cont).getPosition().longitude)));
             if (distancia < 0.0275){
                 int sumaCont = 1;
@@ -283,8 +288,18 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                 listaCirculos.get(cont).remove();
                 listaMarkers.remove(cont);
                 listaCirculos.remove(cont);
+                Oxigeno oxi = Oxigeno.getOxi();
+                ActualizarDatosUsuario actualizar = new ActualizarDatosUsuario(Utils.getUtils().getUsuario(),oxi.getOxigeno(),oxi.getOxiToque(),oxi.getOxiSegundo(),oxi.getDesbloqueadoToque(),oxi.getDesbloqueadoSegundo());
+                new Thread(actualizar).start();
                 DialogoBrote brote = new DialogoBrote(this);
                 brote.show();
+            } else if (distancia > 0.05){
+                Marker oldMarker = listaMarkers.get(cont);
+                oldMarker.remove();
+                GroundOverlay oldOverlay = listaCirculos.get(cont);
+                oldOverlay.remove();
+                listaMarkers.remove(cont);
+                listaCirculos.remove(cont);
             }
         }
 
@@ -305,14 +320,11 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                 distancia = Math.sqrt((Math.abs(jugador.getPosition().latitude-lat))+(Math.abs(jugador.getPosition().longitude-lon)));
             }
             LatLng newPos = new LatLng(lat, lon);
-
             Marker marker = googleMap.addMarker(new MarkerOptions()
                     .position(newPos)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.brote)));
             marker.setDraggable(false);
-
             ponerCirculo(googleMap,newPos);
-
             listaMarkers.add(marker);
         }
     }
@@ -323,8 +335,6 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap bm = Bitmap.createBitmap(d, d, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bm);
         Paint p = new Paint();
-        //p.setColor(getResources().getColor(R.color.green));
-        //p.setColor(R.color.green);
         p.setColor(Color.GREEN);
         c.drawCircle(d/2, d/2, d/2, p);
 

@@ -399,4 +399,17 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="@+id/botonCambio" />
 
+    <ImageView
+        android:id="@+id/botonMapa"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/botonSegundo"
+        app:layout_constraintEnd_toEndOf="@+id/botonSegundo"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/botonRanking"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/burbuja" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

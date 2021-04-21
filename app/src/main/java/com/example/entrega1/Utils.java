@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.google.android.gms.fitness.data.Value;
+import com.google.android.gms.maps.model.GroundOverlay;
+import com.google.android.gms.maps.model.Marker;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -23,6 +25,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -35,6 +38,7 @@ public class Utils {
     private String usuario;
     private String imagenUsu;
     private Integer pasos = -1;
+    private ArrayList<Marker> listaMarkers = new ArrayList<Marker>(5);
 
     /**
      * Crea una instancia de la clase o devuelve la que ya existe
@@ -270,5 +274,13 @@ public class Utils {
             pasos = pasos + 20;
             Oxigeno.getOxi().aumentarOxigenoToque();
         }
+    }
+
+    public ArrayList<Marker> getListaMarkers(){
+        return listaMarkers;
+    }
+
+    public void setListaMarkers(ArrayList<Marker> listaMarkers) {
+        this.listaMarkers = listaMarkers;
     }
 }

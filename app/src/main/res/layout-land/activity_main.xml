@@ -310,23 +310,25 @@
             android:id="@+id/botonRanking"
             android:layout_width="90dp"
             android:layout_height="45dp"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/fondo_fragment"
             android:text="@string/ranking"
             app:layout_constraintBottom_toBottomOf="@+id/botonAjustes"
             app:layout_constraintEnd_toStartOf="@+id/botonAjustes"
-            app:layout_constraintTop_toTopOf="@+id/botonAjustes" />
+            app:layout_constraintTop_toTopOf="@+id/botonAjustes"
+            app:layout_constraintVertical_bias="0.6" />
 
         <Button
             android:id="@+id/botonCambio"
             android:layout_width="121dp"
             android:layout_height="43dp"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="64dp"
             android:background="@drawable/fondo_fragment"
             android:text="@string/mejoras_oxi_segundo"
             app:layout_constraintBottom_toBottomOf="@+id/botonAjustes"
             app:layout_constraintStart_toEndOf="@+id/botonAjustes"
-            app:layout_constraintTop_toTopOf="@+id/botonAjustes" />
+            app:layout_constraintTop_toTopOf="@+id/botonAjustes"
+            app:layout_constraintVertical_bias="0.428" />
 
         <Button
             android:id="@+id/botonSegundo"
@@ -357,10 +359,10 @@
             android:layout_marginStart="36dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.355"
+            app:layout_constraintHorizontal_bias="0.26"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.024"
+            app:layout_constraintVertical_bias="0.016"
             app:srcCompat="@drawable/ajustes" />
 
         <fragment
@@ -388,6 +390,18 @@
             app:layout_constraintStart_toStartOf="@+id/botonRanking"
             app:layout_constraintTop_toBottomOf="@+id/botonAjustes"
             app:layout_constraintVertical_bias="0.302" />
+
+        <ImageView
+            android:id="@+id/botonMapa"
+            android:layout_width="45dp"
+            android:layout_height="46dp"
+            app:layout_constraintBottom_toBottomOf="@+id/botonAjustes"
+            app:layout_constraintEnd_toStartOf="@+id/botonCambio"
+            app:layout_constraintHorizontal_bias="0.578"
+            app:layout_constraintStart_toEndOf="@+id/botonAjustes"
+            app:layout_constraintTop_toTopOf="@+id/botonAjustes"
+            app:layout_constraintVertical_bias="0.23"
+            app:srcCompat="@drawable/burbuja" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

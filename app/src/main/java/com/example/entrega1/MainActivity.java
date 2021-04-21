@@ -288,6 +288,19 @@ public class MainActivity extends Actividad {
             }
         });
 
+        //Se le asigna el listener al botón de mapa para que reproduzca un sonido y lleve a la pantalla de mapa
+        ImageView botonMapa = findViewById(R.id.botonMapa);
+        botonMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                utils.reproducirSonido(MainActivity.this, R.raw.ajustes);
+                Intent i = new Intent(MainActivity.this, MapaActivity.class);
+                i.putExtra("usu", usuario);
+                startActivity(i);
+                finish();
+            }
+        });
+
         //Se le asigna el listener al botón de ranking para que lleve a la pantalla de ranking
         Button ranking = findViewById(R.id.botonRanking);
         ranking.setOnClickListener(new View.OnClickListener() {
@@ -328,7 +341,7 @@ public class MainActivity extends Actividad {
      */
     @Override
     public void onBackPressed() {
-        /*utils.reproducirSonido(this, R.raw.atras);
+        utils.reproducirSonido(this, R.raw.atras);
         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
         if((getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden() && getFragmentManager().findFragmentById(R.id.mejorasToque).isHidden()) || this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             Dialog dialogocerrar= new DialogoSalir(this);
@@ -339,11 +352,7 @@ public class MainActivity extends Actividad {
         } else if (!getFragmentManager().findFragmentById(R.id.mejorasSegundo).isHidden()) {
             ft.hide(getFragmentManager().findFragmentById(R.id.mejorasSegundo));
             ft.commit();
-        }*/
-
-        Intent i = new Intent(MainActivity.this, MapaActivity.class);
-        startActivity(i);
-        finish();
+        }
     }
 
 
