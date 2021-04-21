@@ -89,6 +89,7 @@
     <string name="appwidget_text">OxyMars</string>
     <string name="add_widget">Add widget</string>
     <string name="configure">Configure</string>
+    <string name="brote_plantado">Ypu have planted a sprout in Mars,\nso you have obtained some oxygen.</string>
     <string name="parrafo_ayuda">Hello astronaut partner, i left you this note in case you ever forget your mission.\n\n
                 OxyMars consists in getting oxygen to create life in Mars.\n\n
                 Each time the planet is tapped, oxygen will be generated, which can be viewed in the upper part of the screen.\n\n

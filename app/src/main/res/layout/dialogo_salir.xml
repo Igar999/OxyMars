@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView27"
+            android:id="@+id/textoBrote"
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:fontFamily="@font/titan_one"

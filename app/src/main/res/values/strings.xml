@@ -88,6 +88,7 @@
     <string name="appwidget_text">OxyMars</string>
     <string name="add_widget">Añadir widget</string>
     <string name="configure">Configurar</string>
+    <string name="brote_plantado">Has plantado un brote en Marte,\nasí que has obtenido algo de oxígeno.</string>
     <string name="parrafo_ayuda">Hola compañero astronauta, te he dejado esta nota por si en algún momento se te olvida tu misión.\n\n
                 Tu misión consiste en conseguir oxígeno para crear vida en Marte.\n\n
                 Cada vez que se toca el planeta, se genera oxígeno, que se puede ver en la parte superior de la pantalla.\n\n

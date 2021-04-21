@@ -3,8 +3,10 @@ package com.example.entrega1;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.AlarmManager;
 import android.app.Dialog;
@@ -14,6 +16,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -46,6 +49,7 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.data.Value;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -403,7 +407,10 @@ public class MainActivity extends Actividad {
                                     @Override
                                     public void onSuccess(DataSet dataSet) {
                                         List<DataPoint> totalSteps = dataSet.getDataPoints();
-                                        Value pasos = dataSet.getDataPoints().get(0).zze()[0];
+                                        Value pasos = new Value(0);
+                                        for (int i = 0; i < dataSet.getDataPoints().size(); i++){
+                                            pasos = dataSet.getDataPoints().get(i).zze()[0];
+                                        }
                                         Utils.getUtils().setPasos(pasos.asInt());
                                         Utils.getUtils().comprobarPasos(pasos.asInt());
                                         Log.i("algo", "algo");
