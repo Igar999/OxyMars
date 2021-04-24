@@ -403,13 +403,23 @@
         android:id="@+id/botonMapa"
         android:layout_width="51dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/botonSegundo"
-        app:layout_constraintEnd_toEndOf="@+id/botonSegundo"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/botonRanking"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/botonRanking"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/burbuja" />
+
+    <ImageView
+        android:id="@+id/botonMusica"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        app:layout_constraintBottom_toBottomOf="@+id/botonRanking"
+        app:layout_constraintEnd_toStartOf="@+id/botonRanking"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/botonmusica" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

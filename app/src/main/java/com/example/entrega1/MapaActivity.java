@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class MapaActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapaActivity extends Actividad implements OnMapReadyCallback {
 
     FusedLocationProviderClient proveedordelocalizacion;
     LocationCallback actualizador;
@@ -184,7 +184,6 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                             actualizarMarcadores(googleMap);
 
                             googleMap.moveCamera(otravista);
-
                         } else {
                             return;
                         }
@@ -236,8 +235,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
 
     //https://stackoverflow.com/questions/40142331/how-to-request-location-permission-at-runtime/59857846
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 77: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -250,6 +248,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                     startActivity(i);
                     finish();
                 }
+                break;
             }
         }
     }

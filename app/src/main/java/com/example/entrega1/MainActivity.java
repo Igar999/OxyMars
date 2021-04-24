@@ -2,28 +2,39 @@ package com.example.entrega1;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.loader.content.CursorLoader;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -40,6 +51,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.fitness.Fitness;
@@ -50,18 +62,26 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.data.Value;
 import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends Actividad {
 
@@ -120,9 +140,6 @@ public class MainActivity extends Actividad {
         if (extras != null) {
             usuario = extras.getString("usu");
             Utils.getUtils().setUsuario(usuario);
-            //cargarDatos(usuario); //BD LOCAL
-            ObtenerDatosUsuario cargarDatos = new ObtenerDatosUsuario(usuario);
-            new Thread(cargarDatos).start();
         }
         oxi.setContext(this);
 
@@ -301,6 +318,41 @@ public class MainActivity extends Actividad {
             }
         });
 
+        ImageView botonMusica = findViewById(R.id.botonMusica);
+        botonMusica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 50);
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Elige una canción");
+                    HashMap<String,String> listaCanciones = Utils.getUtils().obtenerCancionesDispositivo();
+                    String[] canciones = new String[listaCanciones.entrySet().size()+1];
+                    canciones[0] = "OxyMars";
+                    int cont = 1;
+                    for (Map.Entry<String, String> par : listaCanciones.entrySet()){
+                        canciones[cont] = par.getKey();
+                        cont++;
+                    }
+
+                    builder.setItems(canciones, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int indice) {
+                            String seleccion = canciones[indice];
+                            if (seleccion.equals("OxyMars")){
+                                Utils.getUtils().cambiarMusica(MainActivity.this, null);
+                            }else{
+                                Utils.getUtils().cambiarMusica(MainActivity.this, listaCanciones.get(seleccion));
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
+
         //Se le asigna el listener al botón de ranking para que lleve a la pantalla de ranking
         Button ranking = findViewById(R.id.botonRanking);
         ranking.setOnClickListener(new View.OnClickListener() {
@@ -456,11 +508,11 @@ public class MainActivity extends Actividad {
         }
     }
 
-    /**
-     * Accede a la base de datos local para obtener el oxígeno, el oxígeno por toque, el oxígeno por segundo y las mejoras desbloqueadas de cada tipo para el usuario indicado, y los almacena en la clase Oxigeno
-     * Si el usuario no está en la base de datos, se almacenan en la clase Oxigeno unos valores por defecto
-     * @param usuario El nombre del usuario actual
-     */
+//    /**
+//     * Accede a la base de datos local para obtener el oxígeno, el oxígeno por toque, el oxígeno por segundo y las mejoras desbloqueadas de cada tipo para el usuario indicado, y los almacena en la clase Oxigeno
+//     * Si el usuario no está en la base de datos, se almacenan en la clase Oxigeno unos valores por defecto
+//     * @param usuario El nombre del usuario actual
+//     */
     /*public void cargarDatos(String usuario){
         GuardarDatos GestorDB = new GuardarDatos (this, "OxyMars", null, 1);
         SQLiteDatabase bd = GestorDB.getWritableDatabase();
@@ -482,11 +534,11 @@ public class MainActivity extends Actividad {
         }
     }*/
 
-    /**
-     * Accede a la base de datos para modificar el registro del jugador cuyo nombre se pasa como parámetro y almacenar las estadísticas actuales
-     * Si el usuario no existe (porque es la primera vez que juega tras crear su usuario), se crea un nuevo registro y se insertan las estadísticas actuales
-     * @param usuario El nombre del usuario actual
-     */
+//    /**
+//     * Accede a la base de datos para modificar el registro del jugador cuyo nombre se pasa como parámetro y almacenar las estadísticas actuales
+//     * Si el usuario no existe (porque es la primera vez que juega tras crear su usuario), se crea un nuevo registro y se insertan las estadísticas actuales
+//     * @param usuario El nombre del usuario actual
+//     */
     /*public void guardarDatos(String usuario){
         Oxigeno oxi = Oxigeno.getOxi();
         GuardarDatos gestorDB = new GuardarDatos (this, "OxyMars", null, 1);
@@ -513,4 +565,37 @@ public class MainActivity extends Actividad {
             bd.update("Datos", valores, "Usuario=?", argumentos);
         }
     }*/
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 50: {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Elige una canción");
+                HashMap<String,String> listaCanciones = Utils.getUtils().obtenerCancionesDispositivo();
+                String[] canciones = new String[listaCanciones.entrySet().size()+1];
+                canciones[0] = "OxyMars";
+                int cont = 1;
+                for (Map.Entry<String, String> par : listaCanciones.entrySet()){
+                    canciones[cont] = par.getKey();
+                    cont++;
+                }
+
+                builder.setItems(canciones, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int indice) {
+                        String seleccion = canciones[indice];
+                        if (seleccion.equals("OxyMars")){
+                            Utils.getUtils().cambiarMusica(MainActivity.this, null);
+                        }else{
+                            Utils.getUtils().cambiarMusica(MainActivity.this, listaCanciones.get(seleccion));
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        }
+    }
 }

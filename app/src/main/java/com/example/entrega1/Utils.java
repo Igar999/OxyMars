@@ -2,15 +2,21 @@ package com.example.entrega1;
 
 import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.google.android.gms.fitness.data.Value;
@@ -26,6 +32,8 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -114,8 +122,10 @@ public class Utils {
      * Reproduce la musica almacenada en la variable si no está sonando y el usuario ha puesto en las preferencias que quiere música de fondo
      */
     public void musicaPlay(){
-        if (!musica.isPlaying() && PreferenceManager.getDefaultSharedPreferences(context).getBoolean("musica", true)){
-            musica.start();
+        if (musica != null){
+            if (!musica.isPlaying() && PreferenceManager.getDefaultSharedPreferences(context).getBoolean("musica", true)){
+                musica.start();
+            }
         }
     }
 
@@ -138,6 +148,35 @@ public class Utils {
             musica.setLooping(true); // Set looping
             musicaPlay();
             musicaLista = true;
+        }
+    }
+
+    public void cambiarMusica(Context context, String ruta){
+        musicaPause();
+        musica.release();
+        try {
+            if (ruta == null){
+                musica = MediaPlayer.create(context, R.raw.musicafondo);
+                musica.setLooping(true); // Set looping
+                musicaPlay();
+                musicaLista = true;
+            } else{
+                musica = new MediaPlayer();
+                musica.setDataSource(ruta);
+                //musica.setDataSource("/storage/emulated/0/Download/Pokemon Mystery Dungeon - Defy the Legends Remix 2.mp3");
+                musica.prepare();
+                musica.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        musica.setLooping(true); // Set looping
+                        musicaPlay();
+                        musicaLista = true;
+                    }
+                });
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -282,5 +321,25 @@ public class Utils {
 
     public void setListaMarkers(ArrayList<Marker> listaMarkers) {
         this.listaMarkers = listaMarkers;
+    }
+
+    //https://stackoverflow.com/questions/35872207/unable-to-get-audio-list-from-content-provider
+    public HashMap obtenerCancionesDispositivo(){
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity)context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 93);
+        } else {
+            HashMap<String,String> lista = new HashMap<>();
+            Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+            Cursor musicCursor = context.getContentResolver().query(musicUri,null, null, null,null);
+            musicCursor.moveToFirst();
+            for(int i=0;i<musicCursor.getCount();i++){
+                lista.put(musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)),musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
+                musicCursor.moveToNext();
+                //Log.i("column",i+" "+list.get(i));
+            }
+            //Log.i("algo","algo");
+            return lista;
+        }
+        return null;
     }
 }

@@ -290,12 +290,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Se comprueba si los datos de login son correctos
-     * @param usuario Nombre de usuario
-     * @param contra Contraseña
-     * @return Booleano que indica si es correcto
-     */
+//    /**
+//     * Se comprueba si los datos de login son correctos
+//     * @param usuario Nombre de usuario
+//     * @param contra Contraseña
+//     * @return Booleano que indica si es correcto
+//     */
     /*private Boolean comprobarLogin(String usuario, String contra){
         Boolean login = null;
         String contraEnc = encriptar(contra);
@@ -311,12 +311,12 @@ public class LoginActivity extends AppCompatActivity {
         return login;
     }*/
 
-    /**
-     * Se coloca el usuario y la contraseña encriptada en el HashMap si no hay problemas con los datos
-     * @param usuario Nombre de usuario
-     * @param contra Contraseña
-     * @return Booleano que representa si ha ido bien
-     */
+//    /**
+//     * Se coloca el usuario y la contraseña encriptada en el HashMap si no hay problemas con los datos
+//     * @param usuario Nombre de usuario
+//     * @param contra Contraseña
+//     * @return Booleano que representa si ha ido bien
+//     */
     /*private Boolean registrarUsuario(String usuario, String contra){
         String contraEnc = encriptar(contra);
         Boolean estado = null;
@@ -362,7 +362,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, CargandoActivity.class);
         i.putExtra("usu", usu);
         startActivity(i);
         finish();

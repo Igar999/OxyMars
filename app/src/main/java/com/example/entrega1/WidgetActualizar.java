@@ -16,7 +16,7 @@ public class WidgetActualizar extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.widget_oxy_mars);
-        Oxigeno.getOxi().aumentarOxigenoSegundo();
+        //Oxigeno.getOxi().aumentarOxigenoSegundo();
         remoteViews.setTextViewText(R.id.widgetTexto, String.valueOf(Oxigeno.getOxi().ponerCantidad(Oxigeno.getOxi().getOxigeno(), true)));
         ComponentName tipowidget = new ComponentName(context, WidgetOxyMars.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
