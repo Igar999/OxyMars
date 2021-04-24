@@ -3,6 +3,7 @@ package com.example.entrega1;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,10 @@ public class CargandoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cargando);
+
+        ObjectAnimator animation = ObjectAnimator.ofFloat(findViewById(R.id.coheteCarga), "translationY", -1000f);
+        animation.setDuration(2000);
+        animation.start();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

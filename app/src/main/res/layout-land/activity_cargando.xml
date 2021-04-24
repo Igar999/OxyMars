@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondocargar"
+    android:background="@drawable/fondocargarland"
     tools:context=".CargandoActivity">
 
     <ImageView
@@ -21,13 +21,13 @@
 
     <TextView
         android:id="@+id/textView27"
-        android:layout_width="406dp"
-        android:layout_height="260dp"
+        android:layout_width="719dp"
+        android:layout_height="264dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:text="@string/cargando"
         android:textAlignment="center"
-        android:textSize="50sp"
+        android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -440,24 +440,14 @@ public class MainActivity extends Actividad {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == 695) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-
-            Task<GoogleSignInAccount> task =
-                    GoogleSignIn.getSignedInAccountFromIntent(data);
-            Log.i("algo", "algo");
-
-
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount cuenta = task.getResult(ApiException.class);
                 FitnessOptions fitnessOptions = FitnessOptions.builder()
                         .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                         .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                         .build();
-
                 Handler handler = new Handler();
                 Runnable fit = new Runnable() {
                     @Override
@@ -468,13 +458,12 @@ public class MainActivity extends Actividad {
                                     @Override
                                     public void onSuccess(DataSet dataSet) {
                                         List<DataPoint> totalSteps = dataSet.getDataPoints();
-                                        Value pasos = new Value(0);
+                                        Integer pasos = 0;
                                         for (int i = 0; i < dataSet.getDataPoints().size(); i++){
-                                            pasos = dataSet.getDataPoints().get(i).zze()[0];
+                                            pasos = dataSet.getDataPoints().get(i).zze()[0].asInt();
                                         }
-                                        Utils.getUtils().setPasos(pasos.asInt());
-                                        Utils.getUtils().comprobarPasos(pasos.asInt());
-                                        Log.i("algo", "algo");
+                                        Utils.getUtils().setPasos(pasos);
+                                        Utils.getUtils().comprobarPasos(pasos);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -482,7 +471,6 @@ public class MainActivity extends Actividad {
                                 e.printStackTrace();
                             }
                         });
-
                         handler.postDelayed(this, 5000);
                     }
                 };
@@ -490,9 +478,6 @@ public class MainActivity extends Actividad {
             } catch (ApiException e) {
                 e.printStackTrace();
             }
-
-            Log.i("algo", "algo");
-            //handleSignInResult(task);
         }
     }
 
@@ -572,7 +557,7 @@ public class MainActivity extends Actividad {
         switch (requestCode) {
             case 50: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Elige una canción");
+                builder.setTitle(getResources().getString(R.string.elige_cancion));
                 HashMap<String,String> listaCanciones = Utils.getUtils().obtenerCancionesDispositivo();
                 String[] canciones = new String[listaCanciones.entrySet().size()+1];
                 canciones[0] = "OxyMars";

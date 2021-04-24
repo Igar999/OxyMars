@@ -89,6 +89,8 @@
     <string name="appwidget_text">OxyMars</string>
     <string name="add_widget">Añadir widget</string>
     <string name="configure">Configurar</string>
+    <string name="cargando">Cargando</string>
+    <string name="elige_cancion">Elige una canción</string>
     <string name="brote_plantado">Has plantado un brote en Marte,\nasí que has obtenido algo de oxígeno.</string>
     <string name="parrafo_ayuda">Hola compañero astronauta, te he dejado esta nota por si en algún momento se te olvida tu misión.\n\n
                 OxyMars consiste en conseguir oxígeno para crear vida en Marte.\n\n
