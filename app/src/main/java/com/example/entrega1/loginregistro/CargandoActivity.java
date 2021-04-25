@@ -24,8 +24,10 @@ public class CargandoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cargando);
 
         //Se establece una animación, para que sea más vistoso
-        ObjectAnimator animation = ObjectAnimator.ofFloat(findViewById(R.id.coheteCarga), "translationY", -3000f);
-        animation.setDuration(3000);
+        ObjectAnimator animation = ObjectAnimator.ofFloat(findViewById(R.id.coheteCarga), "translationY", -4500f);
+        animation.setDuration(6000);
+        animation.setRepeatMode(ObjectAnimator.RESTART);
+        animation.setRepeatCount(ObjectAnimator.INFINITE);
         animation.start();
 
         //Se lanza la petición para obtener los datos de usuario y se espera la respuesta para redirigir a la ventana principal
@@ -43,6 +45,7 @@ public class CargandoActivity extends AppCompatActivity {
                         i.putExtra("usu", usuario);
                         startActivity(i);
                         finish();
+                        handler.removeCallbacks(this);
                     }else{
                         handler.postDelayed(this, 500);
                     }
