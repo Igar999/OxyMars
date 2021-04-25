@@ -15,6 +15,9 @@ public class BorrarUsuario implements Runnable {
         this.usuario = pUsuario;
     }
 
+    /**
+     * Se crea y lanza la petición al servidor para borrar el usuario introducido como parámetro en la constructora en la base de datos del servidor
+     */
     @Override
     public void run(){
         try {

@@ -42,6 +42,10 @@ public class ReceptorResultados {
     private ReceptorResultados(){
     }
 
+
+    //Métodos para hacer get y set de los parámetros relativos a la comprobación de usuario y contraseña para saber si son correctos
+    //fin almacena si la ejecución del Runnable ha llegado a su fin
+    //res almacena el resultado obtenido en el Runnable
     public Boolean haAcabadoUsuario(){
         return finUsuario;
     }
@@ -59,6 +63,12 @@ public class ReceptorResultados {
         this.resUsuario = resUsuario;
     }
 
+
+
+
+    //Métodos para hacer get y set de los parámetros relativos a la comprobación de usuario para saber si existe
+    //fin almacena si la ejecución del Runnable ha llegado a su fin
+    //res almacena el resultado obtenido en el Runnable
     public Boolean haAcabadoExiste(){
         return finExiste;
     }
@@ -76,6 +86,12 @@ public class ReceptorResultados {
         this.resExiste = resExiste;
     }
 
+
+
+
+    //Métodos para hacer get y set de los parámetros relativos a la obtención de datos para el ranking
+    //fin almacena si la ejecución del Runnable ha llegado a su fin
+    //res almacena el resultado obtenido en el Runnable
     public Boolean haAcabadoRanking(){
         return finRanking;
     }
@@ -93,6 +109,12 @@ public class ReceptorResultados {
         this.resRanking = resRanking;
     }
 
+
+
+
+    //Métodos para hacer get y set de los parámetros relativos a la creación de usuario
+    //fin almacena si la ejecución del Runnable ha llegado a su fin
+    //res almacena el resultado obtenido en el Runnable
     public Boolean haAcabadoCrear(){
         return finCrear;
     }
@@ -109,6 +131,11 @@ public class ReceptorResultados {
         return resCrear;
     }
 
+
+
+
+    //Métodos para hacer get y set de los parámetros relativos a la obtención de datos de usuario
+    //fin almacena si la ejecución del Runnable ha llegado a su fin
     public Boolean haAcabadoCargar(){
         return finCargar;
     }
@@ -117,6 +144,11 @@ public class ReceptorResultados {
         this.finCargar = finCargar;
     }
 
+
+
+
+    //Métodos para hacer get y set de los parámetros relativos a la actualización de datos de usuario
+    //fin almacena si la ejecución del Runnable ha llegado a su fin
     public Boolean haAcabadoActualizar(){
         Boolean ret;
         if (finActualizar){

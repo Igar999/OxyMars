@@ -25,6 +25,9 @@ public class ActualizarDatosUsuario implements Runnable {
         this.desbloqueadoSegundo = pDesbloqueadoSegundo;
     }
 
+    /**
+     * Se crea y lanza la petición al servidor para actualizar los datos del usuario en la base de datos del servidor
+     */
     @Override
     public void run(){
         try {

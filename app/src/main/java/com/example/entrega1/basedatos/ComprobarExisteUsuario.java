@@ -19,6 +19,10 @@ public class ComprobarExisteUsuario implements Runnable {
         this.usuario = pUsuario;
     }
 
+    /**
+     * Se crea y lanza la petición para comprobar en el servidor si el usuario introducido como parámetro ya existe (para evitar dos usuarios con el mismo nombre)
+     * El resultado de la petición se almacena en la clase ReceptorResultados cuando se recibe.
+     */
     @Override
     public void run(){
         if (!ReceptorResultados.getReceptorResultados().haAcabadoExiste() && !enEjecucion){

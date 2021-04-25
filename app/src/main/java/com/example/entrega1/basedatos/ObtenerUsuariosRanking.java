@@ -17,6 +17,10 @@ public class ObtenerUsuariosRanking implements Runnable {
 
     private Boolean enEjecucion = false;
 
+    /**
+     * Se crea y lanza la petición para obtener todos los usuarios junto con sus cantidades de Oxígeno, para rellenar el ranking
+     * El resultado (los datos) se almacena en la clase ReceptorResultado
+     */
     @Override
     public void run(){
         if (!ReceptorResultados.getReceptorResultados().haAcabadoRanking() && !enEjecucion){

@@ -22,6 +22,10 @@ public class ComprobarUsuario implements Runnable {
         this.contra = pContra;
     }
 
+    /**
+     * Se crea y lanza la petición para comprobar si el usuario y contraseña introducidos como parámetros son correctos, para hacer login en ese caso
+     * El resultado de la petición se almacena en la clase ReceptorResultados cuando se recibe.
+     */
     @Override
     public void run(){
         if (!ReceptorResultados.getReceptorResultados().haAcabadoUsuario() && !enEjecucion){

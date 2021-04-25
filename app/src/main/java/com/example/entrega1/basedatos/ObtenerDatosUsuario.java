@@ -23,6 +23,10 @@ public class ObtenerDatosUsuario implements Runnable {
         this.usuario = pUsuario;
     }
 
+    /**
+     * Crea y lanza la petición para obtener los datos del usuario introducido como parámetro en la constructora
+     * El resultado (los datos) se guarda en la clase Oxígeno
+     */
     @Override
     public void run(){
         try {

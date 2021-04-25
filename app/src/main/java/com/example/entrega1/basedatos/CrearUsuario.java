@@ -22,6 +22,10 @@ public class CrearUsuario implements Runnable {
         this.foto = pFoto;
     }
 
+    /**
+     * Se crea y lanza la petición al servidor para crear un usuario en la base de datos del servidor con los datos introducidos como parámetros en la constructora
+     * El resultado (éxito o fracaso) se almacena en ReceptorResultados
+     */
     @Override
     public void run(){
         try {
