@@ -24,8 +24,8 @@ public class CargandoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cargando);
 
         //Se establece una animación, para que sea más vistoso
-        ObjectAnimator animation = ObjectAnimator.ofFloat(findViewById(R.id.coheteCarga), "translationY", -1000f);
-        animation.setDuration(2000);
+        ObjectAnimator animation = ObjectAnimator.ofFloat(findViewById(R.id.coheteCarga), "translationY", -3000f);
+        animation.setDuration(3000);
         animation.start();
 
         //Se lanza la petición para obtener los datos de usuario y se espera la respuesta para redirigir a la ventana principal
