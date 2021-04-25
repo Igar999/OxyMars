@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //Se asigna el listener a la imagen para que muestre el dialog para elegir foto de perfil
         ImageView foto = registrar.getActivity().findViewById(R.id.fotoPerfil);
         foto.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,8 +28,6 @@ public class WidgetOxyMars extends AppWidgetProvider {
      */
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
-        CharSequence widgetText = WidgetOxyMarsConfigureActivity.loadTitlePref(context, appWidgetId);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_oxy_mars);
         Intent intent = new Intent(context,WidgetOxyMars.class);
         intent.setAction("com.example.entrega1.ACTUALIZAR_WIDGET");
@@ -60,7 +58,6 @@ public class WidgetOxyMars extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
             WidgetOxyMarsConfigureActivity.deleteTitlePref(context, appWidgetId);
         }
