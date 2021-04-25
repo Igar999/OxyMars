@@ -58,55 +58,53 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
     ArrayList<Marker> listaMarkers = new ArrayList<>(5);
     ArrayList<GroundOverlay> listaCirculos = new ArrayList<>(5);
 
-
+    /**
+     * Si no tiene permiso, se solicita, si ya lo tiene, se carga el mapa
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
 
-        findViewById(R.id.fragmentoMapa).getRootView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                seguir = false;
-            }
-        });
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MapaActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    77);
+            ActivityCompat.requestPermissions(MapaActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 77);
         } else {
             SupportMapFragment elfragmento = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentoMapa);
             elfragmento.getMapAsync(this);
         }
-
-
     }
 
-
+    /**
+     * Se explica en el código con comentarios
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-
+        //Si no tiene permisos, vuelve a la ventana principal
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Intent i = new Intent(MapaActivity.this, MainActivity.class);
             startActivity(i);
             finish();
         }
+        //Se crea el proveedor de localización
         proveedordelocalizacion =
                 LocationServices.getFusedLocationProviderClient(this);
         proveedordelocalizacion.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
+                    //Si es exitoso
                     public void onSuccess(Location location) {
                         if (location != null) {
+                            //Se almacenan las coordenadas actuales
                             LatLng nuevascoordenadas = new LatLng(location.getLatitude(), location.getLongitude());
 
+                            //Se le pone el estilo al mapa para que parezca Marte
                             //Web para mapas editados: https://mapstyle.withgoogle.com/
                             googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(MapaActivity.this, R.raw.estilo_mapa));
-                            /*CameraUpdate actualizar = CameraUpdateFactory.newLatLngZoom(new LatLng(43.26, -2.95),9);
-                               googleMap.moveCamera(actualizar);*/
 
+                            //Se le asignan varios listeners para decidir si la cámara tiene que seguir al jugador o no, de modo que
+                            //cuando se pulsa el botón para centrar la cámara siga al jugador, pero tras interactuar con el mapa, deje de seguir al jugador.
                             googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                                 @Override
                                 public void onMapClick(LatLng latLng) {
@@ -130,6 +128,7 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
                                 }
                             });
 
+                            //Se establece un listener para que no salgan etiquetas al pulsar en los marcadores
                             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                 @Override
                                 public boolean onMarkerClick(Marker marker) {
@@ -137,8 +136,8 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
                                 }
                             });
 
+                            //Se restringe el movimiento del usuario en el mapa, para que no pueda hacer demasiado zoom-out, y no pueda cambiar el tilt.
                             googleMap.getUiSettings().setTiltGesturesEnabled(false);
-                            //googleMap.getUiSettings().setZoomGesturesEnabled(false);
                             googleMap.setMinZoomPreference(17);
                             googleMap.setMaxZoomPreference(19);
                             googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
@@ -150,6 +149,7 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
                                     .build();
                             CameraUpdate otravista = CameraUpdateFactory.newCameraPosition(Poscam);
 
+                            //Se establece el botón de centrar, que al pulsarlo mueve la cámara a la localización actual del jugador.
                             ImageView botonCentrar = findViewById(R.id.botonCentrar);
                             botonCentrar.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -170,10 +170,13 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
                                 }
                             });
 
+                            //Se añade en el mapa un marcador en la ubicación actual del jugador, para representarlo.
                             jugador = googleMap.addMarker(new MarkerOptions()
                                     .position(nuevascoordenadas)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.marcador))
                                     .title("Yo"));
+
+                            //Se inicializan los marcadores de brote en posiciones aleatorias
                             iniciarMarcadores(googleMap);
                             actualizarMarcadores(googleMap);
 
@@ -185,11 +188,13 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
                 })
                 .addOnFailureListener(this, new OnFailureListener() {
                     @Override
+                    //Si falla no se hace nada
                     public void onFailure(@NonNull Exception e) {
 
                     }
                 });
 
+        //Se establece la actualización periódica de la posición del jugador y de los marcadores de brote.
         actualizador = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -198,10 +203,12 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
                     LatLng pos = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                     CameraUpdate actualizar = CameraUpdateFactory.newLatLng(pos);
                     if (seguir){googleMap.animateCamera(actualizar);}
+                    //Se elimina el antiguo marcador y se pone uno nuevo.
                     jugador.remove();
                     jugador = googleMap.addMarker(new MarkerOptions()
                             .position(pos)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.marcador)));
+                    //Se actualizan los marcadores de brote.
                     actualizarMarcadores(googleMap);
                 } else {
                     return;
@@ -218,6 +225,9 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
 
     }
 
+    /**
+     * Cuando se destruye la actividad, se guarda en Utils la lista de marcadores y se cancela la actualización periódica de marcadores.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -227,6 +237,12 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
         }
     }
 
+    /**
+     * Cuando llega una peticion de permiso resuelta, si se ha concedido, iniciar el mapa
+     * @param requestCode El código
+     * @param permissions Los permisos
+     * @param grantResults El resultado de los permisos
+     */
     //https://stackoverflow.com/questions/40142331/how-to-request-location-permission-at-runtime/59857846
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -248,6 +264,9 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
     }
 
 
+    /**
+     * Cerrar la venatana y abrir la principal
+     */
     @Override
     public void onBackPressed() {
         Intent i = new Intent(MapaActivity.this, MainActivity.class);
@@ -256,6 +275,10 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
         finish();
     }
 
+    /**
+     * Inicia la lista de marcadores obteniendola de la variable almacenada en Utils, para que si se cambia a la ventana principal, al volver, los marcadores sean los mismos.
+     * @param googleMap El mapa
+     */
     @SuppressLint("ResourceAsColor")
     private void iniciarMarcadores(GoogleMap googleMap){
         for (Marker marcador : Utils.getUtils().getListaMarkers()){
@@ -268,9 +291,16 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
         }
     }
 
+    /**
+     * Borra todos los marcadores que estén a mas de una distancia determinada del usuario y rellena la lista con nuevos marcadores aleatorios en un rango determinado.
+     * Si hay marcadores mas cerca de cierta distancia, los borra y notifica al usuario de que se ha llegado a un marcador y suma oxígeno.
+     * @param googleMap El mapa
+     */
     private void actualizarMarcadores(GoogleMap googleMap){
         for (int cont = listaMarkers.size()-1; cont >= 0; cont--){
             double distancia = Math.sqrt((Math.abs(jugador.getPosition().latitude-listaMarkers.get(cont).getPosition().latitude))+(Math.abs(jugador.getPosition().longitude-listaMarkers.get(cont).getPosition().longitude)));
+
+            //Para marcadores que están cerca, borrarlos, avisar al usuario y sumar oxígeno
             if (distancia < 0.0275){
                 int sumaCont = 1;
                 while (sumaCont <=100){
@@ -286,16 +316,15 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
                 new Thread(actualizar).start();
                 DialogoBrote brote = new DialogoBrote(this);
                 brote.show();
-            } else if (distancia > 0.05){
-                Marker oldMarker = listaMarkers.get(cont);
-                oldMarker.remove();
-                GroundOverlay oldOverlay = listaCirculos.get(cont);
-                oldOverlay.remove();
+            } else if (distancia > 0.0625){ //Marcadores que están lejos, borrrarlos para que no haya marcadores muy lejanos al jugador
+                listaMarkers.get(cont).remove();
+                listaCirculos.get(cont).remove();
                 listaMarkers.remove(cont);
                 listaCirculos.remove(cont);
             }
         }
 
+        //Rellenar la lista con nuevos marcadores aleatorios para que siempe haya 5.
         while (listaMarkers.size() < 5){
             double distancia = 0;
             Double lat = 0.0;
@@ -322,6 +351,12 @@ public class MapaActivity extends Actividad implements OnMapReadyCallback {
         }
     }
 
+
+    /**
+     * Se coloca un círculo verde en las coordenadas de cada marcador de brote, para indicar el radio al que el jugador se tiene que acercar.
+     * @param googleMap El mapa
+     * @param pos La posicion en la que se tiene que colocar el círculo
+     */
     //https://stackoverflow.com/questions/14358328/how-to-draw-circle-around-a-pin-using-google-maps-api-v2
     private void ponerCirculo(GoogleMap googleMap, LatLng pos){
         int d = 100; // diameter

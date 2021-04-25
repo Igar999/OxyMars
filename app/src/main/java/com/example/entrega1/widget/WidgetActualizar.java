@@ -16,10 +16,14 @@ import com.example.entrega1.basedatos.ActualizarDatosUsuario;
 import com.example.entrega1.basedatos.ReceptorResultados;
 
 public class WidgetActualizar extends BroadcastReceiver {
+    /**
+     * Cuando se recive una petición de actualizar el widget, pone en el widget el nuevo valor de oxígeno y se relanza una alarma para actualizar de nuevo el widget un segundo después.
+     * @param context La actividad desde la que se lanza la petición
+     * @param intent El intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_oxy_mars);
-        //Oxigeno.getOxi().aumentarOxigenoSegundo();
         remoteViews.setTextViewText(R.id.widgetTexto, String.valueOf(Oxigeno.getOxi().ponerCantidad(Oxigeno.getOxi().getOxigeno(), true)));
         ComponentName tipowidget = new ComponentName(context, WidgetOxyMars.class);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);

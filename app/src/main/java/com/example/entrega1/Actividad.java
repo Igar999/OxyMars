@@ -17,13 +17,11 @@ public class Actividad extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Utils.getUtils().musicaPlay();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //Utils.getUtils().musicaPause();
     }
 
     /**

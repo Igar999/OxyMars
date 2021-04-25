@@ -100,8 +100,6 @@ public class MainActivity extends Actividad {
         Context context = createConfigurationContext(configuration);
         getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
 
-        String token = ServicioFirebase.getToken(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -111,10 +109,12 @@ public class MainActivity extends Actividad {
             usuario = extras.getString("usu");
             Utils.getUtils().setUsuario(usuario);
         }
-        oxi.setContext(this);
 
+        //Se establece el contexto para varios métodos de la clase Oxigeno y Utils
+        oxi.setContext(this);
         utils.setContext(context);
 
+        //Se accede a Google Fit, mostrando la pantalla de inicio de sesión de Google si es necesario
         accederGoogleFit();
 
         //Se empieza la música si es necesario. Si se acaba de abrir se creará un nuevo MediaPlayer, si se llega desde otra actividad se reproducirá el ya existente
@@ -164,6 +164,7 @@ public class MainActivity extends Actividad {
             public void run() {
                 //guardarDatos(usuario);
 
+                //Se actualizan los datos del usuario en el servidor
                 ActualizarDatosUsuario guardarDatos = new ActualizarDatosUsuario(usuario, oxi.getOxigeno(), oxi.getOxiToque(), oxi.getOxiSegundo(), oxi.getDesbloqueadoToque(), oxi.getDesbloqueadoSegundo());
                 new Thread(guardarDatos).start();
 
@@ -216,7 +217,7 @@ public class MainActivity extends Actividad {
                                 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
                                 Animation.RELATIVE_TO_SELF, 0.5f);
                         scaleAnim2.setDuration(75);
-                        // scaleAnim.setFillEnabled(true);
+                        scaleAnim.setFillEnabled(true);
                         scaleAnim2.setFillAfter(true);
                         planeta.setAnimation(scaleAnim2);
                         planeta.startAnimation(scaleAnim2);
@@ -288,15 +289,18 @@ public class MainActivity extends Actividad {
             }
         });
 
+        //Se le asigna el lostener al botón de música para que compruebe permisos de acceso a los archivos y si los tiene cree el diálogo de selección de canción
         ImageView botonMusica = findViewById(R.id.botonMusica);
         botonMusica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Comprobar permisos
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 50);
                 }else{
+                    //Crear diálogo
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Elige una canción");
+                    builder.setTitle(getResources().getString(R.string.elige_cancion));
                     HashMap<String,String> listaCanciones = Utils.getUtils().obtenerCancionesDispositivo();
                     String[] canciones = new String[listaCanciones.entrySet().size()+1];
                     canciones[0] = "OxyMars";
@@ -305,14 +309,14 @@ public class MainActivity extends Actividad {
                         canciones[cont] = par.getKey();
                         cont++;
                     }
-
                     builder.setItems(canciones, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int indice) {
                             String seleccion = canciones[indice];
+                            //Si se elige la canción predefinida de OxyMars, reproducir esa
                             if (seleccion.equals("OxyMars")){
                                 Utils.getUtils().cambiarMusica(MainActivity.this, null);
-                            }else{
+                            }else{ //Si se elige otra, reproducirla desde su ruta
                                 Utils.getUtils().cambiarMusica(MainActivity.this, listaCanciones.get(seleccion));
                             }
                         }
@@ -377,7 +381,9 @@ public class MainActivity extends Actividad {
         }
     }
 
-
+    /**
+     * Accede a Google Fit, mostrando la pantala de inicio de sesión de Google si es necesario
+     */
     public void accederGoogleFit(){
 
         GoogleSignInAccount cuenta = GoogleSignIn.getLastSignedInAccount(this);
@@ -405,6 +411,12 @@ public class MainActivity extends Actividad {
 
     }
 
+    /**
+     * Si le llega un resultado de actividad con código 695, obtiene los pasos que ha dado el usuario y los almacena en Utils
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -425,7 +437,6 @@ public class MainActivity extends Actividad {
                                 .addOnSuccessListener(new OnSuccessListener<DataSet>() {
                                     @Override
                                     public void onSuccess(DataSet dataSet) {
-                                        List<DataPoint> totalSteps = dataSet.getDataPoints();
                                         Integer pasos = 0;
                                         for (int i = 0; i < dataSet.getDataPoints().size(); i++){
                                             pasos = dataSet.getDataPoints().get(i).zze()[0].asInt();
@@ -519,6 +530,12 @@ public class MainActivity extends Actividad {
         }
     }*/
 
+    /**
+     * Si recibe un resultado de petición de permiso de código 50, obtiene la lista de canciones y crea el Dialog para seleccionar una, y se reproduce la seleccionada
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -526,6 +543,7 @@ public class MainActivity extends Actividad {
             case 50: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(getResources().getString(R.string.elige_cancion));
+                //Obtener canciones
                 HashMap<String,String> listaCanciones = Utils.getUtils().obtenerCancionesDispositivo();
                 String[] canciones = new String[listaCanciones.entrySet().size()+1];
                 canciones[0] = "OxyMars";
@@ -534,10 +552,11 @@ public class MainActivity extends Actividad {
                     canciones[cont] = par.getKey();
                     cont++;
                 }
-
+                //Crear la lista en la interfaz con las canciones
                 builder.setItems(canciones, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int indice) {
+                        //Reproducir la canción seleccionada
                         String seleccion = canciones[indice];
                         if (seleccion.equals("OxyMars")){
                             Utils.getUtils().cambiarMusica(MainActivity.this, null);

@@ -367,23 +367,33 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Si se recibe un código 64, es que la foto es de la galería, si se recibe un 70, es de la cámara. En ambos casos, se establace la foto obtenida en el cuadrado para la foto de perfil.
+     * @param requestCode El código de la petición
+     * @param resultCode El código de resultado
+     * @param data Los datos
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Si es de la galería
         if (requestCode == 64 && resultCode == RESULT_OK) {
 
             Uri imagenSeleccionada = data.getData();
             Bitmap laminiatura = null;
             try {
+                //Se obtiene la ruta de la foto
                 laminiatura = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagenSeleccionada);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //Se obtiene la foto
             File eldirectorio = this.getFilesDir();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
             String nombrefichero = "IMG_" + timeStamp + "_";
             File imagenFich = new File(eldirectorio, nombrefichero + ".jpg");
             OutputStream os;
+            //Se comprime para obtenet un bitmap
             try {
                 os = new FileOutputStream(imagenFich);
                 laminiatura.compress(Bitmap.CompressFormat.JPEG, 100, os);
@@ -392,33 +402,37 @@ public class LoginActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            //Se obtiene la foto en forma de bitmap
             try {
                 laminiatura = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagenSeleccionada);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            //Se recorta la foto para que quede con forma cuadrada, recortando el ancho o el alto dependiendo de cómo sea la foto.
             Bitmap miniaturaCrop;
             if(laminiatura.getHeight() >= laminiatura.getWidth()){
                 miniaturaCrop = Bitmap.createBitmap(laminiatura, 0, (laminiatura.getHeight()-laminiatura.getWidth())/2, laminiatura.getWidth(), laminiatura.getWidth());
             }else{
                 miniaturaCrop = Bitmap.createBitmap(laminiatura, (laminiatura.getWidth()-laminiatura.getHeight())/2, 0, laminiatura.getHeight(), laminiatura.getHeight());
             }
-
+            //Se pone en el cuadrado de la interfaz
             ((ImageView)getFragmentManager().findFragmentById(R.id.fragmentRegistrar).getActivity().findViewById(R.id.fotoPerfil)).setImageBitmap(miniaturaCrop);
         }
+        //Si es de la cámara
         if (requestCode == 70 && resultCode == RESULT_OK) {
+            //Se obtiene la foto en miniatura
             Bundle extras = data.getExtras();
             Bitmap laminiatura = (Bitmap) extras.get("data");
             Bitmap miniaturaCrop;
+            //Se recorta la foto para que quede cuadrada
             if(laminiatura.getHeight() >= laminiatura.getWidth()){
                  miniaturaCrop = Bitmap.createBitmap(laminiatura, 0, (laminiatura.getHeight()-laminiatura.getWidth())/2, laminiatura.getWidth(), laminiatura.getWidth());
             }else{
                 miniaturaCrop = Bitmap.createBitmap(laminiatura, (laminiatura.getWidth()-laminiatura.getHeight())/2, 0, laminiatura.getHeight(), laminiatura.getHeight());
             }
+            //Se pone en el cuadrado de la interfaz
             ((ImageView)getFragmentManager().findFragmentById(R.id.fragmentRegistrar).getActivity().findViewById(R.id.fotoPerfil)).setImageBitmap(miniaturaCrop);
         }
-
     }
-
 }

@@ -20,16 +20,17 @@ import com.example.entrega1.basedatos.ObtenerDatosUsuario;
  */
 public class WidgetOxyMars extends AppWidgetProvider {
 
+    /**
+     * Se actualiza el widget
+     * @param context El contexto
+     * @param appWidgetManager El manager
+     * @param appWidgetId El id
+     */
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
         CharSequence widgetText = WidgetOxyMarsConfigureActivity.loadTitlePref(context, appWidgetId);
-        // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_oxy_mars);
-        Oxigeno oxi = Oxigeno.getOxi();
-        String usuario = Utils.getUtils().comprobarUsuarioLogeado(context);
-        //views.setTextViewText(R.id.widgetTexto, "OxyMars");
-
         Intent intent = new Intent(context,WidgetOxyMars.class);
         intent.setAction("com.example.entrega1.ACTUALIZAR_WIDGET");
         intent.putExtra( AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -37,18 +38,19 @@ public class WidgetOxyMars extends AppWidgetProvider {
                 7768, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.widgetPlaneta, pendingIntent);
         appWidgetManager.updateAppWidget(appWidgetId, views);
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
+    /**
+     * Se actualiza el widget y se establece una alarma para volver a actualizarlo un segundo después.
+     * @param context EL contexto
+     * @param appWidgetManager El manager
+     * @param appWidgetIds Los ids
+     */
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent2 = new Intent(context, WidgetActualizar.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 7475, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -64,12 +66,14 @@ public class WidgetOxyMars extends AppWidgetProvider {
         }
     }
 
+    /**
+     * Se comprueba si hay un usuario logeado, y si es así, se obtienen sus datos, y se lanza una alarma para actualizar el widget.
+     * @param context
+     */
     @SuppressLint("ShortAlarm")
     @Override
     public void onEnabled(Context context) {
-
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_oxy_mars);
-        Oxigeno oxi = Oxigeno.getOxi();
         String usuario = Utils.getUtils().comprobarUsuarioLogeado(context);
         views.setTextViewText(R.id.widgetTexto, "OxyMars");
         if (usuario != ""){
@@ -77,19 +81,17 @@ public class WidgetOxyMars extends AppWidgetProvider {
             ObtenerDatosUsuario cargarDatos = new ObtenerDatosUsuario(usuario);
             new Thread(cargarDatos).start();
         }
-
-
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, WidgetActualizar.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 7475, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ 1000, pi);
     }
 
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
-    }
-
+    /**
+     * Si se recibe una acción de toque, se suma el oxígeno por toque al oxígeno total, como si se hubiera tocado el planeta en el juego.
+     * @param context El contexto
+     * @param intent El intent
+     */
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("com.example.entrega1.ACTUALIZAR_WIDGET")) {
             int widgetId = intent.getIntExtra( AppWidgetManager.EXTRA_APPWIDGET_ID,

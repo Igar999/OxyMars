@@ -46,6 +46,7 @@ public class DialogoBorrarUsuario extends Dialog {
         botonSi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Base de datos local
                 /*padre.finish();
                 GuardarDatos GestorDB = new GuardarDatos (padre, "OxyMars", null, 1);
                 SQLiteDatabase bd = GestorDB.getWritableDatabase();
@@ -60,8 +61,11 @@ public class DialogoBorrarUsuario extends Dialog {
                     e.printStackTrace();
                 }
 
+                //Borra el usuario del servidor
                 BorrarUsuario borrar = new BorrarUsuario(Utils.getUtils().getUsuario());
                 new Thread(borrar).start();
+
+                //Envia una petición FCM para avisar de que se ha borrado el usuario
                 Utils.getUtils().enviarFCM(padre, "okBorrar");
 
                 Intent i = new Intent(padre, LoginActivity.class);

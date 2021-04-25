@@ -100,6 +100,7 @@ public class AjustesActivity extends Actividad {
             }
         });
 
+        //Se establece la imagen de usuario, que está almacenada en Utils
         ImageView imagenUsuario = findViewById(R.id.imagenUsuario);
         byte[] bytes = Base64.decode(Utils.getUtils().getImagenUsu(), Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

@@ -23,7 +23,7 @@ import java.util.Locale;
 public class NotificacionProgramada extends BroadcastReceiver {
 
     /**
-     * Cuando se recive la señal, se crea la notificación, se le establece el pendingIntent para que abra la aplicación al pulsar la notificación y se lanza
+     * Cuando se recibe la señal, se crea la notificación, se le establece el pendingIntent para que abra la aplicación al pulsar la notificación y se lanza
      * @param context El contexto
      * @param intent El intent
      */

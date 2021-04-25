@@ -42,14 +42,14 @@ public class Oxigeno {
      * @param desbloqueadoToque La cantidad de mejoras de oxígeno por toque desbloqueadas
      * @param desbloqueadoSegundo La cantidad de mejoras de oxígeno por segundo desbloqueadas
      */
-    public void cargarOxi(Context context, float oxigeno, float oxiToque, float oxiSegundo, int desbloqueadoToque, int desbloqueadoSegundo){
+    /*public void cargarOxi(Context context, float oxigeno, float oxiToque, float oxiSegundo, int desbloqueadoToque, int desbloqueadoSegundo){
         this.context = context;
         this.oxigeno = oxigeno;
         this.oxiToque = oxiToque;
         this.oxiSegundo = oxiSegundo;
         this.desbloqueadoToque = desbloqueadoToque;
         this.desbloqueadoSegundo = desbloqueadoSegundo;
-    }
+    }*/
 
     /**
      * Se actualizan en la clase los valores de los parámetros

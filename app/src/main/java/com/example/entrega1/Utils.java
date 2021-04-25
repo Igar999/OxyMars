@@ -142,30 +142,34 @@ public class Utils {
         }
     }
 
+    /**
+     * Para la canción que estaba sonando previamente y empieza una nueva canción
+     * @param context La actividad desde la que se lanza el método
+     * @param ruta La ruta en el dispositivo de la canción que se va a poner. Si es null, se reproduce la canción de fondo predeterminada
+     */
     public void cambiarMusica(Context context, String ruta){
         musicaPause();
         musica.release();
         try {
+            //Si es null, se pone la canción por defecto
             if (ruta == null){
                 musica = MediaPlayer.create(context, R.raw.musicafondo);
                 musica.setLooping(true); // Set looping
                 musicaPlay();
                 musicaLista = true;
-            } else{
+            } else{ //Si no es null, se reproduce la canción de la ruta
                 musica = new MediaPlayer();
                 musica.setDataSource(ruta);
-                //musica.setDataSource("/storage/emulated/0/Download/Pokemon Mystery Dungeon - Defy the Legends Remix 2.mp3");
                 musica.prepare();
                 musica.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
-                        musica.setLooping(true); // Set looping
+                        musica.setLooping(true);
                         musicaPlay();
                         musicaLista = true;
                     }
                 });
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -222,15 +226,27 @@ public class Utils {
         this.usuario = nombre;
     }
 
-
+    /**
+     * Se almacena la imagen del usuario en String
+     * @param foto El string de la foto de usuario
+     */
     public void imagenUsuario(String foto) {
         this.imagenUsu = foto;
     }
 
+    /**
+     * Se obtiene la imagen de usuario en String
+     * @return El string de la foto de usuario
+     */
     public String getImagenUsu() {
         return imagenUsu;
     }
 
+    /**
+     * Se lanza un mensaje al php del servidor para que se lance un mensaje Firebase
+     * @param context La actividad desde la que se lanza el método
+     * @param mensaje El mensaje que se envía al servidor. Dependiendo de esto, se recibirá una notificación u otra.
+     */
     public void enviarFCM(Context context, String mensaje){
         new Thread(new Runnable() {
             @Override
@@ -293,12 +309,20 @@ public class Utils {
         return usuarioLog;
     }
 
+    /**
+     * Se almacenan los pasos que ha dado el usuario durante el día cuando se abre la aplicación, para poder contar a partir de ahí.
+     * @param pasos Los pasos dados durante el día
+     */
     public void setPasos(Integer pasos) {
         if (this.pasos == -1){
             this.pasos = pasos;
         }
     }
 
+    /**
+     * Se comprueba si ha dado 20 pasos, y si es así, se suma oxígeno
+     * @param nuevosPasos El nuevo valor de los pasos dados durante el día
+     */
     public void comprobarPasos(Integer nuevosPasos) {
         if ((nuevosPasos - pasos) >= 20){
             pasos = pasos + 20;
@@ -306,14 +330,26 @@ public class Utils {
         }
     }
 
+    /**
+     * Devuelve la lista de marcadores de brote para el mapa
+     * @return La lista de marcadores
+     */
     public ArrayList<Marker> getListaMarkers(){
         return listaMarkers;
     }
 
+    /**
+     * Almacena la lista de marcadores de brote del mapa, para que si se sale del mapa y se vuelve a entrar, no se vuelvan a generar aleatoriamente
+     * @param listaMarkers La lista de marcadores
+     */
     public void setListaMarkers(ArrayList<Marker> listaMarkers) {
         this.listaMarkers = listaMarkers;
     }
 
+    /**
+     * Obtiene el listado de audios que hay en el almacenamiento externo del dispositivo
+     * @return Lista de canciones en formato (título, ruta)
+     */
     //https://stackoverflow.com/questions/35872207/unable-to-get-audio-list-from-content-provider
     public HashMap obtenerCancionesDispositivo(){
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -326,9 +362,7 @@ public class Utils {
             for(int i=0;i<musicCursor.getCount();i++){
                 lista.put(musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)),musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
                 musicCursor.moveToNext();
-                //Log.i("column",i+" "+list.get(i));
             }
-            //Log.i("algo","algo");
             return lista;
         }
         return null;

@@ -29,21 +29,22 @@ public class ServicioFirebase extends FirebaseMessagingService {
 
     }
 
+    /**
+     * Se guarda el token en las preferencias
+     * @param s El token
+     */
+    //https://stackoverflow.com/questions/37787373/firebase-fcm-how-to-get-token
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-
-        //https://stackoverflow.com/questions/37787373/firebase-fcm-how-to-get-token
         getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", s).apply();
     }
 
+    /**
+     * Crea una notificación con el mensaje que recibe de Firebase, para avisar del éxito o fracaso en la creación o borrado de usuarios.
+     * @param remoteMessage El mensaje que recibe de Firebase
+     */
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        /*if (remoteMessage.getData().size() > 0) {
-
-        }
-        if (remoteMessage.getNotification() != null) {
-        }*/
-
         Log.i("notificacion", "Llega aqui");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Locale nuevaloc = new Locale(prefs.getString("lista_idioma", "es"));
@@ -67,6 +68,7 @@ public class ServicioFirebase extends FirebaseMessagingService {
             elManager.createNotificationChannel(elCanal);
         }
 
+        //Establece el mensaje dependiendo de lo que haya recibido de Firebase
         switch (remoteMessage.toIntent().getExtras().getString("mensaje")){
             case ("okCrear"):
                 contentView.setTextViewText(R.id.textoVuelve, getApplicationContext().getString(R.string.creadoCorrectamente));
@@ -93,6 +95,11 @@ public class ServicioFirebase extends FirebaseMessagingService {
         mNotificationManager.notify(01, mBuilder.build());
     }
 
+    /**
+     * Devuelve el token
+     * @param context La actividad desde la que se lanza el método.
+     * @return El token
+     */
     //https://stackoverflow.com/questions/37787373/firebase-fcm-how-to-get-token
     public static String getToken(Context context){
         return  context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");

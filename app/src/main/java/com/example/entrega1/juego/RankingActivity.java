@@ -60,6 +60,7 @@ public class RankingActivity extends Actividad {
 
 
 
+        //Se obtienen los datos de todos los jugadores del servidor
         ObtenerUsuariosRanking personas = new ObtenerUsuariosRanking();
         new Thread(personas).start();
 
@@ -67,11 +68,13 @@ public class RankingActivity extends Actividad {
         Runnable run = new Runnable() {
             @Override
             public void run() {
+                //Si los datos estan cargados, proseguir
                 if (ReceptorResultados.getReceptorResultados().haAcabadoRanking()){
                     String[] listaUsu = new String[0];
                     float[] listaCant = new float[0];
                     int[] listaPos = new int[0];
 
+                    //Se almacenan los datos de nombres, posiciones y puntuaciones en tres listas
                     ReceptorResultados.getReceptorResultados().setFinRanking(false);
                     try{
                         JSONArray array = ReceptorResultados.getReceptorResultados().obtenerResultadoRanking();
