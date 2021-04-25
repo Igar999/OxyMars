@@ -23,10 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CargandoActivity"></activity>
-        <activity android:name=".MapaActivity" />
+        <activity android:name=".loginregistro.CargandoActivity"></activity>
+        <activity android:name=".mapa.MapaActivity" />
 
-        <receiver android:name=".WidgetOxyMars">
+        <receiver android:name=".widget.WidgetOxyMars">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -39,16 +39,16 @@
                 android:resource="@xml/widget_oxy_mars_info" />
         </receiver>
 
-        <activity android:name=".WidgetOxyMarsConfigureActivity">
+        <activity android:name=".widget.WidgetOxyMarsConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-        <activity android:name=".AyudaActivity" />
-        <activity android:name=".RankingActivity" />
-        <activity android:name=".AjustesActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".ajustes.AyudaActivity" />
+        <activity android:name=".juego.RankingActivity" />
+        <activity android:name=".ajustes.AjustesActivity" />
+        <activity android:name=".juego.MainActivity" />
+        <activity android:name=".loginregistro.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,7 +57,7 @@
         </activity>
 
         <service
-            android:name=".ServicioFirebase"
+            android:name=".notificaciones.ServicioFirebase"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -65,14 +65,14 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".NotificacionProgramada">
+        <receiver android:name=".notificaciones.NotificacionProgramada">
             <intent-filter>
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".WidgetActualizar" />
+        <receiver android:name=".widget.WidgetActualizar" />
 
         <meta-data
             android:name="preloaded_fonts"

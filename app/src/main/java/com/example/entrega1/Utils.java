@@ -1,6 +1,5 @@
 package com.example.entrega1;
 
-import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
@@ -11,20 +10,15 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.database.Cursor;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
-import com.google.android.gms.fitness.data.Value;
-import com.google.android.gms.maps.model.GroundOverlay;
+import com.example.entrega1.notificaciones.ServicioFirebase;
 import com.google.android.gms.maps.model.Marker;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -33,9 +27,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Utils {
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondologinland"
-    tools:context=".LoginActivity">
+    tools:context=".loginregistro.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView4"
@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/fragmentLogin"
-        android:name="com.example.entrega1.LoginFragment"
+        android:name="com.example.entrega1.loginregistro.LoginFragment"
         android:layout_width="302dp"
         android:layout_height="396dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/fragmentRegistrar"
-        android:name="com.example.entrega1.RegistrarFragment"
+        android:name="com.example.entrega1.loginregistro.RegistrarFragment"
         android:layout_width="307dp"
         android:layout_height="388dp"
         app:layout_constraintBottom_toBottomOf="parent"

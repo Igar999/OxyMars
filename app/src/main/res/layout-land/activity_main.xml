@@ -5,7 +5,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".juego.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="370dp"
@@ -367,7 +367,7 @@
 
         <fragment
             android:id="@+id/mejorasSegundo"
-            android:name="com.example.entrega1.MejorasSegundo"
+            android:name="com.example.entrega1.juego.MejorasSegundo"
             android:layout_width="335dp"
             android:layout_height="260dp"
             android:visibility="invisible"
@@ -380,7 +380,7 @@
 
         <fragment
             android:id="@+id/mejorasToque"
-            android:name="com.example.entrega1.MejorasToque"
+            android:name="com.example.entrega1.juego.MejorasToque"
             android:layout_width="335dp"
             android:layout_height="260dp"
             android:visibility="invisible"
