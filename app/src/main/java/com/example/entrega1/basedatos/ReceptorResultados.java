@@ -23,8 +23,6 @@ public class ReceptorResultados {
     private Boolean finActualizar = false;
 
 
-
-
     /**
      * Crea una instancia de la clase o devuelve la que ya existe
      * @return Instancia de la clase Utils (Singleton)

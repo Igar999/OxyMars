@@ -1,5 +1,6 @@
 package com.example.entrega1.loginregistro;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -26,6 +27,18 @@ import com.example.entrega1.basedatos.ComprobarExisteUsuario;
 import com.example.entrega1.basedatos.ComprobarUsuario;
 import com.example.entrega1.basedatos.CrearUsuario;
 import com.example.entrega1.basedatos.ReceptorResultados;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.DataSet;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -67,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Utils utils = Utils.getUtils();
 
-        //Se carga el json del fichero de usuarios y contraseñas a un HashMap, para poder acceder fácilmente a los datos
+        //Se carga el json del fichero de usuarios y contraseñas a un HashMap, para poder acceder fácilmente a los datos (se usa para local)
         //leerDeFichero();
 
         //Se obtienen los dos fragments
@@ -81,6 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                 mapa.remove(extras.getString("borrar"));
                 escribirAFichero();
             }
+        } else{ //Si se acaba de abrir la aplicación (y por tanto no hay extras), lanzar el login de Google
+            accederGoogleFit();
         }
 
         //Si es vertical, se muestra el login, si es horizontal, se muestran ambos fragments
@@ -369,6 +384,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Si se recibe un código 64, es que la foto es de la galería, si se recibe un 70, es de la cámara. En ambos casos, se establace la foto obtenida en el cuadrado para la foto de perfil.
+     * Si se recibe un codigo 695 es por login a Google.
      * @param requestCode El código de la petición
      * @param resultCode El código de resultado
      * @param data Los datos
@@ -434,5 +450,75 @@ public class LoginActivity extends AppCompatActivity {
             //Se pone en el cuadrado de la interfaz
             ((ImageView)getFragmentManager().findFragmentById(R.id.fragmentRegistrar).getActivity().findViewById(R.id.fotoPerfil)).setImageBitmap(miniaturaCrop);
         }
+
+        //Para solicitudes de login a Google
+        if (requestCode == 695) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount cuenta = task.getResult(ApiException.class);
+                FitnessOptions fitnessOptions = FitnessOptions.builder()
+                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                        .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                        .build();
+                Handler handler = new Handler();
+                Runnable fit = new Runnable() {
+                    @Override
+                    public void run() {
+                        Fitness.getHistoryClient(LoginActivity.this, GoogleSignIn.getAccountForExtension(LoginActivity.this,fitnessOptions))
+                                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
+                                .addOnSuccessListener(new OnSuccessListener<DataSet>() {
+                                    @Override
+                                    public void onSuccess(DataSet dataSet) {
+                                        Integer pasos = 0;
+                                        for (int i = 0; i < dataSet.getDataPoints().size(); i++){
+                                            pasos = dataSet.getDataPoints().get(i).zze()[0].asInt();
+                                        }
+                                        Utils.getUtils().setPasos(pasos);
+                                        Utils.getUtils().comprobarPasos(pasos);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        handler.postDelayed(this, 5000);
+                    }
+                };
+                handler.postDelayed(fit,100);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Accede a Google Fit, mostrando la pantala de inicio de sesión de Google si es necesario
+     */
+    public void accederGoogleFit(){
+
+        GoogleSignInAccount cuenta = GoogleSignIn.getLastSignedInAccount(this);
+
+        FitnessOptions fitnessOptions = FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .build();
+        GoogleSignInAccount account = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
+
+        if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
+            //Pedir permisos
+            GoogleSignIn.requestPermissions(this, 695, account, fitnessOptions);
+        } else {
+            //Ya tiene permisos
+        }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 695);
+
     }
 }

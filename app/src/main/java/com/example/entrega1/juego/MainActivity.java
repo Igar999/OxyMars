@@ -3,6 +3,7 @@ package com.example.entrega1.juego;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
@@ -33,23 +34,8 @@ import com.example.entrega1.ajustes.AjustesActivity;
 import com.example.entrega1.ajustes.DialogoSalir;
 import com.example.entrega1.mapa.MapaActivity;
 import com.example.entrega1.basedatos.ActualizarDatosUsuario;
-import com.example.entrega1.notificaciones.ServicioFirebase;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -113,9 +99,6 @@ public class MainActivity extends Actividad {
         //Se establece el contexto para varios métodos de la clase Oxigeno y Utils
         oxi.setContext(this);
         utils.setContext(context);
-
-        //Se accede a Google Fit, mostrando la pantalla de inicio de sesión de Google si es necesario
-        accederGoogleFit();
 
         //Se empieza la música si es necesario. Si se acaba de abrir se creará un nuevo MediaPlayer, si se llega desde otra actividad se reproducirá el ya existente
         if(Utils.getUtils().musicaLista()){
@@ -381,85 +364,6 @@ public class MainActivity extends Actividad {
         }
     }
 
-    /**
-     * Accede a Google Fit, mostrando la pantala de inicio de sesión de Google si es necesario
-     */
-    public void accederGoogleFit(){
-
-        GoogleSignInAccount cuenta = GoogleSignIn.getLastSignedInAccount(this);
-
-        FitnessOptions fitnessOptions = FitnessOptions.builder()
-                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .build();
-        GoogleSignInAccount account = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
-
-        if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
-            //Pedir permisos
-            GoogleSignIn.requestPermissions(this, 695, account, fitnessOptions);
-        } else {
-            //Ya tiene permisos
-        }
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, 695);
-
-    }
-
-    /**
-     * Si le llega un resultado de actividad con código 695, obtiene los pasos que ha dado el usuario y los almacena en Utils
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 695) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount cuenta = task.getResult(ApiException.class);
-                FitnessOptions fitnessOptions = FitnessOptions.builder()
-                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                        .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                        .build();
-                Handler handler = new Handler();
-                Runnable fit = new Runnable() {
-                    @Override
-                    public void run() {
-                        Fitness.getHistoryClient(MainActivity.this, GoogleSignIn.getAccountForExtension(MainActivity.this,fitnessOptions))
-                                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
-                                .addOnSuccessListener(new OnSuccessListener<DataSet>() {
-                                    @Override
-                                    public void onSuccess(DataSet dataSet) {
-                                        Integer pasos = 0;
-                                        for (int i = 0; i < dataSet.getDataPoints().size(); i++){
-                                            pasos = dataSet.getDataPoints().get(i).zze()[0].asInt();
-                                        }
-                                        Utils.getUtils().setPasos(pasos);
-                                        Utils.getUtils().comprobarPasos(pasos);
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                        handler.postDelayed(this, 5000);
-                    }
-                };
-                handler.postDelayed(fit,100);
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     /**
      * Solo se usa en horizontal, cambia el texto que aparece en el botón que cambia entre los dos listados de mejoras
@@ -541,32 +445,36 @@ public class MainActivity extends Actividad {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 50: {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle(getResources().getString(R.string.elige_cancion));
-                //Obtener canciones
-                HashMap<String,String> listaCanciones = Utils.getUtils().obtenerCancionesDispositivo();
-                String[] canciones = new String[listaCanciones.entrySet().size()+1];
-                canciones[0] = "OxyMars";
-                int cont = 1;
-                for (Map.Entry<String, String> par : listaCanciones.entrySet()){
-                    canciones[cont] = par.getKey();
-                    cont++;
-                }
-                //Crear la lista en la interfaz con las canciones
-                builder.setItems(canciones, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int indice) {
-                        //Reproducir la canción seleccionada
-                        String seleccion = canciones[indice];
-                        if (seleccion.equals("OxyMars")){
-                            Utils.getUtils().cambiarMusica(MainActivity.this, null);
-                        }else{
-                            Utils.getUtils().cambiarMusica(MainActivity.this, listaCanciones.get(seleccion));
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle(getResources().getString(R.string.elige_cancion));
+                        //Obtener canciones
+                        HashMap<String,String> listaCanciones = Utils.getUtils().obtenerCancionesDispositivo();
+                        String[] canciones = new String[listaCanciones.entrySet().size()+1];
+                        canciones[0] = "OxyMars";
+                        int cont = 1;
+                        for (Map.Entry<String, String> par : listaCanciones.entrySet()){
+                            canciones[cont] = par.getKey();
+                            cont++;
                         }
+                        //Crear la lista en la interfaz con las canciones
+                        builder.setItems(canciones, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int indice) {
+                                //Reproducir la canción seleccionada
+                                String seleccion = canciones[indice];
+                                if (seleccion.equals("OxyMars")){
+                                    Utils.getUtils().cambiarMusica(MainActivity.this, null);
+                                }else{
+                                    Utils.getUtils().cambiarMusica(MainActivity.this, listaCanciones.get(seleccion));
+                                }
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                }
             }
         }
     }
